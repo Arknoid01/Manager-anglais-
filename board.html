@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>F1 Manager — Direction</title>
+  <title>F1 Manager — Board</title>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>/* TEAM SELECT */
 .select-screen{padding:20px 4px}
@@ -173,7 +173,7 @@
 
 <div class="topbar">
   <div class="logo"><span style="color:#ffffff !important" data-i18n="top.manager">Manager</span></div>
-  <a href="index.html" class="back-home" data-i18n="nav.home">← Home</a>
+  <a href="index.html" class="back-home" data-i18n="nav.home">← Accueil</a>
   <div class="top-pills">
     <div id="teamLogoBadge" style="display:none;margin-right:4px"></div>
     <div class="pill pill-muted" id="seasonBadge">—</div>
@@ -188,7 +188,7 @@
     <div class="ph"><div class="dot"></div>🏢 Pression de la direction</div>
     <div class="pressure-section">
       <div id="fireWarning" class="fire-warning" style="display:none">
-        🔥 WARNING: the board is seriously considering replacing you. Improve results immediately!
+        🔥 WARNING: The board is seriously considering replacing you. Improve results immediately!
       </div>
       <div class="pressure-header">
         <div>
@@ -204,8 +204,8 @@
         <div class="pressure-bar" id="pressureBar"></div>
       </div>
       <div style="font-family:var(--fh);font-size:11px;color:var(--muted)">
-        Pressure rises when you miss objectives and drops after good results.
-        À 100 : licenciement automatique.
+        Pressure rises when you miss objectives and drops after each strong result.
+        At 100: automatic dismissal.
       </div>
     </div>
   </div>
@@ -224,7 +224,7 @@
 
   <!-- ACTIONS DIRECTION -->
   <div class="panel">
-    <div class="ph"><div class="dot"></div>⚙️ Actions disponibles</div>
+    <div class="ph"><div class="dot"></div>⚙️ Available actions</div>
     <div class="actions-section" id="boardActions"></div>
   </div>
 
@@ -232,7 +232,7 @@
   <div class="panel">
     <div class="ph"><div class="dot"></div>📋 Historique des saisons</div>
     <div class="season-history" id="seasonHistory">
-      <div style="padding:12px;color:var(--muted);font-family:var(--fh);font-size:13px" data-i18n="standings.no_season">No completed seasons recorded.</div>
+      <div style="padding:12px;color:var(--muted);font-family:var(--fh);font-size:13px" data-i18n="standings.no_season">No completed season recorded.</div>
     </div>
   </div>
 
@@ -271,7 +271,7 @@ function getCareerEventsSafe(){
       if (p >= 60) return { label:'🟠 Forte pression', color:'#ff8844', fire:false };
       if (p >= 40) return { label:'🟡 Sous surveillance', color:'#ffdd44', fire:false };
       if (p >= 20) return { label:'🟢 Acceptable', color:'#44cc44', fire:false };
-      return { label:'✅ Direction satisfaite', color:'#00e676', fire:false };
+      return { label:'✅ Board satisfaite', color:'#00e676', fire:false };
     },
     log(s,item){ s.news = Array.isArray(s.news) ? s.news : []; s.news.unshift({date:new Date().toISOString(), season:s.season, race:s.race, ...item}); }
   };
@@ -286,7 +286,7 @@ function init() {
     return;
   }
 
-  // Restaurer les drivers
+  // Restaurer les pilotes
   if (save.driverStates) {
     F1Data.drivers.forEach(d => {
       const st = save.driverStates[d.id];
@@ -301,7 +301,7 @@ function init() {
 
   getCareerEventsSafe().ensure(save);
 
-  document.getElementById('seasonBadge').textContent  = `Saison ${save.season || 2025}`;
+  document.getElementById('seasonBadge').textContent  = `Season ${save.season || 2025}`;
   document.getElementById('budgetBadge').textContent  = `💰 ${Math.round((save.budget||0)*10)/10}M €`;
 
   renderPressure();
@@ -344,46 +344,46 @@ function renderObjectives() {
 
   function objectiveStatus(ok, finalOnly=false) {
     if (ok === true) return true;
-    // Objectifs de classement (constructeurs, drivers) : en cours jusqu'à la fin
+    // Objectifs de classement (constructeurs, pilotes) : en cours jusqu'à la fin
     if (finalOnly && !seasonFinished) return null;
-    // Objectifs progressifs (points-scoring races, budget) : afficher l'état réel
+    // Objectifs progressifs (races avec points, budget) : afficher l'état réel
     return ok;
   }
 
   const items = [
     {
       icon: '🏗️',
-      label: `Constructor championship`,
-      desc:  `Objectif : P${obj.constructorPos} ou mieux`,
-      detail: eval_.constPos ? `Currently P${eval_.constPos}` : 'No data yet this season',
+      label: `Championnat constructeurs`,
+      desc:  `Objective: P${obj.constructorPos} or better`,
+      detail: eval_.constPos ? `Actuellement P${eval_.constPos}` : 'No data yet this season',
       ok:    objectiveStatus(eval_.details[0]?.ok, true),
     },
     {
       icon: '👤',
-      label: `Driver championship`,
-      desc:  `Objectif : Avoir un driver dans le top ${obj.driverPos}`,
+      label: `Championnat pilotes`,
+      desc:  `Objective: have a driver in the top ${obj.driverPos}`,
       detail: eval_.driverPos ? `Best driver P${eval_.driverPos}` : 'No data yet this season',
       ok:    objectiveStatus(eval_.details[1]?.ok, true),
     },
     {
       icon: '🏁',
       label: `Courses avec points`,
-      desc:  `Objectif : ${obj.minPointsRaces} courses avec au moins 1 point`,
-      detail: `${eval_.racesWithPoints || 0} / ${obj.minPointsRaces} points-scoring races${racesDone ? ` · ${racesDone} GP disputé${racesDone>1?'s':''}` : ''}`,
+      desc:  `Objective: ${obj.minPointsRaces} races with at least 1 point`,
+      detail: `${eval_.racesWithPoints || 0} / ${obj.minPointsRaces} points-scoring races${racesDone ? ` · ${racesDone} GP completed${racesDone>1?'s':''}` : ''}`,
       ok:    objectiveStatus(eval_.details[2]?.ok, false),
     },
     {
       icon: '💰',
-      label: `Santé financière`,
-      desc:  `Maintenir un budget supérieur à ${currentBudgetTarget}M€`,
-      detail: `Budget actuel : ${Math.round((save.budget||0)*10)/10}M€`,
+      label: `Financial health`,
+      desc:  `Keep budget above ${currentBudgetTarget}M€`,
+      detail: `Current budget: ${Math.round((save.budget||0)*10)/10}M€`,
       ok:    objectiveStatus(eval_.details[3]?.ok, false),
     },
     {
       icon: '⭐',
-      label: `Réputation team`,
-      desc:  `Maintenir une réputation supérieure à 40`,
-      detail: `Réputation : ${save.reputation||50}/100`,
+      label: `Team reputation`,
+      desc:  `Keep reputation above 40`,
+      detail: `Reputation: ${save.reputation||50}/100`,
       ok:    objectiveStatus((save.reputation||50) >= 40, false),
     },
   ];
@@ -396,7 +396,7 @@ function renderObjectives() {
         <div class="obj-desc">${item.desc} · ${item.detail}</div>
       </div>
       <div class="obj-status ${item.ok === true ? 'obj-ok' : item.ok === false ? 'obj-fail' : 'obj-neutral'}">
-        ${item.ok === true ? '✅ OK' : item.ok === false ? '❌ Raté' : '⏳ En cours'}
+        ${item.ok === true ? '✅ OK' : item.ok === false ? '❌ Failed' : '⏳ In progress'}
       </div>
     </div>
   `).join('');
@@ -412,17 +412,17 @@ function renderBoardStats() {
     : 0;
 
   const stats = [
-    { val: save.reputation||50,      lbl:'Réputation',   color:'#2979ff', max:100 },
+    { val: save.reputation||50,      lbl:'Reputation',   color:'#2979ff', max:100 },
     { val: save.fanBase||50,          lbl:'Fanbase',      color:'#ff9944', max:100 },
     { val: save.boardPressure||0,     lbl:'Pression',     color:'#ff2244', max:100 },
     { val: totalPoints,               lbl:'Points saison',color:'#ffd700', max:500 },
     { val: races,                     lbl:'Courses',      color:'#00e676', max:23  },
     { val: team?.performance||70,     lbl:'Perf. voiture',color:'#e8003d', max:100 },
-    { val: avgDriverScore,            lbl:'Score drivers', color:'#ff8800', max:100 },
+    { val: avgDriverScore,            lbl:'Score pilotes', color:'#ff8800', max:100 },
     { val: save.tokens||0,            lbl:'Tokens R&D',   color:'#aa44ff', max:20  },
   ];
 
-  // Logo team dans la topbar
+  // Logo équipe dans la topbar
   const logoDiv = document.getElementById('teamLogoBadge');
   if(logoDiv && team?.logo) {
     logoDiv.innerHTML = '<img src="'+team.logo+'" style="width:36px;height:18px;object-fit:contain" alt="">';
@@ -449,8 +449,8 @@ function renderActions() {
   const actions = [
     {
       icon: '🎤',
-      title: 'Conférence de presse',
-      desc: 'Donner une interview positive pour booster la réputation et calmer la pression.',
+      title: 'Press conference',
+      desc: 'Give a positive interview to boost reputation and calm the pressure.',
       cost: '5M€',
       disabled: budget < 5,
       fn: () => {
@@ -458,36 +458,36 @@ function renderActions() {
         save.reputation = Math.min(100, rep+4);
         save.boardPressure = Math.max(0, pressure-6);
         save.fanBase = Math.min(100,(save.fanBase||50)+3);
-        getCareerEventsSafe().log(save,{phase:'board',icon:'🎤',title:'Conférence de presse',text:'Votre prise de parole rassure la direction et booste la réputation.'});
+        getCareerEventsSafe().log(save,{phase:'board',icon:'🎤',title:'Press conference',text:'Your statement reassures the board and boosts reputation.'});
         Save.save(save); init();
-        toast('✅ Conférence réussie ! Réputation +4, Pression -6');
+        toast('✅ Press conference successful! Reputation +4, Pressure -6');
       }
     },
     {
       icon: '🏭',
-      title: 'Journée portes ouvertes usine',
-      desc: 'Inviter les fans et partenaires à l\'usine pour renforcer la fanbase.',
+      title: 'Factory open day',
+      desc: 'Invite fans and partners to the factory to strengthen the fanbase.',
       cost: '8M€',
       disabled: budget < 8,
       fn: () => {
         save.budget = Math.round((budget-8)*10)/10;
         save.fanBase = Math.min(100,(save.fanBase||50)+8);
         save.reputation = Math.min(100,rep+2);
-        getCareerEventsSafe().log(save,{phase:'board',icon:'🏭',title:'Portes ouvertes',text:'La journée portes ouvertes attire des milliers de fans.'});
+        getCareerEventsSafe().log(save,{phase:'board',icon:'🏭',title:'Open day',text:'The open day attracts thousands of fans.'});
         Save.save(save); init();
         toast('✅ Fanbase +8 !');
       }
     },
     {
       icon: '🤝',
-      title: 'Réunion d\'urgence avec le board',
-      desc: 'Présenter un plan de redressement. Réduit la pression mais coûte des tokens.',
+      title: 'Emergency board meeting',
+      desc: 'Present a recovery plan. Reduces pressure but costs tokens.',
       cost: '2 tokens',
       disabled: (save.tokens||0) < 2 || pressure < 30,
       fn: () => {
         save.tokens = Math.max(0,(save.tokens||0)-2);
         save.boardPressure = Math.max(0,pressure-15);
-        getCareerEventsSafe().log(save,{phase:'board',icon:'🤝',title:'Réunion board',text:'Votre plan convainc la direction. La pression retombe.'});
+        getCareerEventsSafe().log(save,{phase:'board',icon:'🤝',title:'Board meeting',text:'Your plan convinces the board. Pressure drops.'});
         Save.save(save); init();
         toast('✅ Pression -15 !');
       }
@@ -495,14 +495,14 @@ function renderActions() {
     {
       icon: '💼',
       title: 'Recrutement analyste data',
-      desc: 'Engager un spécialiste pour améliorer la corrélation soufflerie/piste. +1 token/saison.',
+      desc: 'Hire a specialist to improve wind tunnel/track correlation. +1 token/season.',
       cost: '15M€',
       disabled: budget < 15,
       fn: () => {
         save.budget = Math.round((budget-15)*10)/10;
         save.tokens = (save.tokens||0)+2;
         save.reputation = Math.min(100,rep+2);
-        getCareerEventsSafe().log(save,{phase:'board',icon:'💼',title:'Analyste recruté',text:'Votre nouvel analyste data renforce le département technique.'});
+        getCareerEventsSafe().log(save,{phase:'board',icon:'💼',title:'Analyst hired',text:'Your new data analyst strengthens the technical department.'});
         Save.save(save); init();
         toast('✅ +2 tokens R&D !');
       }
@@ -510,7 +510,7 @@ function renderActions() {
     {
       icon: '📈',
       title: 'Campagne marketing',
-      desc: 'Investir dans la visibilité médiatique pour attirer de nouveaux sponsors.',
+      desc: 'Invest in media visibility to attract new sponsors.',
       cost: '12M€',
       disabled: budget < 12,
       fn: () => {
@@ -525,9 +525,9 @@ function renderActions() {
     },
     {
       icon: '🎯',
-      title: 'Renégocier les objectifs',
+      title: 'Renegotiate objectives',
       desc: 'Demander des objectifs moins ambitieux. La direction peut accepter ou refuser.',
-      cost: 'Réputation -5',
+      cost: 'Reputation -5',
       disabled: rep < 40 || (save.boardObjectives?.renegotiated),
       fn: () => {
         if (Math.random() > 0.4) {
@@ -538,9 +538,9 @@ function renderActions() {
           // Adoucir les objectifs
           if (save.boardObjectives) save.boardObjectives.constructorPos = Math.min(10,(save.boardObjectives.constructorPos||10)+2);
           if (save.boardObjectives) save.boardObjectives.driverPos = Math.min(15,(save.boardObjectives.driverPos||15)+3);
-          getCareerEventsSafe().log(save,{phase:'board',icon:'🎯',title:'Objectifs renégociés',text:'La direction accepte des objectifs plus réalistes.'});
+          getCareerEventsSafe().log(save,{phase:'board',icon:'🎯',title:'Objectives renegotiated',text:'The board accepts more realistic objectives.'});
           Save.save(save); init();
-          toast('✅ Objectifs revus à la baisse !');
+          toast('✅ Objectives lowered!');
         } else {
           save.reputation = Math.max(0,rep-8);
           save.boardPressure = Math.min(100,pressure+5);
@@ -559,7 +559,7 @@ function renderActions() {
         <div class="action-title">${a.title}</div>
         <div class="action-desc">${a.desc} · <span style="color:var(--gold)">${a.cost}</span></div>
       </div>
-      <button class="btn btn-sec" onclick="doAction(${i})" ${a.disabled?'disabled':''}>Exécuter</button>
+      <button class="btn btn-sec" onclick="doAction(${i})" ${a.disabled?'disabled':''}>Execute</button>
     </div>
   `).join('');
 
@@ -578,7 +578,7 @@ function renderHistory() {
   const el      = document.getElementById('seasonHistory');
 
   if (!history.length) {
-    el.innerHTML = '<div style="padding:12px;color:var(--muted);font-family:var(--fh);font-size:13px" data-i18n="standings.no_season">No completed seasons recorded.</div>';
+    el.innerHTML = '<div style="padding:12px;color:var(--muted);font-family:var(--fh);font-size:13px" data-i18n="standings.no_season">No completed season recorded.</div>';
     return;
   }
 
@@ -590,7 +590,7 @@ function renderHistory() {
       <div class="season-row">
         <div class="season-num">${icon} ${s.season}</div>
         <div class="season-info">
-          Champion driver : ${champ ? champ.firstName+' '+champ.name : '?'} ·
+          Champion pilote : ${champ ? champ.firstName+' '+champ.name : '?'} ·
           Champion constructeur : ${team?.name || '?'}
         </div>
         <div class="season-result" style="color:${s.playerConstructorPos<=3?'var(--gold)':s.playerConstructorPos<=6?'var(--green)':'var(--muted)'}">
@@ -619,7 +619,7 @@ init();
       const save = ((window.Save && Save.load) ? Save.load() : null) || JSON.parse(localStorage.getItem('f1manager_v1') || localStorage.getItem('f1manager_save') || localStorage.getItem('f1-manager-save') || '{}') || {};
       const season = document.getElementById('seasonBadge');
       const budget = document.getElementById('budgetBadge');
-      if(season && (!season.textContent || season.textContent.trim()==='—')) season.textContent = `Saison ${save.season || 2025}`;
+      if(season && (!season.textContent || season.textContent.trim()==='—')) season.textContent = `Season ${save.season || 2025}`;
       if(budget && (!budget.textContent || budget.textContent.trim()==='—')) budget.textContent = `💰 ${Math.round((save.budget || 0)*10)/10}M €`;
     }catch(e){}
   }
