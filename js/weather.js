@@ -156,7 +156,7 @@ const Weather = {
     if (isSlick && humidity >= 15 && humidity <= 30) {
       const gambleChance = gridPos >= 15 ? 0.7 : gridPos >= 10 ? 0.3 : 0.1;
       if (Math.random() < gambleChance) return { pit: false }; // gamble = rester en slick
-      return { pit: true, compound: 'INTER', reason: 'caution' };
+      return { pit: true, compound: 'INTER', reason: S("auto.caution") };
     }
 
     return { pit: false };

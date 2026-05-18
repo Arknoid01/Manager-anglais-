@@ -19,29 +19,29 @@ const F1Data = {
 
   // ── CIRCUITS ──────────────────────────────────────────────
   circuits: [
-    { id:'bahrain',     name:'Bahrain',     fullName:'Bahrain International Circuit',        laps:57, lapDistance:5.412, baseLapTime:93.5,  pitLoss:22, overtakingDifficulty:0.40, tyreDegradation:1.20, drsZones:2, fuelPerLap:1.8, rainChance:0.02, dryingRate:8.0, trackTemp:35 , circuitType:'balanced'},
-    { id:'jeddah',      name:'Jeddah',      fullName:'Jeddah Corniche Circuit',               laps:50, lapDistance:6.174, baseLapTime:90.5,  pitLoss:21, overtakingDifficulty:0.42, tyreDegradation:0.95, drsZones:3, fuelPerLap:2.1, rainChance:0.03, dryingRate:9.0, trackTemp:38 , circuitType:'street'},
-    { id:'melbourne',   name:'Australie',   fullName:'Albert Park Circuit',                   laps:58, lapDistance:5.278, baseLapTime:80.8,  pitLoss:20, overtakingDifficulty:0.55, tyreDegradation:1.00, drsZones:4, fuelPerLap:1.8, rainChance:0.25, dryingRate:5.0, trackTemp:28 , circuitType:'street'},
+    { id:'bahrain',     name:'Bahrain',     fullName:S("auto.bahrain_international_circuit"),        laps:57, lapDistance:5.412, baseLapTime:93.5,  pitLoss:22, overtakingDifficulty:0.40, tyreDegradation:1.20, drsZones:2, fuelPerLap:1.8, rainChance:0.02, dryingRate:8.0, trackTemp:35 , circuitType:'balanced'},
+    { id:'jeddah',      name:'Jeddah',      fullName:S("auto.jeddah_corniche_circuit"),               laps:50, lapDistance:6.174, baseLapTime:90.5,  pitLoss:21, overtakingDifficulty:0.42, tyreDegradation:0.95, drsZones:3, fuelPerLap:2.1, rainChance:0.03, dryingRate:9.0, trackTemp:38 , circuitType:'street'},
+    { id:'melbourne',   name:'Australie',   fullName:S("auto.albert_park_circuit"),                   laps:58, lapDistance:5.278, baseLapTime:80.8,  pitLoss:20, overtakingDifficulty:0.55, tyreDegradation:1.00, drsZones:4, fuelPerLap:1.8, rainChance:0.25, dryingRate:5.0, trackTemp:28 , circuitType:'street'},
     { id:'imola',       name:'Imola',       fullName:'Autodromo Centrale d\'Imola',          laps:63, lapDistance:4.909, baseLapTime:78.5,  pitLoss:25, overtakingDifficulty:0.72, tyreDegradation:0.90, drsZones:1, fuelPerLap:1.6, rainChance:0.28, dryingRate:4.5, trackTemp:22 , circuitType:'technical'},
     { id:'miami',       name:'Miami',       fullName:'Miami International Autodrome',          laps:57, lapDistance:5.412, baseLapTime:91.1,  pitLoss:22, overtakingDifficulty:0.50, tyreDegradation:1.15, drsZones:3, fuelPerLap:1.9, rainChance:0.2, dryingRate:6.0, trackTemp:32 , circuitType:'street'},
-    { id:'monaco',      name:'Monaco',      fullName:'Circuit de Monaco',                     laps:78, lapDistance:3.337, baseLapTime:75.0,  pitLoss:28, overtakingDifficulty:0.95, tyreDegradation:0.70, drsZones:1, fuelPerLap:1.2, rainChance:0.3, dryingRate:3.5, trackTemp:26 , circuitType:'street'},
-    { id:'canada',      name:'Canada',      fullName:'Circuit Gilles-Villeneuve',              laps:70, lapDistance:4.361, baseLapTime:74.0,  pitLoss:19, overtakingDifficulty:0.35, tyreDegradation:1.05, drsZones:3, fuelPerLap:1.55, rainChance:0.22, dryingRate:4.0, trackTemp:24 , circuitType:'balanced'},
+    { id:'monaco',      name:'Monaco',      fullName:S("auto.circuit_de_monaco"),                     laps:78, lapDistance:3.337, baseLapTime:75.0,  pitLoss:28, overtakingDifficulty:0.95, tyreDegradation:0.70, drsZones:1, fuelPerLap:1.2, rainChance:0.3, dryingRate:3.5, trackTemp:26 , circuitType:'street'},
+    { id:'canada',      name:'Canada',      fullName:S("auto.circuit_gillesvilleneuve"),              laps:70, lapDistance:4.361, baseLapTime:74.0,  pitLoss:19, overtakingDifficulty:0.35, tyreDegradation:1.05, drsZones:3, fuelPerLap:1.55, rainChance:0.22, dryingRate:4.0, trackTemp:24 , circuitType:'balanced'},
     { id:'barcelona',   name:'Espagne',     fullName:'Circuit de Barcelona-Catalunya',         laps:66, lapDistance:4.657, baseLapTime:78.8,  pitLoss:22, overtakingDifficulty:0.62, tyreDegradation:1.35, drsZones:2, fuelPerLap:1.7, rainChance:0.12, dryingRate:6.5, trackTemp:30 , circuitType:'balanced'},
-    { id:'austria',     name:'Autriche',    fullName:'Styrian Circuit',                          laps:71, lapDistance:4.318, baseLapTime:66.4,  pitLoss:19, overtakingDifficulty:0.28, tyreDegradation:1.05, drsZones:3, fuelPerLap:1.45, rainChance:0.45, dryingRate:4.0, trackTemp:22 , circuitType:'power'},
-    { id:'silverstone', name:'Silverstone', fullName:'Silverstone Circuit',                   laps:52, lapDistance:5.891, baseLapTime:89.5,  pitLoss:21, overtakingDifficulty:0.45, tyreDegradation:1.40, drsZones:2, fuelPerLap:2.0, rainChance:0.35, dryingRate:3.5, trackTemp:22 , circuitType:'high_speed'},
+    { id:'austria',     name:'Autriche',    fullName:S("auto.styrian_circuit"),                          laps:71, lapDistance:4.318, baseLapTime:66.4,  pitLoss:19, overtakingDifficulty:0.28, tyreDegradation:1.05, drsZones:3, fuelPerLap:1.45, rainChance:0.45, dryingRate:4.0, trackTemp:22 , circuitType:'power'},
+    { id:'silverstone', name:'Silverstone', fullName:S("auto.silverstone_circuit"),                   laps:52, lapDistance:5.891, baseLapTime:89.5,  pitLoss:21, overtakingDifficulty:0.45, tyreDegradation:1.40, drsZones:2, fuelPerLap:2.0, rainChance:0.35, dryingRate:3.5, trackTemp:22 , circuitType:'high_speed'},
     { id:'hungary',     name:'Hongrie',     fullName:'Hungaroring',                            laps:70, lapDistance:4.381, baseLapTime:78.0,  pitLoss:21, overtakingDifficulty:0.82, tyreDegradation:1.25, drsZones:1, fuelPerLap:1.55, rainChance:0.25, dryingRate:5.0, trackTemp:30 , circuitType:'technical'},
     { id:'spa',         name:'Spa',         fullName:'Circuit de Spa-Francorchamps',           laps:44, lapDistance:7.004, baseLapTime:106.0, pitLoss:24, overtakingDifficulty:0.35, tyreDegradation:1.10, drsZones:2, fuelPerLap:2.2, rainChance:0.48, dryingRate:3.0, trackTemp:20 , circuitType:'high_speed'},
-    { id:'zandvoort',   name:'Pays-Bas',    fullName:'Circuit Zandvoort',                      laps:72, lapDistance:4.259, baseLapTime:71.5,  pitLoss:20, overtakingDifficulty:0.75, tyreDegradation:1.18, drsZones:2, fuelPerLap:1.45, rainChance:0.3, dryingRate:3.5, trackTemp:22 , circuitType:'technical'},
+    { id:'zandvoort',   name:'Pays-Bas',    fullName:S("auto.circuit_zandvoort"),                      laps:72, lapDistance:4.259, baseLapTime:71.5,  pitLoss:20, overtakingDifficulty:0.75, tyreDegradation:1.18, drsZones:2, fuelPerLap:1.45, rainChance:0.3, dryingRate:3.5, trackTemp:22 , circuitType:'technical'},
     { id:'monza',       name:'Monza',       fullName:'Autodromo Nazionale Monza',              laps:53, lapDistance:5.793, baseLapTime:82.5,  pitLoss:23, overtakingDifficulty:0.30, tyreDegradation:0.90, drsZones:2, fuelPerLap:1.9, rainChance:0.2, dryingRate:5.5, trackTemp:28 , circuitType:'power'},
-    { id:'baku',        name:'Azerbaïdjan', fullName:'Baku City Circuit',                      laps:51, lapDistance:6.003, baseLapTime:103.0, pitLoss:20, overtakingDifficulty:0.25, tyreDegradation:0.82, drsZones:2, fuelPerLap:2.0, rainChance:0.08, dryingRate:7.0, trackTemp:32 , circuitType:'street'},
+    { id:'baku',        name:S("auto.azerbaidjan"), fullName:S("auto.baku_city_circuit"),                      laps:51, lapDistance:6.003, baseLapTime:103.0, pitLoss:20, overtakingDifficulty:0.25, tyreDegradation:0.82, drsZones:2, fuelPerLap:2.0, rainChance:0.08, dryingRate:7.0, trackTemp:32 , circuitType:'street'},
     { id:'singapore',   name:'Singapour',   fullName:'Marina Bay Street Circuit',              laps:62, lapDistance:4.940, baseLapTime:95.0,  pitLoss:27, overtakingDifficulty:0.78, tyreDegradation:1.28, drsZones:3, fuelPerLap:1.75, rainChance:0.41, dryingRate:4.0, trackTemp:32 , circuitType:'street'},
     { id:'suzuka',      name:'Suzuka',      fullName:'Suzuka International Racing Course',     laps:53, lapDistance:5.807, baseLapTime:91.0,  pitLoss:22, overtakingDifficulty:0.60, tyreDegradation:1.15, drsZones:1, fuelPerLap:1.9, rainChance:0.41, dryingRate:4.5, trackTemp:26 , circuitType:'technical'},
-    { id:'qatar',       name:'Qatar',       fullName:'Lusail International Circuit',           laps:57, lapDistance:5.419, baseLapTime:84.0,  pitLoss:24, overtakingDifficulty:0.58, tyreDegradation:1.55, drsZones:1, fuelPerLap:1.85, rainChance:0.01, dryingRate:10.0, trackTemp:38 , circuitType:'power'},
-    { id:'cota',        name:'États-Unis',  fullName:'Circuit of the Americas',                laps:56, lapDistance:5.513, baseLapTime:97.0,  pitLoss:22, overtakingDifficulty:0.48, tyreDegradation:1.20, drsZones:2, fuelPerLap:1.9, rainChance:0.22, dryingRate:5.5, trackTemp:30 , circuitType:'mixed'},
+    { id:'qatar',       name:'Qatar',       fullName:S("auto.lusail_international_circuit"),           laps:57, lapDistance:5.419, baseLapTime:84.0,  pitLoss:24, overtakingDifficulty:0.58, tyreDegradation:1.55, drsZones:1, fuelPerLap:1.85, rainChance:0.01, dryingRate:10.0, trackTemp:38 , circuitType:'power'},
+    { id:'cota',        name:S("auto.etatsunis"),  fullName:'Circuit of the Americas',                laps:56, lapDistance:5.513, baseLapTime:97.0,  pitLoss:22, overtakingDifficulty:0.48, tyreDegradation:1.20, drsZones:2, fuelPerLap:1.9, rainChance:0.22, dryingRate:5.5, trackTemp:30 , circuitType:'mixed'},
     { id:'mexico',      name:'Mexique',     fullName:'Autódromo Hermanos Rodríguez',           laps:71, lapDistance:4.304, baseLapTime:78.8,  pitLoss:20, overtakingDifficulty:0.38, tyreDegradation:0.95, drsZones:3, fuelPerLap:1.5, rainChance:0.15, dryingRate:5.0, trackTemp:28 , circuitType:'power'},
-    { id:'brazil',      name:'Brésil',      fullName:'Interlagos',                             laps:71, lapDistance:4.309, baseLapTime:71.6,  pitLoss:20, overtakingDifficulty:0.33, tyreDegradation:1.20, drsZones:2, fuelPerLap:1.45, rainChance:0.45, dryingRate:3.5, trackTemp:26 , circuitType:'mixed'},
+    { id:'brazil',      name:S("auto.bresil"),      fullName:'Interlagos',                             laps:71, lapDistance:4.309, baseLapTime:71.6,  pitLoss:20, overtakingDifficulty:0.33, tyreDegradation:1.20, drsZones:2, fuelPerLap:1.45, rainChance:0.45, dryingRate:3.5, trackTemp:26 , circuitType:'mixed'},
     { id:'vegas',       name:'Las Vegas',   fullName:'Las Vegas Strip Circuit',                laps:50, lapDistance:6.201, baseLapTime:94.0,  pitLoss:21, overtakingDifficulty:0.32, tyreDegradation:0.78, drsZones:2, fuelPerLap:2.05, rainChance:0.04, dryingRate:9.0, trackTemp:18 , circuitType:'street'},
-    { id:'abudhabi',    name:'Abu Dhabi',   fullName:'Yas Marina Circuit',                     laps:58, lapDistance:5.281, baseLapTime:87.5,  pitLoss:22, overtakingDifficulty:0.52, tyreDegradation:0.98, drsZones:2, fuelPerLap:1.85, rainChance:0.02, dryingRate:9.5, trackTemp:36 , circuitType:'balanced'},
+    { id:'abudhabi',    name:'Abu Dhabi',   fullName:S("auto.yas_marina_circuit"),                     laps:58, lapDistance:5.281, baseLapTime:87.5,  pitLoss:22, overtakingDifficulty:0.52, tyreDegradation:0.98, drsZones:2, fuelPerLap:1.85, rainChance:0.02, dryingRate:9.5, trackTemp:36 , circuitType:'balanced'},
   ],
 
   // ── ÉQUIPES 2025 (+ Cadillac 2026) ───────────────────────
@@ -77,7 +77,7 @@ const F1Data = {
     { id:'PIA', name:'Beltrami',     firstName:'Luca',    teamId:'mclaren',     number:81, age:25, pace:93, consistency:90, wetSkill:86, overtaking:88, defending:83, salary:15,  trait:'consistent',     potential:97, retired:false },
 
     // ── FERRARI ──────────────────────────────────────────────
-    { id:'LEC', name:'Marquès',     firstName:'Théo',  teamId:'ferrari',     number:16, age:28, pace:95, consistency:88, wetSkill:93, overtaking:90, defending:86, salary:32,  trait:'qualifier',     potential:97, retired:false },
+    { id:'LEC', name:S("auto.marques"),     firstName:S("auto.theo"),  teamId:'ferrari',     number:16, age:28, pace:95, consistency:88, wetSkill:93, overtaking:90, defending:86, salary:32,  trait:S("auto.qualifier"),     potential:97, retired:false },
     { id:'HAM', name:'Westbrook',    firstName:'Marcus',    teamId:'ferrari',     number:44, age:41, pace:92, consistency:90, wetSkill:97, overtaking:91, defending:91, salary:45,  trait:'rain_master',     potential:92, retired:false },
 
     // ── RED BULL ─────────────────────────────────────────────
@@ -86,7 +86,7 @@ const F1Data = {
     { id:'TSU', name:'Nakamura',     firstName:'Kenji',     teamId:'racingbulls', number:22, age:25, pace:84, consistency:80, wetSkill:80, overtaking:82, defending:76, salary:4,  trait:'aggressive',     potential:89, retired:false },
 
     // ── MERCEDES ─────────────────────────────────────────────
-    { id:'RUS', name:'Greystone',     firstName:'Owen',   teamId:'mercedes',    number:63, age:28, pace:92, consistency:90, wetSkill:89, overtaking:89, defending:85, salary:14,  trait:'qualifier',     potential:95, retired:false },
+    { id:'RUS', name:'Greystone',     firstName:'Owen',   teamId:'mercedes',    number:63, age:28, pace:92, consistency:90, wetSkill:89, overtaking:89, defending:85, salary:14,  trait:S("auto.qualifier"),     potential:95, retired:false },
     // Kimi Antonelli — rookie 2025, immense talent
     { id:'ANT', name:'Valentini',   firstName:'Matteo', teamId:'mercedes', number:12, age:19, pace:88, consistency:81, wetSkill:84, overtaking:85, defending:76, salary:4,  trait:'prodigy',     potential:98, retired:false },
 
@@ -117,7 +117,7 @@ const F1Data = {
     // ── RACING BULLS ─────────────────────────────────────────
     { id:'LIN', name:'Lindqvist',    firstName:'Sven',    teamId:'racingbulls', number:41, age:18, pace:79, consistency:73, wetSkill:74, overtaking:76, defending:69, salary:2,  trait:'prodigy',     potential:93, retired:false },
     // Hadjar — rookie F2 runner-up 2024
-    { id:'HAD', name:'Dalmasso',      firstName:'Rayan',    teamId:'redbull',     number:6,  age:21, pace:83, consistency:78, wetSkill:77, overtaking:81, defending:73, salary:2,  trait:'qualifier',     potential:93, retired:false },
+    { id:'HAD', name:'Dalmasso',      firstName:'Rayan',    teamId:'redbull',     number:6,  age:21, pace:83, consistency:78, wetSkill:77, overtaking:81, defending:73, salary:2,  trait:S("auto.qualifier"),     potential:93, retired:false },
 
     // ── CADILLAC (2026) ──────────────────────────────────────
     { id:'PER', name:'Vargas',       firstName:'Rodrigo',   teamId:'cadillac',    number:11, age:36, pace:83, consistency:80, wetSkill:78, overtaking:81, defending:83, salary:8,  trait:'consistent',     potential:86, retired:false },
@@ -127,11 +127,11 @@ const F1Data = {
     // ── TRAITS PILOTES ────────────────────────────────────────
   traits: {
     aggressive:  { label:'Agressif',       icon:'🔥', desc:'Dépassements plus faciles, pneus plus usés',        paceBonus:0.15,  tyreMultiplier:1.20, overtakingBonus:3,  wetPenalty:0  },
-    consistent:  { label:S('trait.regular'),       icon:'📊', desc:'Rythme stable, gère bien les longs relais',          paceBonus:0,     tyreMultiplier:0.88, overtakingBonus:0,  wetPenalty:0  },
+    consistent:  { label:S('trait.regular'),       icon:'📊', desc:S("auto.rythme_stable_gere_bien_les_longs_r"),          paceBonus:0,     tyreMultiplier:0.88, overtakingBonus:0,  wetPenalty:0  },
     qualifier:   { label:'Qualifiant',     icon:'⚡', desc:'Très rapide sur un tour, légèrement moins en course', paceBonus:0.20,  tyreMultiplier:1.10, overtakingBonus:1,  wetPenalty:0  },
     rain_master: { label:S('trait.rain_master'),   icon:'🌧️', desc:'Exceptionnel sous la pluie',                        paceBonus:0,     tyreMultiplier:0.95, overtakingBonus:0,  wetPenalty:-5 },
-    defender:    { label:S('trait.defender'),      icon:'🛡️', desc:'Défend très bien sa position',                       paceBonus:0,     tyreMultiplier:0.90, overtakingBonus:-2, wetPenalty:0  },
-    overtaker:   { label:S('trait.overtaker'),      icon:'🏎️', desc:'Spécialiste du dépassement en course',               paceBonus:0.05,  tyreMultiplier:1.05, overtakingBonus:5,  wetPenalty:0  },
+    defender:    { label:S('trait.defender'),      icon:'🛡️', desc:S("auto.defend_tres_bien_sa_position"),                       paceBonus:0,     tyreMultiplier:0.90, overtakingBonus:-2, wetPenalty:0  },
+    overtaker:   { label:S('trait.overtaker'),      icon:'🏎️', desc:S("auto.specialiste_du_depassement_en_cours"),               paceBonus:0.05,  tyreMultiplier:1.05, overtakingBonus:5,  wetPenalty:0  },
     prodigy:     { label:'Prodige',        icon:'🌟', desc:'Talent exceptionnel, progression ultra rapide',       paceBonus:0.10,  tyreMultiplier:1.00, overtakingBonus:2,  wetPenalty:0  },
     technical:   { label:'Technicien',     icon:'🔧', desc:'Excellent feedback technique, optimise la voiture',  paceBonus:0.05,  tyreMultiplier:0.85, overtakingBonus:0,  wetPenalty:0  },
   },
@@ -143,7 +143,7 @@ const F1Data = {
   driverNames: {
     // Prénoms par nationalité
     firstNames: {
-      french:    ['Pierre','Charles','Romain','Jules','Anthoine','Esteban','François','Sébastien','Olivier','Jean','Victor','Hugo','Louis','Théo','Maxime','Adrien','Baptiste','Clément','Damien','Émile'],
+      french:    ['Pierre','Charles','Romain','Jules','Anthoine','Esteban',S("auto.francois"),'Sébastien','Olivier','Jean','Victor','Hugo','Louis',S("auto.theo"),'Maxime','Adrien','Baptiste','Clément','Damien','Émile'],
       british:   ['Marcus','Owen','Kai','Oliver','Jack','Jamie','Tom','Harry','Oscar','Callum','Will','James','Alex','Sam','Luke','Dan','Max','Ryan','Jake','Ben'],
       german:    ['Sebastian','Nico','Mick','David','Pascal','Adrian','Felix','Moritz','Florian','Philipp','Jan','Fabian','Simon','Tobias','Michael','Ralf','Heinz','Karl'],
       spanish:   ['Carlos','Fernando','Alex','Marc','Sergio','Dani','Pedro','Roberto','Miguel','Antonio','Juan','Diego','Álvaro','Raúl','Iván','Lorenzo','Víctor'],
@@ -186,10 +186,10 @@ const F1Data = {
 
   // ── STAFF ─────────────────────────────────────────────────
   staffPool: [
-    { id:'newey',     name:'Adrian Newey',        role:'Directeur technique', bonus:'aero',        level:98, salary:25, cost:45 },
-    { id:'wache',     name:'Pierre Waché',         role:'Technique',           bonus:'chassis',     level:91, salary:12, cost:28 },
+    { id:'newey',     name:'Adrian Newey',        role:S("auto.directeur_technique"), bonus:'aero',        level:98, salary:25, cost:45 },
+    { id:'wache',     name:S("auto.pierre_wache"),         role:'Technique',           bonus:'chassis',     level:91, salary:12, cost:28 },
     { id:'allison',   name:'James Allison',        role:'Technique',           bonus:'chassis',     level:93, salary:15, cost:32 },
-    { id:'seidl',     name:'Andreas Seidl',        role:'Opérations',          bonus:'pitstop',     level:86, salary:8,  cost:18 },
+    { id:'seidl',     name:'Andreas Seidl',        role:S("auto.operations"),          bonus:'pitstop',     level:86, salary:8,  cost:18 },
     { id:'wheatley',  name:'Jonathan Wheatley',    role:'Sportif',             bonus:'reliability', level:88, salary:8,  cost:20 },
     { id:'stella',    name:'Andrea Stella',        role:'Team principal',      bonus:'consistency', level:90, salary:10, cost:24 },
   ],
@@ -207,44 +207,44 @@ const F1Data = {
       label: 'Aerodynamics', icon: '🌊', color: '#3d7eff',
       stat: 'aero',
       upgrades: [
-        { id:'aero_1', level:1, name:'Fond plat optimisé',      desc:'Refonte du fond plat pour réduire la traînée.',          cost:10, tokens:1, gain:2, deliveryGps:4, requires:null },
-        { id:'aero_2', level:2, name:'Nouveau aileron avant',   desc:'Aileron avant à 5 volets, meilleure charge en virage.',   cost:20, tokens:3, gain:3, deliveryGps:5, requires:'aero_1' },
-        { id:'aero_3', level:3, name:'Concept aéro radical',    desc:'Refonte complète du concept aérodynamique.',             cost:38, tokens:5, gain:4, deliveryGps:7, requires:'aero_2' },
+        { id:'aero_1', level:1, name:S("auto.fond_plat_optimise"),      desc:S("auto.refonte_du_fond_plat_pour_reduire_l"),          cost:10, tokens:1, gain:2, deliveryGps:4, requires:null },
+        { id:'aero_2', level:2, name:S("auto.nouveau_aileron_avant"),   desc:S("auto.aileron_avant_a_5_volets_meilleure"),   cost:20, tokens:3, gain:3, deliveryGps:5, requires:'aero_1' },
+        { id:'aero_3', level:3, name:S("auto.concept_aero_radical"),    desc:S("auto.refonte_complete_du_concept_aerodyn"),             cost:38, tokens:5, gain:4, deliveryGps:7, requires:'aero_2' },
       ],
-      nextYear: { id:'aero_ny', name:'Architecture 2026',       desc:'Nouveau concept pour le règlement 2026.',                cost:50, tokens:6, gain:5, isNextYear:true },
+      nextYear: { id:'aero_ny', name:'Architecture 2026',       desc:S("auto.nouveau_concept_pour_le_reglement_2"),                cost:50, tokens:6, gain:5, isNextYear:true },
     },
 
     chassis: {
       label: 'Chassis', icon: '🏗️', color: '#e8003d',
       stat: 'chassis',
       upgrades: [
-        { id:'chas_1', level:1, name:'Suspension révisée',      desc:'Géométrie de suspension améliorée, meilleur transfert.',  cost:12, tokens:1, gain:2, deliveryGps:4, requires:null },
-        { id:'chas_2', level:2, name:'Monocoque allégée',       desc:'Nouvelle monocoque en composite carbone.',               cost:24, tokens:3, gain:3, deliveryGps:5, requires:'chas_1' },
-        { id:'chas_3', level:3, name:'Plateforme renforcée',    desc:'Refonte complète de la plateforme châssis.',             cost:42, tokens:5, gain:4, deliveryGps:7, requires:'chas_2' },
+        { id:'chas_1', level:1, name:S("auto.suspension_revisee"),      desc:S("auto.geometrie_de_suspension_amelioree_m"),  cost:12, tokens:1, gain:2, deliveryGps:4, requires:null },
+        { id:'chas_2', level:2, name:S("auto.monocoque_allegee"),       desc:'Nouvelle monocoque en composite carbone.',               cost:24, tokens:3, gain:3, deliveryGps:5, requires:'chas_1' },
+        { id:'chas_3', level:3, name:S("auto.plateforme_renforcee"),    desc:S("auto.refonte_complete_de_la_plateforme_c"),             cost:42, tokens:5, gain:4, deliveryGps:7, requires:'chas_2' },
       ],
-      nextYear: { id:'chas_ny', name:'Chassis 2026',            desc:'Architecture châssis conçue pour le nouveau règlement.', cost:55, tokens:6, gain:5, isNextYear:true },
+      nextYear: { id:'chas_ny', name:'Chassis 2026',            desc:S("auto.architecture_chassis_concue_pour_le"), cost:55, tokens:6, gain:5, isNextYear:true },
     },
 
     engine: {
       label: 'Engine / ERS', icon: '⚡', color: '#ff8c42',
       stat: 'engine',
       upgrades: [
-        { id:'eng_1',  level:1, name:'Mapping moteur optimisé', desc:'Nouveau mapping, meilleure utilisation de l\'énergie.',   cost:15, tokens:1, gain:2, deliveryGps:3, requires:null },
-        { id:'eng_2',  level:2, name:'ERS amélioré',            desc:'Nouvelle batterie ERS, déploiement plus efficace.',      cost:28, tokens:3, gain:2, deliveryGps:5, requires:'eng_1' },
-        { id:'eng_3',  level:3, name:'Unité de puissance V3',   desc:'Troisième spec moteur de la saison.',                    cost:48, tokens:5, gain:3, deliveryGps:7, requires:'eng_2' },
+        { id:'eng_1',  level:1, name:S("auto.mapping_moteur_optimise"), desc:'Nouveau mapping, meilleure utilisation de l\'énergie.',   cost:15, tokens:1, gain:2, deliveryGps:3, requires:null },
+        { id:'eng_2',  level:2, name:S("auto.ers_ameliore"),            desc:S("auto.nouvelle_batterie_ers_deploiement_p"),      cost:28, tokens:3, gain:2, deliveryGps:5, requires:'eng_1' },
+        { id:'eng_3',  level:3, name:S("auto.unite_de_puissance_v3"),   desc:S("auto.troisieme_spec_moteur_de_la_saison"),                    cost:48, tokens:5, gain:3, deliveryGps:7, requires:'eng_2' },
       ],
-      nextYear: { id:'eng_ny', name:'Engine hybride 2026',      desc:'Nouveau groupe propulseur pour le règlement 2026.',      cost:65, tokens:7, gain:5, isNextYear:true },
+      nextYear: { id:'eng_ny', name:'Engine hybride 2026',      desc:S("auto.nouveau_groupe_propulseur_pour_le_r"),      cost:65, tokens:7, gain:5, isNextYear:true },
     },
 
     reliability: {
       label: 'Reliability', icon: '🛡️', color: '#00d97e',
       stat: 'reliability',
       upgrades: [
-        { id:'rel_1',  level:1, name:'Refroidissement amélioré',desc:'Meilleure gestion thermique, moins de surchauffe.',      cost:10, tokens:1, gain:2, deliveryGps:3, requires:null },
-        { id:'rel_2',  level:2, name:'Hydraulique renforcé',    desc:'Circuit hydraulique revu, réduction des fuites.',        cost:18, tokens:3, gain:3, deliveryGps:4, requires:'rel_1' },
-        { id:'rel_3',  level:3, name:'Système de contrôle v3',  desc:'Nouveau software de monitoring pièces critiques.',       cost:30, tokens:4, gain:3, deliveryGps:6, requires:'rel_2' },
+        { id:'rel_1',  level:1, name:S("auto.refroidissement_ameliore"),desc:S("auto.meilleure_gestion_thermique_moins_d"),      cost:10, tokens:1, gain:2, deliveryGps:3, requires:null },
+        { id:'rel_2',  level:2, name:S("auto.hydraulique_renforce"),    desc:S("auto.circuit_hydraulique_revu_reduction"),        cost:18, tokens:3, gain:3, deliveryGps:4, requires:'rel_1' },
+        { id:'rel_3',  level:3, name:S("auto.systeme_de_controle_v3"),  desc:S("auto.nouveau_software_de_monitoring_piec"),       cost:30, tokens:4, gain:3, deliveryGps:6, requires:'rel_2' },
       ],
-      nextYear: { id:'rel_ny', name:'Reliability 2026',           desc:'Conception durable pour le nouveau règlement.',          cost:42, tokens:5, gain:4, isNextYear:true },
+      nextYear: { id:'rel_ny', name:'Reliability 2026',           desc:S("auto.conception_durable_pour_le_nouveau"),          cost:42, tokens:5, gain:4, isNextYear:true },
     },
 
     pitstop: {
@@ -252,10 +252,10 @@ const F1Data = {
       stat: 'pitstop',
       upgrades: [
         { id:'pit_1',  level:1, name:'Outils pneumatiques v2',  desc:'Nouvelle génération d\'outils, gain de 0.3s.',           cost:8,  tokens:1, gain:2, deliveryGps:3, requires:null },
-        { id:'pit_2',  level:2, name:'Procédures optimisées',   desc:'Révision complète des procédures stands.',               cost:14, tokens:2, gain:3, deliveryGps:4, requires:'pit_1' },
+        { id:'pit_2',  level:2, name:S("auto.procedures_optimisees"),   desc:S("auto.revision_complete_des_procedures_st"),               cost:14, tokens:2, gain:3, deliveryGps:4, requires:'pit_1' },
         { id:'pit_3',  level:3, name:'Rig d\'entraînement',     desc:'Simulateur d\'arrêts pour améliorer la précision.',      cost:24, tokens:3, gain:3, deliveryGps:5, requires:'pit_2' },
       ],
-      nextYear: { id:'pit_ny', name:'Stand 2026',               desc:'Refonte complète du processus pit stop.',                cost:28, tokens:4, gain:4, isNextYear:true },
+      nextYear: { id:'pit_ny', name:S("auto.stand_2026"),               desc:S("auto.refonte_complete_du_processus_pit_s"),                cost:28, tokens:4, gain:4, isNextYear:true },
     },
   },
 
@@ -272,9 +272,9 @@ const F1Data = {
   // Cycles réglementaires — reset partiel des performances
   // Chaque nouveau règlement remet les bases à zéro selon l'investissement next year
   regulationCycles: [
-    { season: 2028, name: 'Règlement 2028', desc: 'Nouveau règlement technique majeur — voitures actives, effet de sol renforcé', resetFactor: 0.82 },
-    { season: 2031, name: 'Règlement 2031', desc: 'Réforme aérodynamique et motorisation hybride avancée', resetFactor: 0.80 },
-    { season: 2034, name: 'Règlement 2034', desc: 'Transition vers motorisation durable', resetFactor: 0.78 },
+    { season: 2028, name: S("auto.reglement_2028"), desc: S("auto.nouveau_reglement_technique_majeur"), resetFactor: 0.82 },
+    { season: 2031, name: S("auto.reglement_2031"), desc: S("auto.reforme_aerodynamique_et_motorisati"), resetFactor: 0.80 },
+    { season: 2034, name: S("auto.reglement_2034"), desc: S("auto.transition_vers_motorisation_durabl"), resetFactor: 0.78 },
   ],
 
   // Multiplicateurs d'investissement next year selon le règlement

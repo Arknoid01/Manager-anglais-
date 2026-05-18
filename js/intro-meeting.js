@@ -126,12 +126,12 @@
             <strong>${d2}</strong>
             <p>“La saison sera longue. Si la stratégie est solide, on peut marquer gros même dans les week-ends difficiles.”</p>
           </div>
-          <div class="intro-person staff">
+          <div class=S("auto.introperson_staff")>
             <span class="role">Ingénieur course</span>
             <strong>Mur des stands</strong>
             <p>“On surveillera pneus, météo et fenêtres d’arrêt. Les décisions rapides feront la différence.”</p>
           </div>
-          <div class="intro-person staff">
+          <div class=S("auto.introperson_staff")>
             <span class="role">Direction sportive</span>
             <strong>Objectif saison</strong>
             <p>“Construire une base propre, éviter les erreurs et progresser Grand Prix après Grand Prix.”</p>

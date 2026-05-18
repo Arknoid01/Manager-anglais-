@@ -61,7 +61,7 @@ const Immersion = {
 
     im.gpHistory.push({
       key, season: gp.season || save.season, raceNumber: gp.raceNumber || save.race || 0,
-      circuitName: gp.circuitName || 'Grand Prix', date: gp.date || new Date().toISOString(),
+      circuitName: gp.circuitName || S("auto.grand_prix"), date: gp.date || new Date().toISOString(),
       winner: winner ? this.driverName(winner) : '—', winnerTeam: winner ? this.teamName(winner) : '—',
       podium: podium.map(r=>this.driverName(r)), playerBest: bestPlayer?.position || null,
       teamPoints: teamPts, weather: gp.weather || '—', safetyCarLaps: sc, dnf: dnf.length
@@ -104,9 +104,9 @@ const Immersion = {
     const tags=[];
     const avgPos = player.length ? player.reduce((s,r)=>s+(r.position||20),0)/player.length : 20;
     if(teamPts>=15) tags.push(S('imm.team_form'));
-    if(best?.position<=3) tags.push('Candidate au podium');
+    if(best?.position<=3) tags.push(S("auto.candidate_au_podium"));
     if(player.some(r=>r.pitStops?.length>=2)) tags.push(S('imm.aggr_strat'));
-    if(player.some(r=>r.status==='dnf')) tags.push('Reliability sous surveillance');
+    if(player.some(r=>r.status==='dnf')) tags.push(S("auto.reliability_sous_surveillance"));
     if(avgPos>12) tags.push('Week-end difficile');
     rep.tags = tags.length ? tags : ['Projet stable'];
 
@@ -121,7 +121,7 @@ const Immersion = {
 
     const staffBase = im.staffMorale.value ?? 60;
     im.staffMorale.value = Math.max(0, Math.min(100, staffBase + (teamPts>=10?3:teamPts>0?1:-1)));
-    im.staffMorale.note = teamPts>=10 ? S('imm.garage_belief') : teamPts>0 ? 'Le staff reste positif, mais veut plus.' : S('imm.staff_analyze');
+    im.staffMorale.note = teamPts>=10 ? S('imm.garage_belief') : teamPts>0 ? S("auto.le_staff_reste_positif_mais_veut_pl") : S('imm.staff_analyze');
 
     const spBase = im.sponsorMood.value ?? 60;
     const moodDelta = teamPts>=10 ? 4 : teamPts>0 ? 1 : -3;
@@ -130,11 +130,11 @@ const Immersion = {
   },
 
   moraleNote(v,r){
-    if(r.status==='dnf') return 'Frustré par l’abandon.';
+    if(r.status==='dnf') return S("auto.frustre_par_labandon");
     if(r.position<=3) return S('imm.driver_podium');
     if(r.position<=6) return S('imm.driver_conf');
-    if(r.points>0) return 'Satisfait d’avoir marqué des points.';
-    return 'A besoin d’un meilleur week-end.';
+    if(r.points>0) return S("auto.satisfait_davoir_marque_des_points");
+    return S("auto.a_besoin_dun_meilleur_weekend");
   },
 
   addNews(save, icon, title, text, type='paddock'){
@@ -150,24 +150,24 @@ const Immersion = {
   generatePaddockNews(save,gp,results,player,teamPts,dnf,sc,wet){
     const winner = results[0] || gp.winner;
     const best = player.slice().sort((a,b)=>(a.position||99)-(b.position||99))[0];
-    this.addNews(save,'📰',`Paddock — ${gp.circuitName || 'Grand Prix'}`,`${this.driverName(winner)} s’impose pour ${this.teamName(winner)}. ${teamPts>0?`Votre team repart avec ${teamPts} point${teamPts>1?'s':''}.`:'Votre team quitte le circuit sans point.'}`);
+    this.addNews(save,'📰',`Paddock — ${gp.circuitName || S("auto.grand_prix")}`,`${this.driverName(winner)} s’impose pour ${this.teamName(winner)}. ${teamPts>0?`Votre team repart avec ${teamPts} point${teamPts>1?'s':''}.`:S("auto.votre_team_quitte_le_circuit_sans_p")}`);
     if(best){
-      if(best.position<=3) this.addNews(save,'🏆',S('imm.paddock_react'),`${this.driverName(best)} offre un podium qui change le regard du paddock sur votre projet.`,'reaction');
-      else if(best.points>0) this.addNews(save,'✅','Objectif points atteint',`${this.driverName(best)} termine P${best.position}. Résultat solide pour la dynamique de l’team.`,'reaction');
-      else this.addNews(save,'⚠️',S('imm.analyze_wknd'),`Best result P${best.position}. Le board attend une réponse dès le prochain Grand Prix.`,'reaction');
+      if(best.position<=3) this.addNews(save,'🏆',S('imm.paddock_react'),`${this.driverName(best)} offre un podium qui change le regard du paddock sur votre projet.`,S("auto.reaction"));
+      else if(best.points>0) this.addNews(save,'✅',S("auto.objectif_points_atteint"),`${this.driverName(best)} termine P${best.position}. Résultat solide pour la dynamique de l’team.`,S("auto.reaction"));
+      else this.addNews(save,'⚠️',S('imm.analyze_wknd'),`Best result P${best.position}. Le board attend une réponse dès le prochain Grand Prix.`,S("auto.reaction"));
     }
     if(sc>0) this.addNews(save,'🚨',S('imm.neutralized'),`La Safety Car a pesé sur le rythme du GP pendant ${sc} tour${sc>1?'s':''}. Les stratèges en parlent encore.`,'fia');
-    if(dnf.length) this.addNews(save,'💥','Retirements en course',`${dnf.length} abandon${dnf.length>1?'s':''} recensé${dnf.length>1?'s':''}. ${this.driverName(dnf[0])} fait partie des drivers piégés.`,'fia');
+    if(dnf.length) this.addNews(save,'💥',S("auto.retirements_en_course"),`${dnf.length} abandon${dnf.length>1?'s':''} recensé${dnf.length>1?'s':''}. ${this.driverName(dnf[0])} fait partie des drivers piégés.`,'fia');
     if(wet) this.addNews(save,'🌧️',S('imm.weather_watch'),`Les conditions humides ont rendu les choix pneus plus tendus que prévu.`,'weather');
     const rep = save.immersion.teamReputation;
-    if(rep.value>=75) this.addNews(save,'📈',S('imm.rep_up'),`Le paddock commence à considérer votre team comme une menace sérieuse.`,'reputation');
-    if(save.immersion.sponsorMood.value<45) this.addNews(save,'💼','Sponsors exigeants',`Les partenaires veulent plus de visibilité et surveilleront le prochain week-end.`,'sponsor');
+    if(rep.value>=75) this.addNews(save,'📈',S('imm.rep_up'),`Le paddock commence à considérer votre team comme une menace sérieuse.`,S("auto.reputation_2"));
+    if(save.immersion.sponsorMood.value<45) this.addNews(save,'💼','Sponsors exigeants',`Les partenaires veulent plus de visibilité et surveilleront le prochain week-end.`,S("auto.sponsor"));
   },
 
   generateInterview(save,gp,results,player,teamPts,dnf,sc,wet){
     this.ensure(save);
     const best = player.slice().sort((a,b)=>(a.position||99)-(b.position||99))[0];
-    const q = best?.position<=3 ? 'Un podium qui confirme le potentiel de l’team.' : teamPts>0 ? 'Des points importants pour le championnat.' : 'Un week-end difficile mais riche en enseignements.';
+    const q = best?.position<=3 ? 'Un podium qui confirme le potentiel de l’team.' : teamPts>0 ? S("auto.des_points_importants_pour_le_champ") : 'Un week-end difficile mais riche en enseignements.';
     const _dn = best ? this.driverName(best) : 'Team Principal';
     const _gp = save.race || 0;
     const _qi = _gp % 8;
@@ -183,7 +183,7 @@ const Immersion = {
     const _pi = _gp % 5;
     const principal = (teamPts>=10 ? _pGood[_pi] : teamPts>0 ? _pOk[_pi] : _pBad[_pi]) + ' — Team Principal';
     save.immersion.interviews.push({
-      date:new Date().toISOString(), season:gp.season||save.season, circuitName:gp.circuitName||'Grand Prix',
+      date:new Date().toISOString(), season:gp.season||save.season, circuitName:gp.circuitName||S("auto.grand_prix"),
       headline:q, quotes:[principal, driverQuote], context:{teamPts, safetyCarLaps:sc, wet, dnf:dnf.length}
     });
     save.immersion.interviews = save.immersion.interviews.slice(-30);
@@ -196,11 +196,11 @@ const Immersion = {
   JUNIOR_TRAITS: [
     { id:'rain',       label:S('imm.fast_wet'),     icon:'🌧️', stat:'wetSkill',    bonus:+8 },
     { id:'aggressive', label:'Agressif',                   icon:'🔥', stat:'overtaking',  bonus:+6 },
-    { id:'tyres',      label:'Mauvaise gestion pneus',     icon:'⚠️', stat:'consistency', bonus:-5 },
+    { id:'tyres',      label:S("auto.mauvaise_gestion_pneus"),     icon:'⚠️', stat:'consistency', bonus:-5 },
     { id:'quali',      label:'Excellent en qualif',        icon:'⚡', stat:'pace',        bonus:+6 },
     { id:'consistent', label:S('imm.regular'),                   icon:'🎯', stat:'consistency', bonus:+7 },
-    { id:'smart',      label:'Intelligent tactiquement',   icon:'🧠', stat:'defending',   bonus:+5 },
-    { id:'pressure',   label:'Fort sous pression',         icon:'💪', stat:'consistency', bonus:+5 },
+    { id:'smart',      label:S("auto.intelligent_tactiquement"),   icon:'🧠', stat:'defending',   bonus:+5 },
+    { id:'pressure',   label:S("auto.fort_sous_pression"),         icon:'💪', stat:'consistency', bonus:+5 },
     { id:'rookie',     label:S('imm.inexperienced'),        icon:'😬', stat:'overtaking',  bonus:-4 },
     { id:'marketing',  label:'Gros potentiel marketing',   icon:'📸', stat:null,          bonus:0  },
     { id:'fragile',    label:S('imm.hothead'),        icon:'💥', stat:'consistency', bonus:-3 },
@@ -248,7 +248,7 @@ const Immersion = {
         j.potential = Math.min(99,(j.potential||70)+1);
         j.progress = 30;
         j.paliers = (j.paliers||0) + 1;
-        j.note = [S('imm.f2_step'),'Meilleur temps aux tests de Jerez.',S('imm.consistency')][Math.floor(Math.random()*3)];
+        j.note = [S('imm.f2_step'),S("auto.meilleur_temps_aux_tests_de_jerez"),S('imm.consistency')][Math.floor(Math.random()*3)];
       }
 
       const paliers = j.paliers||0;
@@ -316,18 +316,18 @@ const Immersion = {
     if(im.teamReputation) im.teamReputation.value = Math.max(0,Math.min(100,(im.teamReputation.value||50)+repGain));
 
     const fn       = `${j.firstName} ${j.name}`;
-    const lbl      = { fp1:'EL1', fp2:'EL2', rookie:'Session rookie' }[session]||session.toUpperCase();
+    const lbl      = { fp1:'EL1', fp2:'EL2', rookie:S("auto.session_rookie") }[session]||session.toUpperCase();
     const sessLeft = this.FP_PER_SEASON - j.fpSeasonCount;
     let title, text;
     if(crash){
       title = `${fn} accroche lors des ${lbl}`;
-      text  = `Error de jeunesse. Voiture endommagée, driver indemne. ${sessLeft > 0 ? `Il reste ${sessLeft} session${sessLeft>1?'s':''} EL cette saison.` : 'Quota EL de la saison épuisé.'}`;
+      text  = `Error de jeunesse. Voiture endommagée, driver indemne. ${sessLeft > 0 ? `Il reste ${sessLeft} session${sessLeft>1?'s':''} EL cette saison.` : S("auto.quota_el_de_la_saison_epuise")}`;
     } else if(t<-0.2){
       title = `${fn} impressionne aux ${lbl}`;
-      text  = `${timeStr} vs leader. L'ingénieur de piste est enthousiaste. ${sessLeft > 0 ? `Il reste ${sessLeft} session${sessLeft>1?'s':''} EL cette saison.` : 'Quota EL de la saison épuisé.'}`;
+      text  = `${timeStr} vs leader. L'ingénieur de piste est enthousiaste. ${sessLeft > 0 ? `Il reste ${sessLeft} session${sessLeft>1?'s':''} EL cette saison.` : S("auto.quota_el_de_la_saison_epuise")}`;
     } else {
       title = `${fn} — ${lbl} terminés`;
-      text  = `${timeStr} vs leader. Session correcte, données récupérées. ${sessLeft > 0 ? `Il reste ${sessLeft} session${sessLeft>1?'s':''} EL cette saison.` : 'Quota EL de la saison épuisé.'}`;
+      text  = `${timeStr} vs leader. Session correcte, données récupérées. ${sessLeft > 0 ? `Il reste ${sessLeft} session${sessLeft>1?'s':''} EL cette saison.` : S("auto.quota_el_de_la_saison_epuise")}`;
     }
     this.addNews(save, crash?'💥':'🏎️', title, text, 'junior');
     Save.save(save);
@@ -404,12 +404,12 @@ const Immersion = {
     const fn=`${j.firstName} ${j.name}`;
     const promoNewsId = `promo_${newDriver.id}_${save.season||2025}`;
     if (!(save.news||[]).some(n => n.id === promoNewsId)) {
-      this.addNews(save,'🏁','Promotion en F1 !',`${fn} rejoint l'equipe avec un contrat rookie de 2 years old (${rookieSalary}M/an).${transfer.replaced ? ` ${transfer.replaced.firstName} ${transfer.replaced.name} devient agent libre.` : ''}`,'promotion');
+      this.addNews(save,'🏁',S("auto.promotion_en_f1"),`${fn} rejoint l'equipe avec un contrat rookie de 2 years old (${rookieSalary}M/an).${transfer.replaced ? ` ${transfer.replaced.firstName} ${transfer.replaced.name} devient agent libre.` : ''}`,S("auto.promotion"));
       if (save.news?.length) save.news[0].id = promoNewsId;
     }
     if(im.staffMorale){ im.staffMorale.value=Math.min(100,(im.staffMorale.value||60)+8); im.staffMorale.note=`L'team est fière de voir ${j.firstName} franchir le pas.`; }
     if(im.sponsorMood){ im.sponsorMood.value=Math.min(100,(im.sponsorMood.value||60)+5); im.sponsorMood.note=`Les sponsors voient d'un bon œil la promotion d'un jeune talent maison.`; }
-    if(im.teamReputation){ im.teamReputation.value=Math.min(100,(im.teamReputation.value||50)+6); if(!im.teamReputation.tags.includes('Formation jeunes')) im.teamReputation.tags.push('Formation jeunes'); }
+    if(im.teamReputation){ im.teamReputation.value=Math.min(100,(im.teamReputation.value||50)+6); if(!im.teamReputation.tags.includes(S("auto.formation_jeunes"))) im.teamReputation.tags.push(S("auto.formation_jeunes")); }
     if(typeof Save !== 'undefined' && Save.persistDriverStates) Save.persistDriverStates(save);
     Save.save(save);
     return { ok:true, driver:newDriver, replaced:transfer.replaced||null, msg:`${fn} est officiellement en Formule 1 !` };
@@ -469,7 +469,7 @@ const Immersion = {
       age:16+Math.floor(Math.random()*3), potential:70+Math.floor(Math.random()*20),
       racecraft:54+Math.floor(Math.random()*24), focus:52+Math.floor(Math.random()*26),
       cost:1+Math.floor(Math.random()*4), progress:5+Math.floor(Math.random()*26),
-      note:[S('imm.eval_f3'),'Bon retour simulateur',S('imm.raw_potential'),'Travailleur discret',S('imm.wet_feeling')][Math.floor(Math.random()*5)]
+      note:[S('imm.eval_f3'),S("auto.bon_retour_simulateur"),S('imm.raw_potential'),S("auto.travailleur_discret"),S('imm.wet_feeling')][Math.floor(Math.random()*5)]
     };
   },
 

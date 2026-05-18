@@ -164,11 +164,11 @@ const CareerEvents = {
   },
 
   getPressureLevel(pressure) {
-    if (pressure >= 80) return { label:'🔴 Licenciement imminent', color:'#ff2244', fire:true };
-    if (pressure >= 60) return { label:'🟠 Forte pression',        color:'#ff8844', fire:false };
-    if (pressure >= 40) return { label:'🟡 Sous surveillance',     color:'#ffdd44', fire:false };
+    if (pressure >= 80) return { label:S("auto.licenciement_imminent"), color:'#ff2244', fire:true };
+    if (pressure >= 60) return { label:S("auto.forte_pression"),        color:'#ff8844', fire:false };
+    if (pressure >= 40) return { label:S("auto.sous_surveillance"),     color:'#ffdd44', fire:false };
     if (pressure >= 20) return { label:'🟢 Acceptable',            color:'#44cc44', fire:false };
-    return                     { label:'✅ Direction satisfaite',  color:'#00e676', fire:false };
+    return                     { label:S("auto.direction_satisfaite"),  color:'#00e676', fire:false };
   },
 
   // ── RÉPUTATION & FANS ─────────────────────────────────────
@@ -193,7 +193,7 @@ const CareerEvents = {
     const d = this.rand(drivers);
 
     const circuit = F1Data.circuits[(save.race||0) % F1Data.circuits.length];
-    const circName = circuit?.name || 'ce circuit';
+    const circName = circuit?.name || S("auto.ce_circuit");
     const circId   = circuit?.id || '';
 
     // 45% événement gameplay, 55% news ambiance/immersion (jamais silencieux)
@@ -207,19 +207,19 @@ const CareerEvents = {
         title: 'Blessure légère à l\'entraînement',
         text:  `${d.firstName} ${d.name} s'est blessé au poignet en simulateur. Il sera moins performant ce week-end.`,
         icon:  '🤕', category: 'medical',
-        effect: () => this.applyDriverEffect(save, d.id, {pace:-4, consistency:-3, races:1, label:'Blessure légère'})
+        effect: () => this.applyDriverEffect(save, d.id, {pace:-4, consistency:-3, races:1, label:S("auto.blessure_legere")})
       }),
       () => ({
         title: 'Driver en grande forme',
         text:  `${d.firstName} ${d.name} a dominé les séances libres à ${circName}. Bonus de confiance pour ce GP.`,
-        icon:  '💪', category: 'performance',
+        icon:  '💪', category: S("auto.performance"),
         effect: () => this.applyDriverEffect(save, d.id, {pace:+3, consistency:+2, races:1, label:'En grande forme'})
       }),
       () => ({
         title: 'Gastro dans l\'team',
         text:  `Une gastro-entérite touche plusieurs membres de l'team dont ${d.firstName} ${d.name}. Week-end compliqué en perspective.`,
         icon:  '🤒', category: 'medical',
-        effect: () => this.applyDriverEffect(save, d.id, {consistency:-5, races:1, label:'Pas dans son assiette'})
+        effect: () => this.applyDriverEffect(save, d.id, {consistency:-5, races:1, label:S("auto.pas_dans_son_assiette")})
       }),
 
       // Technique
@@ -245,7 +245,7 @@ const CareerEvents = {
         title: 'Problème de boîte de vitesses',
         text:  'Un problème de boîte détecté en FP3. L\'team change la boîte, pénalité de 5 places sur la grille.',
         icon:  '⚙️', category: 'technical',
-        effect: () => this.applyDriverEffect(save, d.id, {consistency:-2, races:1, label:'Pénalité grille'})
+        effect: () => this.applyDriverEffect(save, d.id, {consistency:-2, races:1, label:S("auto.penalite_grille")})
       }),
 
       // Financier / Sponsor
@@ -312,8 +312,8 @@ const CareerEvents = {
       () => ({
         title: 'Réunion de direction',
         text:  save.boardPressure > 50
-          ? 'La direction est préoccupée par les résultats. Elle attend une amélioration immédiate.'
-          : 'La direction confirme son soutien. Objectifs maintenus pour la saison.',
+          ? S("auto.la_direction_est_preoccupee_par_les")
+          : S("auto.la_direction_confirme_son_soutien_o"),
         icon:  '🏢', category: 'board',
         effect: () => {
           if(save.boardPressure > 50) save.boardPressure = Math.min(100, save.boardPressure + 5);
@@ -341,31 +341,31 @@ const CareerEvents = {
     // Pools par thème
     const paddockNews = [
       { icon:'🎙️', title:'Ambiance paddock', text:`Le paddock de ${circName} bourdonne d'activité. Les mécaniciens ont travaillé toute la nuit, les motorhomes sont pleins. L'atmosphère est électrique avant ce GP.` },
-      { icon:'☕', title:'Jeudi paddock', text:`${dName} a été aperçu détendu au motorhome ce matin, café à la main. "On est prêts" a-t-il glissé aux journalistes. Le reste de l'team partage ce calme apparent.` },
+      { icon:'☕', title:'Jeudi paddock', text:`${dName} a été aperçu détendu au motorhome ce matin, café à la main. S("auto.on_est_prets") a-t-il glissé aux journalistes. Le reste de l'team partage ce calme apparent.` },
       { icon:'🎧', title:'Briefing team', text:`Réunion stratégique de deux heures ce matin avec tous les ingénieurs. La stratégie de course a été affinée, les scénarios météo passés en revue. L'team est alignée.` },
-      { icon:'📺', title:'Médias', text:`${dName} enchaîne les interviews depuis ce matin. La presse veut savoir si ${teamName} peut surprendre ce week-end. La réponse reste mesurée mais confiante.` },
-      { icon:'🤝', title:'Relations sponsor', text:`Le sponsor principal est présent ce week-end avec une délégation. Une bonne performance devant les caméras serait appréciée. Pas de pression supplémentaire... officiellement.` },
-      { icon:'🔬', title:'Données simulateur', text:`Les données de simulateur de la semaine pointent vers une bonne corrélation avec la piste réelle. Les ingénieurs sont optimistes sur le setup de départ.` },
+      { icon:'📺', title:S("auto.medias"), text:`${dName} enchaîne les interviews depuis ce matin. La presse veut savoir si ${teamName} peut surprendre ce week-end. La réponse reste mesurée mais confiante.` },
+      { icon:'🤝', title:S("auto.relations_sponsor"), text:`Le sponsor principal est présent ce week-end avec une délégation. Une bonne performance devant les caméras serait appréciée. Pas de pression supplémentaire... officiellement.` },
+      { icon:'🔬', title:S("auto.donnees_simulateur"), text:`Les données de simulateur de la semaine pointent vers une bonne corrélation avec la piste réelle. Les ingénieurs sont optimistes sur le setup de départ.` },
       { icon:'🔧', title:'Nuit de travail', text:`Les mécaniciens de ${teamName} ont travaillé jusqu'à 3h du matin pour affiner les réglages. Le muret est satisfait du résultat. La voiture est prête.` },
-      { icon:'📊', title:'Analyse télémétrie', text:`L'ingénieur de course de ${dName} a passé la soirée sur les données des rivaux. Quelques failles ont été identifiées. Le plan de course est ajusté en conséquence.` },
+      { icon:'📊', title:S("auto.analyse_telemetrie"), text:`L'ingénieur de course de ${dName} a passé la soirée sur les données des rivaux. Quelques failles ont été identifiées. Le plan de course est ajusté en conséquence.` },
       { icon:'🍕', title:"Cohésion d'team", text:`Dîner d'team hier soir pour souder le groupe avant le week-end. ${teamName} mise sur l'esprit collectif pour performer ce GP.` },
-      { icon:'💬', title:'Conférence de presse', text:`${dName} était en forme en conférence de presse ce jeudi. Détendu, précis, confiant. Les journalistes ont noté une sérénité inhabituelle.` },
-      { icon:'🏋️', title:'Préparation physique', text:`${dName} a commencé sa journée par une séance de sport à 7h. La condition physique est un facteur clé sur ce circuit exigeant.` },
+      { icon:'💬', title:S("auto.conference_de_presse"), text:`${dName} était en forme en conférence de presse ce jeudi. Détendu, précis, confiant. Les journalistes ont noté une sérénité inhabituelle.` },
+      { icon:'🏋️', title:S("auto.preparation_physique"), text:`${dName} a commencé sa journée par une séance de sport à 7h. La condition physique est un facteur clé sur ce circuit exigeant.` },
       { icon:'🎯', title:'Debriefing EL', text:`Deux heures de debriefing après les essais libres. Les ingénieurs ont identifié le setup optimal. La voiture devrait être plus compétitive en qualif.` },
-      { icon:'📡', title:'Ingénieur en chef', text:`L'ingénieur en chef de ${teamName} est confiant sur la stratégie de base. Deux scénarios sont prêts selon l'évolution de la météo dimanche.` },
+      { icon:'📡', title:S("auto.ingenieur_en_chef"), text:`L'ingénieur en chef de ${teamName} est confiant sur la stratégie de base. Deux scénarios sont prêts selon l'évolution de la météo dimanche.` },
       { icon:'🧪', title:'Nouveaux composants', text:`${teamName} a apporté quelques nouveautés techniques ce week-end. L'impact sur la performance sera évalué au fil des sessions.` },
     ];
 
     const supporterNews = [
-      { icon:'🏟️', title:'Les fans sont là', text:`Les tribunes se remplissent déjà pour les essais libres. Des supporters de ${teamName} ont fait des centaines de kilomètres pour être là. Leur énergie se ressent jusqu'au garage.` },
+      { icon:'🏟️', title:S("auto.les_fans_sont_la"), text:`Les tribunes se remplissent déjà pour les essais libres. Des supporters de ${teamName} ont fait des centaines de kilomètres pour être là. Leur énergie se ressent jusqu'au garage.` },
       { icon:'🎌', title:'Ambiance tribunes', text:`Les drapeaux flottent dans les tribunes de ${circName}. Les fans locaux dominent, mais on aperçoit quelques bannières pour ${teamName} dans les virages. Le public sera chaud.` },
-      { icon:'📸', title:'Fan du jour', text:`Un groupe de supporters de ${teamName} s'est installé au virage le plus photographié du circuit dès l'aube. Leur banderole devrait passer à la télé.` },
+      { icon:'📸', title:S("auto.fan_du_jour"), text:`Un groupe de supporters de ${teamName} s'est installé au virage le plus photographié du circuit dès l'aube. Leur banderole devrait passer à la télé.` },
       { icon:'🛍️', title:'Fan zone', text:`La fan zone de ${circName} est prise d'assaut. Les files d'attente pour les autographes s'allongent. ${dName} a signé une centaine de casquettes avant de regagner le garage.` },
-      { icon:'✈️', title:'Supporters déplacés', text:`Des fans de ${teamName} venus de toute l'Europe ont fait le voyage jusqu'à ${circName}. Certains campent depuis la veille. La passion dépasse les frontières.` },
-      { icon:'🎺', title:'Ambiance électrique', text:`Le circuit de ${circName} vibre déjà ce jeudi. Les supporters font de ce GP une véritable fête du sport automobile.` },
-      { icon:'📱', title:'Buzz réseaux sociaux', text:`Les photos du paddock de ${circName} tournent en boucle sur les réseaux. ${teamName} est au centre de l'attention ce week-end.` },
-      { icon:'👶', title:'La relève', text:`De jeunes fans en t-shirt ${teamName} attendent ${dName} à la sortie du paddock depuis l'aube. La passion se transmet de génération en génération.` },
-      { icon:'🌍', title:'Grand Prix mondial', text:`Des supporters de 47 nationalités différentes ont fait le déplacement à ${circName} ce week-end. La F1 c'est vraiment une passion mondiale.` },
+      { icon:'✈️', title:S("auto.supporters_deplaces"), text:`Des fans de ${teamName} venus de toute l'Europe ont fait le voyage jusqu'à ${circName}. Certains campent depuis la veille. La passion dépasse les frontières.` },
+      { icon:'🎺', title:S("auto.ambiance_electrique"), text:`Le circuit de ${circName} vibre déjà ce jeudi. Les supporters font de ce GP une véritable fête du sport automobile.` },
+      { icon:'📱', title:S("auto.buzz_reseaux_sociaux"), text:`Les photos du paddock de ${circName} tournent en boucle sur les réseaux. ${teamName} est au centre de l'attention ce week-end.` },
+      { icon:'👶', title:S("auto.la_releve"), text:`De jeunes fans en t-shirt ${teamName} attendent ${dName} à la sortie du paddock depuis l'aube. La passion se transmet de génération en génération.` },
+      { icon:'🌍', title:S("auto.grand_prix_mondial"), text:`Des supporters de 47 nationalités différentes ont fait le déplacement à ${circName} ce week-end. La F1 c'est vraiment une passion mondiale.` },
     ];
 
     const circuitNews = [
@@ -377,7 +377,7 @@ const CareerEvents = {
           ? `${circName} met à l'épreuve l'équilibre de la voiture dans toutes ses dimensions. Setup polyvalent ou spécialisé ? Les ingénieurs ont tranché, on verra si c'était le bon choix.`
           : `${circName} offre plusieurs configurations stratégiques. L'undercut fonctionne bien ici historiquement — les fenêtres de pit seront cruciales.`
       },
-      { icon:'📏', title:'Reconnaissance circuit', text:`${dName} a effectué le tour de reconnaissance à vélo ce matin avec l'ingénieur de piste. Quelques bosses nouvelles ont été notées dans le secteur 2. Les notes ont été actualisées.` },
+      { icon:'📏', title:S("auto.reconnaissance_circuit"), text:`${dName} a effectué le tour de reconnaissance à vélo ce matin avec l'ingénieur de piste. Quelques bosses nouvelles ont été notées dans le secteur 2. Les notes ont été actualisées.` },
       { icon:'🌡️', title:'Conditions piste', text:isWet
           ? `La piste est humide et le séchage sera long. Les teams débattent déjà du bon moment pour basculer sur pneus slicks. La météo sera le facteur numéro un ce week-end.`
           : `La piste est propre et la température idéale pour les pneus. Le grip devrait être excellent dès les premières minutes des essais libres.`
@@ -385,16 +385,16 @@ const CareerEvents = {
     ];
 
     const anecdotes = [
-      { icon:'🏁', title:'Histoire du circuit', text:`${circName} a une histoire chargée. Victoires mémorables, retournements de situation — ce circuit a tout vu. Chaque génération de driver y a laissé sa marque.` },
+      { icon:'🏁', title:S("auto.histoire_du_circuit"), text:`${circName} a une histoire chargée. Victoires mémorables, retournements de situation — ce circuit a tout vu. Chaque génération de driver y a laissé sa marque.` },
       { icon:'🍽️', title:'Gastronomie locale', text:`Le paddock a ses bonnes adresses. Plusieurs mécaniciens de ${teamName} ont découvert un restaurant local qui fait fureur cette semaine. Le moral est bon.` },
       { icon:'🌅', title:'Jeudi matin', text:`Lever du soleil sur ${circName}. Les premiers camions sont arrivés lundi. Depuis, le village paddock a poussé comme une ville éphémère. Dans 5 jours, il n'en restera rien.` },
-      { icon:'🚁', title:'Vue aérienne', text:`Les images aériennes du circuit circulent sur les réseaux. Les gradins se remplissent, les motorhomes brillent au soleil. ${circName} est prêt à accueillir le monde.` },
+      { icon:'🚁', title:S("auto.vue_aerienne"), text:`Les images aériennes du circuit circulent sur les réseaux. Les gradins se remplissent, les motorhomes brillent au soleil. ${circName} est prêt à accueillir le monde.` },
       { icon:'🌙', title:'Nuit dans le paddock', text:`Le paddock ne dort jamais vraiment. À minuit, des mécaniciens travaillent encore sous les lumières des garages. C'est ça aussi, la Formule 1.` },
-      { icon:'🎬', title:'Caméras partout', text:`Les teams de tournage sont partout dans le paddock de ${circName}. Chaque sourire, chaque tension — tout est filmé pour la postérité.` },
-      { icon:'🚗', title:'Logistique monstre', text:`23 camions, des milliers de pièces, des centaines de personnes — tout ça pour quelques centaines de kilomètres de course. La F1 c'est une organisation colossale.` },
+      { icon:'🎬', title:S("auto.cameras_partout"), text:`Les teams de tournage sont partout dans le paddock de ${circName}. Chaque sourire, chaque tension — tout est filmé pour la postérité.` },
+      { icon:'🚗', title:S("auto.logistique_monstre"), text:`23 camions, des milliers de pièces, des centaines de personnes — tout ça pour quelques centaines de kilomètres de course. La F1 c'est une organisation colossale.` },
       { icon:'🏨', title:"Vie d'hôtel", text:`Les drivers et le staff enchaînent les hôtels depuis des semaines. ${dName} avoue que son sac est perpétuellement à moitié défait. C'est le prix du rêve.` },
       { icon:'🌤️', title:'Weekend weather', text:`La météo de ${circName} est capricieuse. Les ingénieurs ont préparé deux setup différents selon l'évolution des conditions. L'adaptabilité sera clé.` },
-      { icon:'🔋', title:'Simulateur de nuit', text:`${dName} a passé deux heures au simulateur hier soir pour peaufiner ses repères. Chaque dixième gagné virtuellement peut se retrouver en vrai.` },
+      { icon:'🔋', title:S("auto.simulateur_de_nuit"), text:`${dName} a passé deux heures au simulateur hier soir pour peaufiner ses repères. Chaque dixième gagné virtuellement peut se retrouver en vrai.` },
     ];
 
     // Mélanger tous les pools et piocher
@@ -468,10 +468,10 @@ const CareerEvents = {
         effect: () => { save.reputation=Math.min(100,(save.reputation||50)+3); save.fanBase=(save.fanBase||50)+2; }
       }),
       () => ({
-        title: 'Tension interne',
+        title: S("auto.tension_interne"),
         text:  `${d.firstName} ${d.name} critique publiquement la stratégie. Ambiance tendue au garage.`,
         icon:  '😤', category: 'internal',
-        effect: () => this.applyDriverEffect(save, d.id, {consistency:-3, races:1, label:'Tension interne'})
+        effect: () => this.applyDriverEffect(save, d.id, {consistency:-3, races:1, label:S("auto.tension_interne")})
       }),
       () => ({
         title: 'Prime d\'image sponsor',
@@ -510,7 +510,7 @@ const CareerEvents = {
         title: pos === 1 ? 'Victoire historique !' : 'Contact avec une team adverse',
         text:  pos === 1
           ? `${d.firstName} ${d.name} s'impose ! L'team est en liesse, les fans sont en délire.`
-          : 'Un incident en piste est sous investigation. Résultat à confirmer.',
+          : S("auto.un_incident_en_piste_est_sous_inves"),
         icon:  pos === 1 ? '🏆' : '⚠️', category: pos === 1 ? 'race_result' : 'incident',
         effect: () => {
           if(pos===1) {

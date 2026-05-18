@@ -224,7 +224,7 @@ const Race = {
       s.safetyCar.remainingLaps--;
       if (s.safetyCar.remainingLaps <= 0) {
         s.safetyCar.active = false;
-        lapEvents.push({ lap, type: 'safety_car_end', message: '🟢 Safety Car rentre aux stands !' });
+        lapEvents.push({ lap, type: 'safety_car_end', message: S("auto.safety_car_rentre_aux_stands") });
       }
     }
 

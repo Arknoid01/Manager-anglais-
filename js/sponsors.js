@@ -30,9 +30,9 @@ const Sponsors = {
       techBonus:{ engine:2 },
       desc:'Géant pétrolier. Partenariat technique avec carburant optimisé.',
       clauses:[
-        { type:'points',     target:80, bonus:10,  penalty:-5  },
+        { type:S("auto.points"),     target:80, bonus:10,  penalty:-5  },
         { type:'podiums',    target:4,  bonus:5,   penalty:0   },
-        { type:'points_finishes', target:12, bonus:4,  penalty:-3  },
+        { type:S("auto.pointsfinishes"), target:12, bonus:4,  penalty:-3  },
       ],
       exclusivity:'energy', breakClause:false,
     },
@@ -44,7 +44,7 @@ const Sponsors = {
       techBonus:{ engine:1, reliability:1 },
       desc:'Partenaire technique moteur. Offre augmente avec tes performances.',
       clauses:[
-        { type:'points',     target:60, bonus:8,   penalty:-4  },
+        { type:S("auto.points"),     target:60, bonus:8,   penalty:-4  },
         { type:'dnf_max',    target:5,  bonus:0,   penalty:-6  },
         { type:'position_up',target:2,  bonus:12,  penalty:0   }, // gagner 2 places au constructeur
       ],
@@ -58,7 +58,7 @@ const Sponsors = {
       techBonus:{ tokens:1 },
       desc:'Société IT en croissance. Idéal pour les teams en progression.',
       clauses:[
-        { type:'points',     target:40, bonus:5,   penalty:-3  },
+        { type:S("auto.points"),     target:40, bonus:5,   penalty:-3  },
         { type:'position_up',target:1,  bonus:8,   penalty:0   },
       ],
       exclusivity:'tech', breakClause:false,
@@ -73,7 +73,7 @@ const Sponsors = {
       techBonus:{},
       desc:'Sponsor historique F1. Priorité à la visibilité TV et aux podiums.',
       clauses:[
-        { type:'points_finishes', target:10, bonus:4,  penalty:-2  },
+        { type:S("auto.pointsfinishes"), target:10, bonus:4,  penalty:-2  },
         { type:'podiums',    target:2,  bonus:3,   penalty:0   },
         { type:'top10',      target:12, bonus:2,   penalty:-2  },
       ],
@@ -89,7 +89,7 @@ const Sponsors = {
       clauses:[
         { type:'podiums',    target:4,  bonus:6,   penalty:-5  },
         { type:'top5',       target:6,  bonus:3,   penalty:-3  },
-        { type:'points_finishes', target:8,  bonus:2,  penalty:0   },
+        { type:S("auto.pointsfinishes"), target:8,  bonus:2,  penalty:0   },
       ],
       exclusivity:'beverage', breakClause:true,
     },
@@ -128,7 +128,7 @@ const Sponsors = {
       desc:'Prestige et tradition. Ne signe qu\'avec les meilleures teams.',
       clauses:[
         { type:'podiums',    target:5,  bonus:6,   penalty:-8  },
-        { type:'position',   target:5,  bonus:4,   penalty:-10 }, // rester top 5 constructeurs
+        { type:S("auto.position"),   target:5,  bonus:4,   penalty:-10 }, // rester top 5 constructeurs
         { type:'dnf_max',    target:3,  bonus:0,   penalty:-5  },
       ],
       exclusivity:'luxury', breakClause:true,
@@ -141,7 +141,7 @@ const Sponsors = {
       techBonus:{ engine:1 },
       desc:'Carburant et lubrifiants. Améliore les performances moteur.',
       clauses:[
-        { type:'points',     target:30, bonus:4,   penalty:-2  },
+        { type:S("auto.points"),     target:30, bonus:4,   penalty:-2  },
         { type:'races',      target:18, bonus:2,   penalty:0   },
       ],
       exclusivity:'energy', breakClause:false,
@@ -180,7 +180,7 @@ const Sponsors = {
       techBonus:{ tokens:1 },
       desc:'Visibilité digitale mondiale. Bonus tokens via analyse data.',
       clauses:[
-        { type:'points_finishes', target:6,  bonus:2,  penalty:-2  },
+        { type:S("auto.pointsfinishes"), target:6,  bonus:2,  penalty:-2  },
         { type:'top10',      target:6,  bonus:1,   penalty:0   },
       ],
       exclusivity:null, breakClause:true,
@@ -194,7 +194,7 @@ const Sponsors = {
       desc:'Teammentier sportif. Évolue avec ta popularité.',
       clauses:[
         { type:'races',      target:15, bonus:1,   penalty:0   },
-        { type:'points_finishes', target:4,  bonus:2,  penalty:0   },
+        { type:S("auto.pointsfinishes"), target:4,  bonus:2,  penalty:0   },
       ],
       exclusivity:null, breakClause:false,
     },
@@ -206,8 +206,8 @@ const Sponsors = {
       techBonus:{},
       desc:'Banque internationale. Stabilité financière et loyauté.',
       clauses:[
-        { type:'points',     target:25, bonus:3,   penalty:-2  },
-        { type:'position',   target:8,  bonus:2,   penalty:-3  },
+        { type:S("auto.points"),     target:25, bonus:3,   penalty:-2  },
+        { type:S("auto.position"),   target:8,  bonus:2,   penalty:-3  },
       ],
       exclusivity:null, breakClause:false,
     },
@@ -224,7 +224,7 @@ const Sponsors = {
       desc:'Groupe énergétique en expansion. Cherche une team en progression.',
       clauses:[
         { type:'position_up', target:2,  bonus:12,  penalty:0   },
-        { type:'points',      target:50, bonus:6,   penalty:-4  },
+        { type:S("auto.points"),      target:50, bonus:6,   penalty:-4  },
         { type:'dnf_max',     target:5,  bonus:0,   penalty:-5  },
       ],
       exclusivity:'energy', breakClause:false,
@@ -238,7 +238,7 @@ const Sponsors = {
       desc:'Plateforme de paris en ligne. Très généreux mais exigeant.',
       clauses:[
         { type:'podiums',    target:5,  bonus:10,  penalty:-8  },
-        { type:'points_finishes', target:11, bonus:5,  penalty:-4  },
+        { type:S("auto.pointsfinishes"), target:11, bonus:5,  penalty:-4  },
         { type:'dnf_max',    target:4,  bonus:0,   penalty:-6  },
       ],
       exclusivity:'betting', breakClause:true,
@@ -253,7 +253,7 @@ const Sponsors = {
       techBonus:{},
       desc:'Exchange crypto. Gros budget mais attend des résultats visibles.',
       clauses:[
-        { type:'points_finishes', target:8,  bonus:5,  penalty:-4  },
+        { type:S("auto.pointsfinishes"), target:8,  bonus:5,  penalty:-4  },
         { type:'top10',      target:10, bonus:3,   penalty:-3  },
       ],
       exclusivity:'crypto', breakClause:true,
@@ -371,7 +371,7 @@ const Sponsors = {
       desc:'Agroalimentaire. Sponsor accessible, fidèle et peu exigeant.',
       clauses:[
         { type:'races',      target:18, bonus:1,   penalty:0   },
-        { type:'points_finishes', target:3,  bonus:1,  penalty:0   },
+        { type:S("auto.pointsfinishes"), target:3,  bonus:1,  penalty:0   },
       ],
       exclusivity:null, breakClause:false,
     },
@@ -383,7 +383,7 @@ const Sponsors = {
       techBonus:{},
       desc:'Opérateur télécom. Visibilité digitale et croissance.',
       clauses:[
-        { type:'points_finishes', target:5,  bonus:2,  penalty:-1  },
+        { type:S("auto.pointsfinishes"), target:5,  bonus:2,  penalty:-1  },
         { type:'top10',      target:5,  bonus:1,   penalty:0   },
       ],
       exclusivity:null, breakClause:false,
@@ -397,7 +397,7 @@ const Sponsors = {
       desc:'Location de véhicules. Partenariat logistique stable.',
       clauses:[
         { type:'races',      target:16, bonus:2,   penalty:-1  },
-        { type:'points',     target:15, bonus:1,   penalty:0   },
+        { type:S("auto.points"),     target:15, bonus:1,   penalty:0   },
       ],
       exclusivity:null, breakClause:false,
     },
@@ -413,8 +413,8 @@ const Sponsors = {
       techBonus:{},
       desc:'Fonds d\'investissement. Recherche la stabilité et la croissance.',
       clauses:[
-        { type:'points',     target:60, bonus:8,   penalty:-5  },
-        { type:'position',   target:6,  bonus:6,   penalty:-4  },
+        { type:S("auto.points"),     target:60, bonus:8,   penalty:-5  },
+        { type:S("auto.position"),   target:6,  bonus:6,   penalty:-4  },
       ],
       exclusivity:'finance2', breakClause:false,
     },
@@ -426,7 +426,7 @@ const Sponsors = {
       techBonus:{},
       desc:'Fan tokens et engagement communautaire. Très médiatique.',
       clauses:[
-        { type:'points_finishes', target:10, bonus:8,  penalty:-5  },
+        { type:S("auto.pointsfinishes"), target:10, bonus:8,  penalty:-5  },
         { type:'podiums',    target:3,  bonus:5,   penalty:-3  },
       ],
       exclusivity:'crypto2', breakClause:true,
@@ -467,7 +467,7 @@ const Sponsors = {
       techBonus:{},
       desc:'Gaming & PC. Popularité auprès des jeunes fans.',
       clauses:[
-        { type:'points_finishes', target:6,  bonus:3,  penalty:-1  },
+        { type:S("auto.pointsfinishes"), target:6,  bonus:3,  penalty:-1  },
         { type:'top10',      target:8,  bonus:2,   penalty:0   },
       ],
       exclusivity:'pc', breakClause:false,
@@ -493,7 +493,7 @@ const Sponsors = {
       techBonus:{},
       desc:'Banque nationale brésilienne. Forte visibilité à Interlagos.',
       clauses:[
-        { type:'points',     target:20, bonus:3,   penalty:-2  },
+        { type:S("auto.points"),     target:20, bonus:3,   penalty:-2  },
         { type:'races',      target:16, bonus:1,   penalty:0   },
       ],
       exclusivity:'bank2', breakClause:false,
@@ -545,7 +545,7 @@ const Sponsors = {
       techBonus:{},
       desc:'Logiciels créatifs. Boost la réputation médiatique.',
       clauses:[
-        { type:'points_finishes', target:7,  bonus:3,  penalty:-1  },
+        { type:S("auto.pointsfinishes"), target:7,  bonus:3,  penalty:-1  },
         { type:'races',      target:15, bonus:1,   penalty:0   },
       ],
       exclusivity:'software', breakClause:false,
@@ -574,7 +574,7 @@ const Sponsors = {
       desc:'Teammentier sportif mondial. Partenaire accessible.',
       clauses:[
         { type:'races',      target:15, bonus:1,   penalty:0   },
-        { type:'points_finishes', target:4,  bonus:1,  penalty:0   },
+        { type:S("auto.pointsfinishes"), target:4,  bonus:1,  penalty:0   },
       ],
       exclusivity:null, breakClause:false,
     },
@@ -637,7 +637,7 @@ const Sponsors = {
       desc:'Bière thaïlandaise. Présence forte en Asie.',
       clauses:[
         { type:'races',      target:15, bonus:1,   penalty:0   },
-        { type:'points_finishes', target:3,  bonus:1,  penalty:0   },
+        { type:S("auto.pointsfinishes"), target:3,  bonus:1,  penalty:0   },
       ],
       exclusivity:null, breakClause:false,
     },
@@ -675,7 +675,7 @@ const Sponsors = {
       techBonus:{},
       desc:'Communications vidéo. Visibilité dans le paddock digital.',
       clauses:[
-        { type:'points_finishes', target:4,  bonus:1,  penalty:0   },
+        { type:S("auto.pointsfinishes"), target:4,  bonus:1,  penalty:0   },
         { type:'races',      target:14, bonus:1,   penalty:0   },
       ],
       exclusivity:null, breakClause:false,
@@ -732,7 +732,7 @@ const Sponsors = {
     }
     delete save.aiSponsors[sponsorId];
     if (save.news) save.news.push({
-      icon:'⚔️', category:'sponsor',
+      icon:'⚔️', category:S("auto.sponsor"),
       title:`Débauche de sponsor`,
       text:`Tu as convaincu un sponsor de quitter ${ai.teamId}. Légère tension dans le paddock.`,
     });
@@ -826,7 +826,7 @@ const Sponsors = {
   // ── SIGNER UN CONTRAT ─────────────────────────────────────
   sign(save, sponsorId, negotiatedValue, negotiatedObjectives) {
     const sp = this.DB.find(s => s.id === sponsorId);
-    if (!sp) return { ok:false, reason:'Sponsor introuvable' };
+    if (!sp) return { ok:false, reason:S("auto.sponsor_introuvable") };
 
     // Limites par type
     const activeTypes = (save.sponsors||[]).map(s => s.type);
@@ -835,7 +835,7 @@ const Sponsors = {
     const partnerCount   = activeTypes.filter(t => t === 'partner').length;
 
     if (sp.type === 'title' && titleCount >= 1) {
-      return { ok:false, reason:'Déjà un title sponsor actif !' };
+      return { ok:false, reason:S("auto.deja_un_title_sponsor_actif") };
     }
     if ((save.sponsors||[]).length >= 6) {
       return { ok:false, reason:'Maximum 6 sponsors atteint !' };
@@ -892,7 +892,7 @@ const Sponsors = {
 
     // Log news
     if (save.news) save.news.push({
-      icon:'🤝', category:'sponsor',
+      icon:'🤝', category:S("auto.sponsor"),
       title:`Nouveau sponsor : ${sp.name}`,
       text:`Contrat ${sp.duration} an(s) signé pour ${contract.value}M€/an. ${sp.desc}`,
     });
@@ -933,9 +933,9 @@ const Sponsors = {
           case 'top5':            if (bestPos <= 5)  cl.progress++; break;
           case 'top10':           if (bestPos <= 10) cl.progress++; break;
           case 'quali_top5':      if (save.lastQualiPos <= 5) cl.progress++; break;
-          case 'points':          cl.progress += teamPoints; break;
+          case S("auto.points"):          cl.progress += teamPoints; break;
           case 'races':           cl.progress++; break;
-          case 'points_finishes': if (teamPoints > 0) cl.progress++; break;
+          case S("auto.pointsfinishes"): if (teamPoints > 0) cl.progress++; break;
           case 'media':           cl.progress += mediaScore; break;
           case 'dnf_max':         cl.progress += dnfs; break;
         }
@@ -952,7 +952,7 @@ const Sponsors = {
             cl.bonusPaid = true;
             save.news = save.news || [];
             save.news.unshift({
-              icon: '🎯', category: 'sponsor', date: new Date().toISOString(),
+              icon: '🎯', category: S("auto.sponsor"), date: new Date().toISOString(),
               title: `Objectif atteint — ${sp.name} !`,
               text: `Bonus versé : +${cl.bonus}M€. ${sp.personality === 'developer' ? 'Un nouvel objectif bonus est disponible !' : ''}`,
             });
@@ -977,7 +977,7 @@ const Sponsors = {
             cl.bonusObjective.paid = true;
             save.news = save.news || [];
             save.news.unshift({
-              icon: '🏆', category: 'sponsor', date: new Date().toISOString(),
+              icon: '🏆', category: S("auto.sponsor"), date: new Date().toISOString(),
               title: `Objectif bonus atteint — ${sp.name} !`,
               text: `Tu as dépassé les attentes ! Bonus exceptionnel : +${cl.bonusObjective.bonus}M€`,
             });
@@ -1066,7 +1066,7 @@ const Sponsors = {
         lost++;
 
         if (save.news) save.news.push({
-          icon:'💔', category:'sponsor',
+          icon:'💔', category:S("auto.sponsor"),
           title:`${sp.name} quitte l'team`,
           text:`Objectifs non atteints. Pénalité : ${totalPenalty}M€.`,
         });
@@ -1107,7 +1107,7 @@ const Sponsors = {
             sp._progressSeason = save.season || 2025;
             renewed++;
             if (save.news) save.news.push({
-              icon:'🔄', category:'sponsor',
+              icon:'🔄', category:S("auto.sponsor"),
               title:`${sp.name} renouvelle !`,
               text:`Nouveau contrat ${sp.duration} ans à ${sp.value}M€/an.`,
             });
@@ -1174,7 +1174,7 @@ const Sponsors = {
 
   // ── NIVEAU DE RÉPUTATION EN TEXTE ─────────────────────────
   repLabel(val) {
-    if (val >= 85) return { label:'Légendaire', color:'#f5c842' };
+    if (val >= 85) return { label:S("auto.legendaire"), color:'#f5c842' };
     if (val >= 70) return { label:'Excellente',  color:'#00d97e' };
     if (val >= 55) return { label:'Bonne',        color:'#3d7eff' };
     if (val >= 40) return { label:'Medium',      color:'#ff8c42' };

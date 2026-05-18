@@ -481,7 +481,7 @@ const Career = {
           ];
           const msg = stagnationEvents[Math.floor(Math.random() * stagnationEvents.length)];
           save.news = save.news || [];
-          save.news.push({ icon:'⚠️', category:'technical', title:'Stagnation technique', text: msg });
+          save.news.push({ icon:'⚠️', category:'technical', title:S("auto.stagnation_technique"), text: msg });
           report.stagnation = { domain: stagnationDomain, msg };
         }
       } else {
@@ -658,7 +658,7 @@ const Career = {
       const lvl = save.carDev?.[d]?.level || 0;
       return `${d.toUpperCase()} → ${lvl.toFixed(0)} pts (héritage +${h.toFixed(1)}, nextYear +${n})`;
     });
-    const stag = report?.stagnation ? `⚠️ Stagnation : ${report.stagnation.domain}` : '✅ Pas de stagnation';
+    const stag = report?.stagnation ? `⚠️ Stagnation : ${report.stagnation.domain}` : S("auto.pas_de_stagnation");
     return lines.join(' · ') + ' · ' + stag;
   },
 
@@ -723,12 +723,12 @@ const Career = {
     save.negotiations = save.negotiations || {};
     save.reputation = save.reputation ?? 50;
 
-    const personalities = ['loyal', 'mercenaire', 'ambitieux', 'prudent', 'jeune_loup'];
+    const personalities = ['loyal', S("auto.mercenaire"), S("auto.ambitieux"), 'prudent', 'jeune_loup'];
     F1Data.drivers.forEach(d => {
       if (!d.personality) {
         const score = this.getDriverScore(d);
         if ((d.age || 25) <= 23) d.personality = 'jeune_loup';
-        else if (score >= 88) d.personality = 'ambitieux';
+        else if (score >= 88) d.personality = S("auto.ambitieux");
         else if ((d.seasons || 0) >= 2) d.personality = 'loyal';
         else d.personality = personalities[Math.floor(Math.random() * personalities.length)];
       }
@@ -753,7 +753,7 @@ const Career = {
       mercenaire: { label:'Mercenaire', icon:'💰', desc:'Très sensible au salaire et aux primes.' },
       ambitieux:  { label:'Ambitieux', icon:'🏆', desc:'Veut une team compétitive et un vrai statut.' },
       prudent:    { label:'Prudent', icon:'🧠', desc:'Aime les contrats longs et le risque faible.' },
-      jeune_loup: { label:'Jeune loup', icon:'🌱', desc:'Cherche du temps de piste et une progression rapide.' },
+      jeune_loup: { label:'Jeune loup', icon:'🌱', desc:S("auto.cherche_du_temps_de_piste_et_une_pr") },
     };
     return map[driver.personality] || map.prudent;
   },
@@ -809,11 +809,11 @@ const Career = {
         if (isRenewal) chance += 14; else chance -= 4;
         if (salaryRatio < 0.95) chance -= 5;
         break;
-      case 'mercenaire':
+      case S("auto.mercenaire"):
         chance += (salaryRatio - 1) * 25 + bonus * 0.5;
         if (salaryRatio < 1.1) chance -= 8;
         break;
-      case 'ambitieux':
+      case S("auto.ambitieux"):
         if (teamRank > 5) chance -= 18;
         if (role !== 'driver1') chance -= 8;
         break;
@@ -827,9 +827,9 @@ const Career = {
         break;
     }
 
-    const demandSalary = Math.max(baseSalary, Math.ceil(baseSalary * (1.05 + Math.max(0, score - 80) / 90 + (d.personality === 'mercenaire' ? 0.18 : 0))));
+    const demandSalary = Math.max(baseSalary, Math.ceil(baseSalary * (1.05 + Math.max(0, score - 80) / 90 + (d.personality === S("auto.mercenaire") ? 0.18 : 0))));
     const demandBonus = Math.max(0, Math.round((score - 78) / 5));
-    const demandYears = d.personality === 'prudent' ? 3 : (d.personality === 'ambitieux' ? 2 : years);
+    const demandYears = d.personality === 'prudent' ? 3 : (d.personality === S("auto.ambitieux") ? 2 : years);
     // Protection finale contre NaN
     if (isNaN(chance)) chance = 25;
     chance = Math.round(Math.max(5, Math.min(92, chance)));
@@ -838,7 +838,7 @@ const Career = {
   },
 
   replacePlayerDriver(save, incomingDriver, replaceDriverId, contractData = {}) {
-    if (!save || !incomingDriver) return { ok:false, msg:'Transfert impossible.' };
+    if (!save || !incomingDriver) return { ok:false, msg:S("auto.transfert_impossible") };
 
     const playerTeamId = save.playerTeamId;
     // Exclure le driver entrant du comptage pour eviter faux positif
@@ -850,7 +850,7 @@ const Career = {
       if (!replaceDriverId) return { ok:false, msg:S('career.replace') };
       replaced = F1Data.drivers.find(x => x.id === replaceDriverId && x.teamId && x.teamId !== 'free_agent' && x.teamId === playerTeamId && !x.retired);
       if (!replaced) return { ok:false, msg:S('career.not_found') };
-      if (replaced.id === incomingDriver.id) return { ok:false, msg:'Ce driver est déjà dans ton team.' };
+      if (replaced.id === incomingDriver.id) return { ok:false, msg:S("auto.ce_driver_est_deja_dans_ton_team") };
     }
 
     const oldTeamId = incomingDriver.teamId || null;
@@ -973,7 +973,7 @@ const Career = {
 
     const teamDrivers = F1Data.drivers.filter(d => d.teamId && d.teamId !== 'free_agent' && d.teamId === save.playerTeamId && !d.retired);
     if (teamDrivers.length <= 1) {
-      return { ok: false, msg: 'Tu dois garder au moins 1 driver' };
+      return { ok: false, msg: S("auto.tu_dois_garder_au_moins_1_driver") };
     }
 
     // Indemnité de licenciement
@@ -1052,7 +1052,7 @@ const Career = {
       'Ryo','Yuki','Kenji','Sakura','Haruto','Aoi','Lars','Ingrid','Erik','Astrid',
       'Carlos','Sofia','Miguel','Isabella','Alejandro','Valentina','Marco','Giulia',
       'Priya','Arjun','Ananya','Vikram','Fatima','Omar','Yasmin','Ahmed',
-      'François','Marie','Pierre','Camille','Antoine','Léa','Nicolas','Chloé',
+      S("auto.francois"),'Marie','Pierre','Camille','Antoine','Léa','Nicolas',S("auto.chloe"),
     ],
     lastNames: [
       'Smith','Johnson','Williams','Brown','Jones','Garcia','Miller','Davis','Wilson',
@@ -1075,11 +1075,11 @@ const Career = {
 
   // Icônes et labels par spécialité
   staffSpecialties: {
-    aero:        { icon:'🌊', label:'Aerodynamics', roles:['Ingénieur Aéro','Analyste CFD','Responsable Soufflerie',S('career.aero_chief')] },
-    chassis:     { icon:'🏗️', label:'Chassis',       roles:['Ingénieur Chassis',S('career.susp_spec'),S('career.setup_eng'),S('career.vehicle_dyn')] },
-    engine:      { icon:'⚡', label:'Engine/ERS',    roles:['Ingénieur Engine',S('career.ers_spec'),'Thermicien','Responsable Groupe Propulseur'] },
+    aero:        { icon:'🌊', label:'Aerodynamics', roles:[S("auto.ingenieur_aero"),'Analyste CFD','Responsable Soufflerie',S('career.aero_chief')] },
+    chassis:     { icon:'🏗️', label:'Chassis',       roles:[S("auto.ingenieur_chassis"),S('career.susp_spec'),S('career.setup_eng'),S('career.vehicle_dyn')] },
+    engine:      { icon:'⚡', label:'Engine/ERS',    roles:[S("auto.ingenieur_engine"),S('career.ers_spec'),'Thermicien',S("auto.responsable_groupe_propulseur")] },
     pitstop:     { icon:'⏱️', label:'Pit Stop',      roles:['Chef Mécanicien','Responsable Pit Stop','Coordinateur Stand','Chef d\'Team Pit'] },
-    reliability: { icon:'🛡️', label:'Reliability',     roles:['Ingénieur Reliability',S('career.data_analyst'),S('career.quality_mgr'),'Chef Maintenance'] },
+    reliability: { icon:'🛡️', label:'Reliability',     roles:[S("auto.ingenieur_reliability"),S('career.data_analyst'),S('career.quality_mgr'),'Chef Maintenance'] },
   },
 
   // ── GÉNÉRER UN MEMBRE DE STAFF ────────────────────────────

@@ -64,7 +64,7 @@ const Engine = {
     lapTime -= trait.paceBonus * 0.10;
 
     // Qualifier : boost supplémentaire sur les softs
-    if (driver.trait === 'qualifier' && tyreState.compound === 'SOFT') {
+    if (driver.trait === S("auto.qualifier") && tyreState.compound === 'SOFT') {
       lapTime -= 0.08;
     }
     // Defender : légèrement moins rapide en mode offensif

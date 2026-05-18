@@ -8,14 +8,14 @@ const Weekend = {
   // ── CONSTANTES ────────────────────────────────────────────
   SETUP_OPTIONS: [
     { id:'balanced',   label:S('weekend.balanced'),      desc:'Setup polyvalent — bon partout',             aeroBonus:0,    tyreBonus:0,     setupBonus:0  },
-    { id:'low_drag',   label:S('weekend.low_drag'), desc:'Meilleur en ligne droite, moins en virage',  aeroBonus:-0.15, tyreBonus:-0.03, setupBonus:0.12 },
-    { id:'high_df',    label:'Forte charge',   desc:'Meilleur en virage, plus lent en ligne',     aeroBonus:0.12, tyreBonus:0.04,  setupBonus:-0.10 },
+    { id:'low_drag',   label:S('weekend.low_drag'), desc:S("auto.meilleur_en_ligne_droite_moins_en_v"),  aeroBonus:-0.15, tyreBonus:-0.03, setupBonus:0.12 },
+    { id:'high_df',    label:'Forte charge',   desc:S("auto.meilleur_en_virage_plus_lent_en_lig"),     aeroBonus:0.12, tyreBonus:0.04,  setupBonus:-0.10 },
     { id:'quali_mode', label:'Mode qualif',    desc:S('weekend.quali_setup'),          aeroBonus:0.20, tyreBonus:-0.05, setupBonus:0    },
-    { id:'race_mode',  label:'Mode course',    desc:S('weekend.race_setup'),        aeroBonus:-0.05, tyreBonus:0.08, setupBonus:0    },
+    { id:'race_mode',  label:S("auto.mode_course"),    desc:S('weekend.race_setup'),        aeroBonus:-0.05, tyreBonus:0.08, setupBonus:0    },
   ],
 
   PROGRAM_OPTIONS: [
-    { id:'quali_sim',  label:'Simulation qualif', desc:S('weekend.run_test'),  laps:3,  tyreWear:0.15 },
+    { id:'quali_sim',  label:S("auto.simulation_qualif"), desc:S('weekend.run_test'),  laps:3,  tyreWear:0.15 },
     { id:'long_run',   label:'Long run',           desc:S('weekend.race_sim'), laps:15, tyreWear:0.55 },
     { id:'setup_work', label:'Travail de setup',   desc:S('weekend.fine_tuning'),       laps:6,  tyreWear:0.25 },
   ],
@@ -106,7 +106,7 @@ const Weekend = {
       let baseTime = Engine.calcLapTime(driver, team, circuit, tyreState, 0, weather, 1, 'attack');
 
       // Bonus trait qualifier
-      if (driver.trait === 'qualifier') baseTime -= 0.25;
+      if (driver.trait === S("auto.qualifier")) baseTime -= 0.25;
       if (driver.trait === 'aggressive') baseTime -= 0.10;
       if (driver.trait === 'consistent') baseTime += 0.05;
 

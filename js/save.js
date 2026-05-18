@@ -367,7 +367,7 @@ const Save = {
           state[regStat] = Math.max(cur - 0.1, Math.round(cur * 0.998 * 10) / 10);
         }
       });
-    } catch(e) { console.warn('Progression drivers:', e); }
+    } catch(e) { console.warn(S("auto.progression_drivers"), e); }
 
     // Récompense course de base
     const reward = 2 + Math.round(teamPoints * 0.3) + (bestPosition <= 3 ? 3 : bestPosition <= 10 ? 1 : 0);
@@ -471,7 +471,7 @@ const Save = {
         F1Data.teams.forEach(team => {
           const stored = save.rivalTeamStats[team.id];
           if (!stored) return;
-          ['aero','chassis','engine','reliability','performance'].forEach(k => {
+          ['aero','chassis','engine','reliability',S("auto.performance")].forEach(k => {
             if (stored[k] !== undefined) team[k] = stored[k];
           });
         });
@@ -508,7 +508,7 @@ const Save = {
           save.tokens = (save.tokens||0) + save.sponsorBonuses.tokens;
         }
       }
-    } catch(e) { console.warn('Sponsor bonuses:', e); }
+    } catch(e) { console.warn(S("auto.sponsor_bonuses"), e); }
 
     // -- GENERATION DISCUSSIONS SOCIALES POST-COURSE --
     try {
@@ -561,7 +561,7 @@ const Save = {
       support_pos: [
         "Tu n'y es pour rien. La mécanique nous a lâchés — on va régler ça.",
         "Je suis derrière toi. Ce qui s'est passé n'est pas de ta faute, on corrige ensemble.",
-        "On reste soudés. Ce genre de journée arrive, on en sort plus forts.",
+        S("auto.on_reste_soudes_ce_genre_de_journee"),
         "Tête haute. L'team est avec toi. On reviendra.",
         "C'est la course. On analyse, on corrige, et on repart au prochain GP.",
       ],
@@ -569,21 +569,21 @@ const Save = {
       analyse_neu: [
         "Raconte-moi ce qui s'est passé depuis ton point de vue.",
         "Donne-moi ta version des faits. Je veux tout comprendre avant d'en parler.",
-        "On se pose et on regarde les données ensemble. Sans jugement.",
+        S("auto.on_se_pose_et_on_regarde_les_donnee"),
         "Qu'est-ce que tu as ressenti en voiture ? Tes impressions comptent.",
-        "On fait le point ensemble demain matin avec les données complètes.",
+        S("auto.on_fait_le_point_ensemble_demain_ma"),
       ],
       // Négatif — pression
       pression_neg: [
         "Ce genre d'abandon nous coûte des points précieux. On doit faire mieux.",
-        "Je comprends la frustration mais les résultats ne sont pas là. Il faut réagir.",
-        "On ne peut pas se permettre ces sorties de route. Les prochains GP seront décisifs.",
+        S("auto.je_comprends_la_frustration_mais_le"),
+        S("auto.on_ne_peut_pas_se_permettre_ces_sor"),
         "C'est inacceptable à ce niveau. On en parle au debriefing demain, sans complaisance.",
         "Il faut que tu te ressaisisses. L'team compte sur toi et tu dois être là.",
       ],
       // Félicitations
       congrats_pos: [
-        "Une performance magistrale. Tu as tout donné et ça se voit.",
+        S("auto.une_performance_magistrale_tu_as_to"),
         "Exactement ce qu'on attendait de toi. Bravo — à toute l'team.",
         "Tu as été parfait aujourd'hui. La voiture, la stratégie, tout s'est aligné.",
         "Je suis fier de toi. Ce résultat, tu l'as construit lap après lap.",
@@ -591,11 +591,11 @@ const Save = {
       ],
       // Maintenir pression
       maintain_neu: [
-        "Excellent. Maintenant on ne relâche pas la pression.",
-        "Beau résultat. Le prochain GP sera encore plus important — reste concentré.",
-        "Très bien. Mais la concurrence va réagir. Il faudra confirmer.",
+        S("auto.excellent_maintenant_on_ne_relache"),
+        S("auto.beau_resultat_le_prochain_gp_sera_e"),
+        S("auto.tres_bien_mais_la_concurrence_va_re"),
         "C'est le minimum qu'on attend de cette team. Restons humbles et concentrés.",
-        "On savait que tu pouvais le faire. Maintenant il faut en faire une habitude.",
+        S("auto.on_savait_que_tu_pouvais_le_faire_m"),
       ],
       // Critique constructive
       critic_neg: [
@@ -611,23 +611,23 @@ const Save = {
         "Solide. Tu as géré la course intelligemment. C'est ce qui fait la différence.",
         "Bien joué. Chaque point compte et tu l'as bien compris.",
         "Course propre, aucune erreur. C'est le professionnalisme qu'on demande.",
-        "Tu as fait ton job parfaitement. Points pris, voiture intacte. Chapeau.",
+        S("auto.tu_as_fait_ton_job_parfaitement_poi"),
       ],
       // Progresser
       progress_neu: [
         "P${pos} c'est correct. On a encore de la marge pour progresser.",
-        "On avance dans la bonne direction. Ce résultat nous dit où on en est.",
-        "Pas mal. Maintenant on sait sur quoi travailler pour le prochain GP.",
+        S("auto.on_avance_dans_la_bonne_direction_c"),
+        S("auto.pas_mal_maintenant_on_sait_sur_quoi"),
         "C'est un bon indicateur. On n'est pas encore au maximum de notre potentiel.",
         "Bien. On est dans les points, c'est l'essentiel. On pousse pour plus.",
       ],
       // Manque d'opportunité
       missed_neg: [
-        "Honnêtement on méritait mieux. Il y avait des opportunités ratées.",
-        "Les points sont là mais on a laissé des places sur la table. À corriger.",
+        S("auto.honnetement_on_meritait_mieux_il_y"),
+        S("auto.les_points_sont_la_mais_on_a_laisse"),
         "Ce n'est pas une mauvaise course mais on peut faire beaucoup mieux.",
-        "Je ne suis pas entièrement satisfait. On a manqué au moins deux occasions.",
-        "Le résultat est acceptable mais le potentiel de la voiture méritait plus.",
+        S("auto.je_ne_suis_pas_entierement_satisfai"),
+        S("auto.le_resultat_est_acceptable_mais_le"),
       ],
       // Empathie moral bas
       empathy_pos: [
@@ -639,27 +639,27 @@ const Save = {
       ],
       // Analyser moral bas
       data_neu: [
-        "On va analyser les données ensemble et repartir de zéro.",
+        S("auto.on_va_analyser_les_donnees_ensemble"),
         "Je veux qu'on reprenne tout depuis le début. Pas de jugement, que des faits.",
-        "Le simulateur est disponible cette semaine. On travaille ensemble ?",
+        S("auto.le_simulateur_est_disponible_cette"),
         "Rien ne sert de chercher des coupables. Qu'est-ce qu'on peut améliorer ?",
-        "Je veux ta vision honnête de la situation. On construit la solution ensemble.",
+        S("auto.je_veux_ta_vision_honnete_de_la_sit"),
       ],
       // Exigence moral bas
       demand_neg: [
-        "Ces résultats ne sont pas acceptables. Il faut que ça change rapidement.",
-        "Je dois être direct avec toi : on attend beaucoup plus. Tu le sais.",
+        S("auto.ces_resultats_ne_sont_pas_acceptabl"),
+        S("auto.je_dois_etre_direct_avec_toi_on_att"),
         "Le niveau qu'on te demande n'est pas négociable. Il faut te ressaisir maintenant.",
         "L'team investit énormément. Les résultats doivent suivre. Sans excuse.",
         "On ne peut pas continuer comme ça. Qu'est-ce qui t'empêche de performer ?",
       ],
       // Encouragement générique
       encourage_pos: [
-        "Bonne course. On repart de ça pour le prochain GP.",
+        S("auto.bonne_course_on_repart_de_ca_pour_l"),
         "C'est ça l'esprit d'team. On analyse, on s'améliore, on revient plus forts.",
         "Contenu de ce que j'ai vu aujourd'hui. On continue dans cette direction.",
         "Tu m'as donné des éléments positifs à analyser. C'est encourageant.",
-        "Bien joué. Le travail de la semaine a payé. On recommence.",
+        S("auto.bien_joue_le_travail_de_la_semaine"),
       ],
       // Pas parfait mais ok
       ok_neu: [
@@ -667,12 +667,12 @@ const Save = {
         "C'est dans la boîte. Pas la meilleure course mais on a des éléments à exploiter.",
         "On prend ce que la course nous donne. On verra ce qu'on peut faire mieux.",
         "C'est une bonne base de travail. On va analyser ça cette semaine.",
-        "Ni le meilleur ni le pire. On tire les conclusions et on repart.",
+        S("auto.ni_le_meilleur_ni_le_pire_on_tire_l"),
       ],
       // Debrief demain
       debrief_neg: [
         "Je t'attends au debriefing demain matin. On a des choses à revoir.",
-        "On en parle demain avec les données. Il y a des ajustements à faire.",
+        S("auto.on_en_parle_demain_avec_les_donnees"),
         "Ce n'est pas le moment d'en parler. Demain matin, 9h, on fait le point.",
         "Debriefing demain. J'ai des questions précises sur certains moments de la course.",
         "Je préfère analyser les données avant d'en parler. Demain sans faute.",
@@ -719,7 +719,7 @@ const Save = {
           `Le debriefing vient de se terminer. ${d.firstName} est en pleine confiance — c'est le moment de capitaliser.`,
           `P${pos} pour ${d.firstName}. Les sponsors appellent deja. Comment gerez-vous ce moment ?`,
           `${d.firstName} sort de la voiture poing leve. P${pos}. Le garage explose. Il vous cherche du regard dans la foule.`,
-          `Podium. Champagne. ${d.firstName} vous attrape par l'epaule dans le parc ferme : "On en remet une couche au prochain ?"`,
+          `Podium. Champagne. ${d.firstName} vous attrape par l'epaule dans le parc ferme : S("auto.on_en_remet_une_couche_au_prochain")`,
           `Les medias veulent ${d.firstName} en conference de presse. Il vous demande d'abord votre ressenti sur sa course.`,
           `P${pos}. ${d.firstName} est calme mais ses yeux brillent. Il sait ce qu'il a fait. Il attend juste que vous le reconnaissez.`,
           `Dans le motorhome apres le podium, ${d.firstName} s'assoit en face de vous. "C'est le debut ou c'est un accident ?" Il veut savoir ce que vous pensez.`,
@@ -785,7 +785,7 @@ const Save = {
           `Le debriefing vient de se terminer. ${d.firstName} vous croise dans le couloir en sortant du garage. Un regard, quelques mots suffisent parfois.`,
           `${d.firstName} range ses affaires apres la course. P${pos}. Il leve les yeux quand vous entrez dans le garage.`,
           `Fin de course. ${d.firstName} signe quelques autographes puis revient vers le motorhome. Il vous fait signe d'approcher.`,
-          `${d.firstName} est en train de regarder les replays de sa course quand vous entrez dans le motorhome. Il coupe l'ecran. "Alors ?"`,
+          `${d.firstName} est en train de regarder les replays de sa course quand vous entrez dans le motorhome. Il coupe l'ecran. S("auto.alors")`,
           `Course terminee. P${pos}. ${d.firstName} est sous la douche du camion quand votre message arrive. Il vous repond : "5 minutes."`,
           `Dans le paddock qui se vide, ${d.firstName} traine pres du camion. Il attend quelque chose — probablement vous.`,
           `${d.firstName} a signe des dizaines d'autographes mais il guette la porte du paddock. Des que vous arrivez, il se dirige vers vous.`,
@@ -846,8 +846,8 @@ const Save = {
         trigger: 'Debriefing technique',
         text: postAnalysis[race % postAnalysis.length],
         choices: [
-          { text: "Lancez le travail. On integre ca au programme du prochain week-end.", effect: {pace:+2, confiance:+3, tokenBonus:0}, choiceType:'positive' },
-          { text: "Interessant. On fait un point apres les EL du prochain GP avant de valider.", effect: {pace:+1}, choiceType:'neutral' },
+          { text: S("auto.lancez_le_travail_on_integre_ca_au"), effect: {pace:+2, confiance:+3, tokenBonus:0}, choiceType:'positive' },
+          { text: S("auto.interessant_on_fait_un_point_apres"), effect: {pace:+1}, choiceType:'neutral' },
           { text: "On a d'autres priorites pour l'instant. Gardez ca en reserve.", effect: {}, choiceType:'negative' },
         ]
       });
@@ -855,7 +855,7 @@ const Save = {
       // R&D tous les 4 GP
       if (race % 4 === 0 && race > 0) {
         const domains = ['aero','chassis','engine','reliability'];
-        const labels  = {aero:'aerodynamique',chassis:'chassis',engine:'moteur',reliability:'fiabilite'};
+        const labels  = {aero:S("auto.aerodynamique"),chassis:'chassis',engine:S("auto.moteur"),reliability:'fiabilite'};
         const dom     = domains[race % domains.length];
         techOptions.push({
           id: `tech_rd_${race}`,
@@ -864,7 +864,7 @@ const Save = {
           text: `L'equipe technique a identifie une piste de developpement sur le ${labels[dom]} suite aux donnees de ce GP. Les ressources sont disponibles mais limitees.`,
           choices: [
             { text: "On investit. C'est exactement le genre d'opportunite qu'on cherchait.", effect: {rdBonus:dom, tokenBonus:+1}, choiceType:'positive' },
-            { text: "Donnez-moi les projections detaillees avant que je valide.", effect: {}, choiceType:'neutral' },
+            { text: S("auto.donnezmoi_les_projections_detaillee"), effect: {}, choiceType:'neutral' },
             { text: "Pas maintenant. On concentre les ressources ailleurs.", effect: {}, choiceType:'negative' },
           ]
         });
@@ -879,9 +879,9 @@ const Save = {
           trigger: `Preparation ${nextCirc.name || 'prochain GP'}`,
           text: `Premier briefing sur le prochain circuit. La degradation des pneus est ${highDeg ? 'elevee — les simulations privilegient deux arrets' : 'moderee — un seul arret bien gere semble optimal'}. Comment orientez-vous la preparation ?`,
           choices: [
-            { text: highDeg ? "Deux arrets. On optimise chaque relance plutot que de subir la degradation." : "Un arret. On maximise le rythme et on gere.", effect: {setupBonus:'race', moral:+2}, choiceType:'positive' },
-            { text: "On reste ouverts aux deux options et on decide selon la meteo du vendredi.", effect: {}, choiceType:'neutral' },
-            { text: "On attaque avec les Softs des le depart et on verra.", effect: {setupBonus:'qualify'}, choiceType:'negative' },
+            { text: highDeg ? S("auto.deux_arrets_on_optimise_chaque_rela") : "Un arret. On maximise le rythme et on gere.", effect: {setupBonus:'race', moral:+2}, choiceType:'positive' },
+            { text: S("auto.on_reste_ouverts_aux_deux_options_e"), effect: {}, choiceType:'neutral' },
+            { text: S("auto.on_attaque_avec_les_softs_des_le_de"), effect: {setupBonus:'qualify'}, choiceType:'negative' },
           ]
         });
       }
@@ -896,7 +896,7 @@ const Save = {
       const d = drivers[Math.floor(Math.random() * drivers.length)];
       const driverPts = save.driverStandings?.[d.id] || 0;
       const loyalty   = save.driverLoyalty?.[d.id] ?? 50;
-      const nextName  = nextCirc?.name || 'le prochain Grand Prix';
+      const nextName  = nextCirc?.name || S("auto.le_prochain_grand_prix");
 
       let preEvent = null;
 
@@ -922,9 +922,9 @@ const Save = {
           trigger: 'Phase cruciale',
           text: `On arrive dans le coeur de la saison. ${d.firstName} vous prend a part : "Les prochains GP vont tout decider. Je veux savoir jusqu'ou tu es pret a pousser cette voiture."`,
           choices: [
-            { text: "On attaque. Setup agressif, strategie audacieuse — on ne gere pas.", effect: {moral:+6, confiance:+5, pace:+3, dnfRisk:true}, choiceType:'positive' },
-            { text: "On joue nos forces. Regularite et saisir les opportunites.", effect: {moral:+4, confiance:+5, pace:+1}, choiceType:'neutral' },
-            { text: "On securise les points. On prend zero risque inutile.", effect: {moral:+2, confiance:+3, pace:-1}, choiceType:'negative' },
+            { text: S("auto.on_attaque_setup_agressif_strategie"), effect: {moral:+6, confiance:+5, pace:+3, dnfRisk:true}, choiceType:'positive' },
+            { text: S("auto.on_joue_nos_forces_regularite_et_sa"), effect: {moral:+4, confiance:+5, pace:+1}, choiceType:'neutral' },
+            { text: S("auto.on_securise_les_points_on_prend_zer"), effect: {moral:+2, confiance:+3, pace:-1}, choiceType:'negative' },
           ]
         };
       } else if (pct >= 0.87 && !save[`arc_end_${d.id}_${season}`]) {
@@ -935,7 +935,7 @@ const Save = {
           trigger: 'Derniers GP de la saison',
           text: `Il ne reste que quelques courses. ${d.firstName} vous dit simplement : "C'est la derniere ligne droite. Je veux qu'on finisse fort ensemble."`,
           choices: [
-            { text: "On finit comme on a commence — tout donner. Carte blanche.", effect: {moral:+12, confiance:+10, loyalty:+8, pace:+3}, choiceType:'positive' },
+            { text: S("auto.on_finit_comme_on_a_commence_tout_d"), effect: {moral:+12, confiance:+10, loyalty:+8, pace:+3}, choiceType:'positive' },
             { text: "On reste concentres. Chaque point compte jusqu'au bout.", effect: {moral:+6, confiance:+6, pace:+2}, choiceType:'neutral' },
             { text: "On protege notre classement. La prudence d'abord.", effect: {moral:+2, confiance:+3, pace:-1}, choiceType:'negative' },
           ]
@@ -943,8 +943,8 @@ const Save = {
       } else {
         // Event pré-course contextuel
         const preTexts = [
-          `${d.firstName} passe la tete dans votre bureau la veille du depart pour ${nextName}. "On est prets ?" Il attend votre leadership avant de monter dans l'avion.`,
-          `Avant de quitter le paddock, ${d.firstName} vous croise dans le couloir. "Le prochain circuit me convient bien. On peut viser plus haut ?" Sa confiance est visible.`,
+          `${d.firstName} passe la tete dans votre bureau la veille du depart pour ${nextName}. S("auto.on_est_prets_2") Il attend votre leadership avant de monter dans l'avion.`,
+          `Avant de quitter le paddock, ${d.firstName} vous croise dans le couloir. S("auto.le_prochain_circuit_me_convient_bie") Sa confiance est visible.`,
           `${d.firstName} vous envoie un message depuis l'hotel : il a regarde des donnees de qualification sur ${nextName} et a des idees. Il veut en discuter.`,
           `Vol vers ${nextName}. ${d.firstName} s'assoit a cote de vous dans l'avion de l'equipe. "J'ai une question sur la strategie." Le couloir est calme. Le moment est bon.`,
           `${d.firstName} vous laisse un message vocal ce soir. "J'ai analyse les donnees de ${nextName}. Je crois qu'on peut se qualifier dans le top 8. Rappelle-moi."`,
@@ -961,7 +961,7 @@ const Save = {
           text: preTexts[race % preTexts.length],
           choices: [
             { text: "Plus que prets. On va chercher le maximum la-bas.", effect: {moral:+7, confiance:+5, loyalty:+3}, choiceType:'positive' },
-            { text: "On fait notre travail et on reste concentres sur nos points forts.", effect: {moral:+3, confiance:+3}, choiceType:'neutral' },
+            { text: S("auto.on_fait_notre_travail_et_on_reste_c"), effect: {moral:+3, confiance:+3}, choiceType:'neutral' },
             { text: "On se concentre d'abord sur les EL avant de fixer des objectifs.", effect: {moral:+1, confiance:+2}, choiceType:'negative' },
           ]
         };
@@ -981,7 +981,7 @@ const Save = {
         save[`esc_threat_${d.id}_${season}`] = true;
         events.unshift({
           id: `esc_threat_${d.id}_${season}`,
-          driverId: d.id, phase: 'post', type: 'escalation', urgent: true,
+          driverId: d.id, phase: 'post', type: S("auto.escalation"), urgent: true,
           trigger: 'Situation critique',
           text: `${d.firstName} ${d.name} a demande un entretien prive d'urgence. Son agent est en contact avec deux equipes. Les tensions des derniers GP ont fragilise la relation. Il est temps de clarifier.`,
           choices: [

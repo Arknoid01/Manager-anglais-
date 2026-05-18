@@ -22,7 +22,7 @@ const PROFILE_STAFF_DB = [
 
   // Pierre Waché — DT Red Bull depuis départ de Newey
   {
-    id:'dt_wache', name:'Pierre Waché', icon:'🔬',
+    id:'dt_wache', name:S("auto.pierre_wache"), icon:'🔬',
     role:'Directeur Technique — Red Bull Racing', specialty:'chassis',
     desc:'Successeur de Newey chez Red Bull. Architecte du châssis des voitures championnes 2021-2024.',
     level:93, salary:14, cost:32, elite:true, exclusive:true,
@@ -159,7 +159,7 @@ const PROFILE_STAFF_DB = [
   {
     id:'eng_2', name:'Enrico Gualtieri', icon:'🔋',
     role:'Directeur Engine — Ferrari', specialty:'engine',
-    desc:'Patron de Ferrari Gestione Sportiva (moteur). Spécialiste du V6 turbo-hybride de Maranello.',
+    desc:S("auto.patron_de_ferrari_gestione_sportiva"),
     level:88, salary:8, cost:18,
     impacts:{ engine:+7, reliability:+3 },
     passive:'Engine Ferrari : boost ERS +3% → meilleur déploiement en sortie de virage',
@@ -167,7 +167,7 @@ const PROFILE_STAFF_DB = [
   {
     id:'eng_3', name:'Remi Taffin', icon:'🔩',
     role:'Directeur Technique Engine — Alpine/Renault', specialty:'engine',
-    desc:'Ex-responsable moteur Renault F1 (2014-2021). Revenu pour driverr le projet moteur Alpine 2026.',
+    desc:S("auto.exresponsable_moteur_renault_f1_201"),
     level:83, salary:6, cost:14,
     impacts:{ engine:+5, reliability:+4 },
     passive:'Réduit les DNF moteur de 18% · +0.5 fiabilité/saison automatiquement',
@@ -224,7 +224,7 @@ const PROFILE_STAFF_DB = [
 
   {
     id:'rel_1', name:'Ayao Komatsu', icon:'🛡️',
-    role:'Team Principal — Haas (ex-chef ingénieur piste)', specialty:'reliability',
+    role:S("auto.team_principal_haas_exchef_ingenieu"), specialty:'reliability',
     desc:'TP Haas depuis 2024. Ex-ingénieur de course Grosjean. Rigueur opérationnelle et fiabilité au cœur de son management.',
     level:84, salary:6, cost:14,
     impacts:{ reliability:+7, pitstop:+2 },
@@ -232,7 +232,7 @@ const PROFILE_STAFF_DB = [
   },
   {
     id:'rel_2', name:'Gianpiero Lambiase', icon:'🎧',
-    role:'Ingénieur de Course — Red Bull (GP de Verstappen)', specialty:'reliability',
+    role:S("auto.ingenieur_de_course_red_bull_gp_de"), specialty:'reliability',
     desc:'L\'ingénieur de course de Max Verstappen depuis 2016. Maître de la gestion des pneus et de la régularité.',
     level:89, salary:7, cost:16, elite:true,
     impacts:{ reliability:+6, pitstop:+3 },
@@ -240,7 +240,7 @@ const PROFILE_STAFF_DB = [
   },
   {
     id:'rel_3', name:'Riccardo Adami', icon:'📡',
-    role:'Ingénieur de Course — Ferrari (GP de Leclerc)', specialty:'reliability',
+    role:S("auto.ingenieur_de_course_ferrari_gp_de_l"), specialty:'reliability',
     desc:'L\'ingénieur de course de Charles Leclerc. Excellente gestion des pneus et de la consommation carburant.',
     level:85, salary:6, cost:13,
     impacts:{ reliability:+5, pitstop:+2 },
@@ -248,7 +248,7 @@ const PROFILE_STAFF_DB = [
   },
   {
     id:'rel_4', name:'Peter Bonnington', icon:'📻',
-    role:'Ingénieur de Course — Mercedes (GP de Hamilton→Russell)', specialty:'reliability',
+    role:S("auto.ingenieur_de_course_mercedes_gp_de"), specialty:'reliability',
     desc:'L\'ingénieur de Lewis Hamilton pendant toute son ère Mercedes. Maintenant avec George Russell.',
     level:86, salary:6, cost:14,
     impacts:{ reliability:+5, chassis:+2 },
@@ -341,7 +341,7 @@ const PROFILE_STAFF_DB = [
   function restoreStaff(save) {
     if (!save) return;
     save.generatedStaff = save.generatedStaff || [];
-    if (typeof Career !== 'undefined' && typeof Career.restoreGeneratedStaff === 'function') Career.restoreGeneratedStaff(save);
+    if (typeof Career !== 'undefined' && typeof Career.restoreGeneratedStaff === S("auto.function")) Career.restoreGeneratedStaff(save);
   }
 
   function getStaff(save, id) {
@@ -365,8 +365,8 @@ const PROFILE_STAFF_DB = [
     const t = String(type || '').toLowerCase();
     const sid = String(id || '');
     if (t === 'driver' || t === 'driver') return F1Data.drivers.find(d => String(d.id) === sid) || null;
-    if (t === 'team' || t === 'ecurie' || t === 'écurie') return F1Data.teams.find(tm => String(tm.id) === sid) || null;
-    if (t === 'staff') return getStaff(save, sid);
+    if (t === 'team' || t === 'ecurie' || t === S("auto.ecurie_2")) return F1Data.teams.find(tm => String(tm.id) === sid) || null;
+    if (t === S("auto.staff")) return getStaff(save, sid);
     return null;
   }
 
@@ -377,7 +377,7 @@ const PROFILE_STAFF_DB = [
 
   function linkDriver(d) { return d ? link('driver', d.id, fullName(d)) : '—'; }
   function linkTeam(t) { return t ? link('team', t.id, t.name || t.shortName) : '—'; }
-  function linkStaff(s) { return s ? link('staff', normalizeStaffId(s.id), fullName(s)) : '—'; }
+  function linkStaff(s) { return s ? link(S("auto.staff"), normalizeStaffId(s.id), fullName(s)) : '—'; }
 
   window.Profiles = {
     STAFF_DB: PROFILE_STAFF_DB, LEGACY_STAFF_IDS, normalizeStaffId, escapeHtml: esc, loadSave, restoreDrivers, restoreStaff,
