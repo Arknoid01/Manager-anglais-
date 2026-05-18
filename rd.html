@@ -139,7 +139,7 @@ input[type=range].alloc-slider::-webkit-slider-thumb{-webkit-appearance:none;wid
 
 <div class="topbar">
   <div class="logo">F1<span data-i18n="top.manager">Manager</span></div>
-  <a href="index.html" style="font-family:var(--fh);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px" data-i18n="nav.home">← Accueil</a>
+  <a href="index.html" style="font-family:var(--fh);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px" data-i18n="nav.home">← Home</a>
   <div class="top-pills">
     <div class="pill pill-muted" id="seasonBadge">—</div>
     <div class="pill pill-gold" id="budgetBadge">—</div>
@@ -160,9 +160,9 @@ input[type=range].alloc-slider::-webkit-slider-thumb{-webkit-appearance:none;wid
 
   <!-- ALLOCATION RESSOURCES -->
   <div class="alloc-panel">
-    <div class="alloc-title" data-i18n="rd.alloc">Allocation des ressources R&D</div>
+    <div class="alloc-title" data-i18n="rd.alloc">R&D resource allocation</div>
     <div class="alloc-row">
-      <span class="alloc-lbl current">🔵 Saison actuelle</span>
+      <span class="alloc-lbl current">🔵 Current season</span>
       <div class="slider-wrap">
         <div class="slider-fill-l" id="sliderFillL" style="width:70%"></div>
         <div class="slider-fill-r" id="sliderFillR" style="width:30%"></div>
@@ -171,7 +171,7 @@ input[type=range].alloc-slider::-webkit-slider-thumb{-webkit-appearance:none;wid
       <span class="alloc-pct" id="allocPctCurrent" style="color:var(--blue)">70%</span>
     </div>
     <div class="alloc-row">
-      <span class="alloc-lbl future">🟣 Saison suivante</span>
+      <span class="alloc-lbl future">🟣 Next season</span>
       <div style="flex:1"></div>
       <span class="alloc-pct" id="allocPctFuture" style="color:var(--purple)">30%</span>
     </div>
@@ -185,7 +185,7 @@ input[type=range].alloc-slider::-webkit-slider-thumb{-webkit-appearance:none;wid
   </div>
 
   <!-- FILE D'ATTENTE -->
-  <div class="sec-lbl" data-i18n="rd.upgrades_delivery">🚚 Upgrades en livraison</div>
+  <div class="sec-lbl" data-i18n="rd.upgrades_delivery">🚚 Upgrades in delivery</div>
   <div class="queue-panel" id="queuePanel"></div>
 
   <!-- PROJECTION SAISON SUIVANTE -->
@@ -217,7 +217,7 @@ let allocValue = 70; // % sur la voiture actuelle
 function init() {
   save = Save.load();
   if (!save || !save.playerTeamId) {
-    document.querySelector('.page').innerHTML = `<div style="padding:30px;text-align:center;font-family:var(--fh);color:var(--muted)">Aucune carrière. <a href="index.html" style="color:var(--accent)">Retour</a></div>`;
+    document.querySelector('.page').innerHTML = `<div style="padding:30px;text-align:center;font-family:var(--fh);color:var(--muted)">No career. <a href="index.html" style="color:var(--accent)">Back</a></div>`;
     return;
   }
 
@@ -301,7 +301,7 @@ function processDeliveries() {
 // ══════════════════════════════════════════════════════════
 function renderAll() {
   save = Save.load(); // Toujours recharger depuis localStorage
-  // Restaurer les stats équipes IA dès le début
+  // Restaurer les stats teams IA dès le début
   if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStats(save);
   // Réinitialiser carDev sans appeler renderAll (évite boucle infinie)
   save.carDev = save.carDev || {};
@@ -338,7 +338,7 @@ function renderBudget() {
 
   document.getElementById('budgetHero').innerHTML = `
     <div class="bh-card">
-      <div class="bh-lbl">Budget disponible</div>
+      <div class="bh-lbl">Available budget</div>
       <div class="bh-val" style="color:var(--gold)">${budget} M€</div>
       <div class="bh-sub">${rdSpent} M€ dépensé / ${budgetTotal} M€ total</div>
       <div style="height:3px;background:var(--border);border-radius:2px;margin-top:6px;overflow:hidden">
@@ -351,9 +351,9 @@ function renderBudget() {
       <div class="bh-sub">Course ${currentRace}/${totalRaces} · max 3/GP</div>
     </div>
     <div class="bh-card">
-      <div class="bh-lbl">Héritage technique</div>
+      <div class="bh-lbl">Technical legacy</div>
       <div class="bh-val" style="color:var(--green)">${totalHeritage > 0 ? '+'+totalHeritage.toFixed(1)+' pts' : '—'}</div>
-      <div class="bh-sub">Conservé de la saison précédente (${Math.round((Math.max(0.15,0.35-(seasonsPlayed-1)*0.03))*100)}%)</div>
+      <div class="bh-sub">Kept from previous season (${Math.round((Math.max(0.15,0.35-(seasonsPlayed-1)*0.03))*100)}%)</div>
     </div>
     <div class="bh-card">
       <div class="bh-lbl">Coûts opérationnels</div>
@@ -366,10 +366,10 @@ function renderBudget() {
       <div style="font-family:var(--fh);font-size:13px;color:var(--muted);margin-top:4px">${stag.toUpperCase()} gelé cette saison</div>
     </div>` : `
     <div class="bh-card" style="grid-column:span 2">
-      <div class="bh-lbl">Spécialisations actives</div>
+      <div class="bh-lbl">Active specializations</div>
       ${specs.length
         ? specs.map(s=>`<span style="font-family:var(--fh);font-size:12px;color:var(--green);margin-right:10px">${s.icon} ${s.domain} ≥${s.level} — bonus piste +${s.bonus}s</span>`).join('')
-        : `<div style="font-family:var(--fh);font-size:12px;color:var(--muted)">Aucune — atteins 88-90 dans un domaine pour débloquer un bonus circuit</div>`
+        : `<div style="font-family:var(--fh);font-size:12px;color:var(--muted)">None — reach 88–90 in one area to unlock a circuit bonus</div>`
       }
     </div>`}
   `;
@@ -405,11 +405,11 @@ function renderFreeze() {
   } else if (isLate) {
     document.getElementById('freezeIcon').textContent = '📉';
     banner.style.borderLeftColor = 'var(--orange)';
-    text.innerHTML = `<strong style="color:var(--orange)">Fin de saison — Rendement réduit</strong> — Course ${race}/${totalRaces}. Les upgrades voiture actuelle ont un gain réduit de <strong>30%</strong>. Investis dans la saison suivante 🟣 pour maximiser l'impact !`;
+    text.innerHTML = `<strong style="color:var(--orange)">End of season — Rendement réduit</strong> — Course ${race}/${totalRaces}. Les upgrades voiture actuelle ont un gain réduit de <strong>30%</strong>. Investis dans la saison suivante 🟣 pour maximiser l'impact !`;
   } else {
     document.getElementById('freezeIcon').textContent = '✅';
     banner.style.borderLeftColor = 'var(--green)';
-    text.innerHTML = `<strong style="color:var(--green)">Pleine saison</strong> — Course ${race}/${totalRaces}. Upgrades à plein rendement. À partir de la course ${lateAt}, le gain sera réduit de 30%.`;
+    text.innerHTML = `<strong style="color:var(--green)">Full season</strong> — Course ${race}/${totalRaces}. Upgrades at full efficiency. From race ${lateAt}, the gain will be reduced by 30%.`;
   }
 }
 
@@ -441,8 +441,8 @@ function renderAllocImpact() {
   const nextBonus  = pctFuture >= 0.4 ? `+${Math.round(pctFuture * 12)} pts base` : pctFuture >= 0.2 ? `+${Math.round(pctFuture * 12)} pts base` : '+2 pts base';
 
   document.getElementById('allocImpact').innerHTML = `
-    <span style="color:var(--blue)">🔵 Voiture actuelle : upgrades ${currBonus} efficacité</span>
-    <span style="color:var(--purple)">🟣 Voiture suivante : ~${nextBonus} (${futureInv} M€ investi)</span>
+    <span style="color:var(--blue)">🔵 Current car : upgrades ${currBonus} efficacité</span>
+    <span style="color:var(--purple)">🟣 Next car : ~${nextBonus} (${futureInv} M€ investi)</span>
   `;
 }
 
@@ -498,16 +498,16 @@ function renderDomain(key) {
       <div class="domain-icon">${domain.icon}</div>
       <div class="domain-info">
         <div class="domain-name">${domain.label}</div>
-        <div class="domain-stat">${domain.upgrades.filter(u => dev.done.includes(u.id)).length}/${domain.upgrades.length} upgrades · ${dev.pending?.length || 0} en livraison${dev._heritage>0?' · <span style=\"color:var(--green)\">+'+dev._heritage.toFixed(1)+' héritage</span>':''}</div>
+        <div class="domain-stat">${domain.upgrades.filter(u => dev.done.includes(u.id)).length}/${domain.upgrades.length} upgrades · ${dev.pending?.length || 0} in delivery${dev._heritage>0?' · <span style=\"color:var(--green)\">+'+dev._heritage.toFixed(1)+' héritage</span>':''}</div>
         <div class="stat-bar-wrap">
           <div class="stat-bar-fill" style="width:${finalLvl}%;background:${domain.color}"></div>
         </div>
       </div>
       <div class="domain-level">
         <div class="domain-val" style="color:${domain.color}">${fmtStat(finalLvl)}</div>
-        <div style="font-family:var(--fh);font-size:10px;color:var(--muted)">${staffB?`R&D ${dev.level || 70} · Staff +${staffB}`:'Valeur finale'}</div>
+        <div style="font-family:var(--fh);font-size:10px;color:var(--muted)">${staffB?`R&D ${dev.level || 70} · Staff +${staffB}`:'Final value'}</div>
         <div class="domain-rival" style="color:${gap >= 0 ? 'var(--green)' : 'var(--accent)'}">
-          ${gap >= 0 ? '+' : ''}${gap} vs meilleur
+          ${gap >= 0 ? '+' : ''}${gap} vs best
         </div>
       </div>
     </div>
@@ -865,7 +865,7 @@ function renderQueue() {
   items.sort((a, b) => a.eta - b.eta);
 
   if (!items.length) {
-    panel.innerHTML = '<div style="padding:12px 14px;font-family:var(--fh);font-size:12px;color:var(--muted)">Aucun upgrade en livraison.</div>';
+    panel.innerHTML = '<div style="padding:12px 14px;font-family:var(--fh);font-size:12px;color:var(--muted)">No upgrade in delivery.</div>';
     return;
   }
 

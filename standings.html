@@ -104,7 +104,7 @@
 <body>
 <div class="topbar">
   <div class="logo"><span style="color:#ffffff !important" data-i18n="top.manager">Manager</span></div>
-  <a href="index.html" class="back-home" data-i18n="nav.home">← Accueil</a>
+  <a href="index.html" class="back-home" data-i18n="nav.home">← Home</a>
   <div class="top-pills">
     <div class="pill pill-muted" id="seasonBadge">—</div>
     <div class="pill pill-gold" id="budgetBadge">—</div>
@@ -113,7 +113,7 @@
 <div class="page">
   <div class="panel"><div class="ph"><div class="dot"></div>Résumé de carrière</div><div class="summary" id="summary"></div></div>
   <div class="grid2">
-    <div class="panel"><div class="ph"><div class="dot"></div>Classement pilotes</div><div class="table" id="driversTable"></div></div>
+    <div class="panel"><div class="ph"><div class="dot"></div>Classement drivers</div><div class="table" id="driversTable"></div></div>
     <div class="panel"><div class="ph"><div class="dot"></div>Classement constructeurs</div><div class="table" id="teamsTable"></div></div>
   </div>
   <div class="panel"><div class="ph"><div class="dot"></div>Calendrier complet</div><div class="history" id="calendar"></div></div>
@@ -167,10 +167,10 @@ function render() {
   const save = Save.load();
   restoreDriverStates();
   if (!save || !save.playerTeamId) {
-    document.getElementById('summary').innerHTML = '<div class="empty">Aucune carrière trouvée. Choisis d’abord une équipe.</div>';
+    document.getElementById('summary').innerHTML = '<div class="empty">No career found. Choisis d’abord une team.</div>';
     document.getElementById('driversTable').innerHTML = '';
     document.getElementById('teamsTable').innerHTML = '';
-    document.getElementById('history').innerHTML = '<a class="btn" href="index.html">Créer une carrière</a>';
+    document.getElementById('history').innerHTML = '<a class="btn" href="index.html">Create a career</a>';
     return;
   }
   const playerTeam = F1Data.teams.find(t => t.id === save.playerTeamId);
@@ -178,7 +178,7 @@ function render() {
   const nextCircuit = F1Data.circuits[(save.race || 0) % F1Data.circuits.length];
   document.getElementById('seasonBadge').textContent = `Saison ${save.season || 2025}`;
   document.getElementById('summary').innerHTML = `
-    <div class="card"><div class="label">Équipe</div><div class="value" style="color:${playerTeam.color}">${playerTeam.shortName}</div></div>
+    <div class="card"><div class="label">Team</div><div class="value" style="color:${playerTeam.color}">${playerTeam.shortName}</div></div>
     <div class="card"><div class="label" data-i18n="top.budget">Budget</div><div class="value">${save.budget || 0}M €</div></div>
     <div class="card"><div class="label">Tokens</div><div class="value">${save.tokens || 0}</div></div>
     <div class="card"><div class="label">Prochain GP</div><div class="value">${nextCircuit.name}</div></div>`;
@@ -188,13 +188,13 @@ function render() {
     if (d.retired && pts(save.driverStandings, d.id) === 0) return false; // retraités sans points
     return true;
   }).sort((a,b)=>pts(save.driverStandings,b.id)-pts(save.driverStandings,a.id));
-  document.getElementById('driversTable').innerHTML = '<div class="row header"><div>Pos</div><div data-i18n="drivers.driver">Pilote</div><div style="text-align:right">Pts</div></div>' + driverRows.map((d,i)=>{
+  document.getElementById('driversTable').innerHTML = '<div class="row header"><div>Pos</div><div data-i18n="drivers.driver">Driver</div><div style="text-align:right">Pts</div></div>' + driverRows.map((d,i)=>{
     const t=F1Data.teams.find(x=>x.id===d.teamId);
-    return `<div class="row"><div class="pos">${i+1}</div><div><div class="name" style="color:${t?.color || '#fff'}">${safeDriverName(d)}</div><div class="team">${t?safeTeamName(t):'Agent libre'}</div></div><div class="pts">${pts(save.driverStandings,d.id)}</div></div>`;
+    return `<div class="row"><div class="pos">${i+1}</div><div><div class="name" style="color:${t?.color || '#fff'}">${safeDriverName(d)}</div><div class="team">${t?safeTeamName(t):'Free agent'}</div></div><div class="pts">${pts(save.driverStandings,d.id)}</div></div>`;
   }).join('');
 
   const teamRows = [...F1Data.teams].sort((a,b)=>pts(save.teamStandings,b.id)-pts(save.teamStandings,a.id));
-  document.getElementById('teamsTable').innerHTML = '<div class="row header"><div>Pos</div><div>Équipe</div><div style="text-align:right">Pts</div></div>' + teamRows.map((t,i)=>
+  document.getElementById('teamsTable').innerHTML = '<div class="row header"><div>Pos</div><div>Team</div><div style="text-align:right">Pts</div></div>' + teamRows.map((t,i)=>
     `<div class="row"><div class="pos">${i+1}</div><div style="display:flex;align-items:center;gap:8px"><span class="name" style="color:${t.color || '#fff'}">${safeTeamName(t)}</span></div><div class="pts">${pts(save.teamStandings,t.id)}</div></div>`
   ).join('');
 
@@ -209,10 +209,10 @@ function render() {
     const winner = r.results && r.results[0];
     const d = winner ? F1Data.drivers.find(x=>x.id===winner.driverId) : null;
     return `<div class="race"><div><div class="race-title">GP de ${r.circuitName}</div><div class="race-sub">Vainqueur : ${d ? safeDriverName(d) : '—'} · Gains : +${r.reward || 0}M € · +${r.tokens || 0} token(s)</div></div><div class="pts">#${(r.raceIndex || 0)+1}</div></div>`;
-  }).join('') : '<div class="empty">Aucune course disputée pour l’instant.</div>';
+  }).join('') : '<div class="empty">No race completed yet.</div>';
   } catch (err) {
     console.error('standings render error:', err);
-    document.body.innerHTML = `<div style="min-height:100vh;background:#07070d;color:#fff;padding:18px;font-family:Barlow Condensed,Arial"><h1>Championnat</h1><p style="color:#ff365f">Erreur de chargement : ${err.message}</p><a href="index.html" style="color:#0097ff">← Retour accueil</a></div>`;
+    document.body.innerHTML = `<div style="min-height:100vh;background:#07070d;color:#fff;padding:18px;font-family:Barlow Condensed,Arial"><h1>Championnat</h1><p style="color:#ff365f">Error de chargement : ${err.message}</p><a href="index.html" style="color:#0097ff">← Back accueil</a></div>`;
   }
 }
 

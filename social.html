@@ -60,7 +60,7 @@
 <body>
 <div class="topbar" style="overflow:visible">
   <span class="logo"><span style="color:#ffffff !important" data-i18n="top.manager">Manager</span></span>
-  <a href="index.html" class="nav-back" data-i18n="nav.home">← Accueil</a>
+  <a href="index.html" class="nav-back" data-i18n="nav.home">← Home</a>
   <div class="top-pills" id="topPills"></div>
 </div>
 <div class="wrap"><div id="content"></div></div>
@@ -74,8 +74,8 @@
 <script>
 let save = Save.load();
 
-  // Appliquer driverStates sur TOUS les pilotes F1Data (y compris GAS, COL etc.)
-  // pour refléter les changements d'équipe en cours de saison
+  // Appliquer driverStates sur TOUS les drivers F1Data (y compris GAS, COL etc.)
+  // pour refléter les changements d'team en cours de saison
   if (save.driverStates) {
     F1Data.drivers.forEach(d => {
       const state = save.driverStates[d.id];
@@ -111,7 +111,7 @@ function applyChoice(event, choice) {
     });
   }
 
-  // Confiance
+  // Confidence
   if (e.confiance && !isEng) {
     if (!save.driverConfidence) save.driverConfidence = {};
     save.driverConfidence[event.driverId] = Math.max(0, Math.min(100, (save.driverConfidence[event.driverId]||50) + e.confiance));
@@ -148,7 +148,7 @@ function applyChoice(event, choice) {
 
   // Historique
   if (!save.socialHistory) save.socialHistory = [];
-  const dName = isEng ? 'Equipe technique' : (d ? `${d.firstName} ${d.name}` : 'Pilote');
+  const dName = isEng ? 'Equipe technique' : (d ? `${d.firstName} ${d.name}` : 'Driver');
   save.socialHistory.unshift({date:new Date().toISOString(),driverName:dName,trigger:event.trigger,choice:choice.text,choiceType:choice.choiceType||'neutral',race:save.race||0,season:save.season||2025});
   save.socialHistory = save.socialHistory.slice(0,40);
 
@@ -159,7 +159,7 @@ function applyChoice(event, choice) {
 function renderConv(ev) {
   const isEng = ev.type === 'engineer' || ev.type === 'engineer2';
   const d = isEng ? null : F1Data.drivers.find(x => x.id === ev.driverId);
-  const name = isEng ? 'Ingenieur de piste' : (d ? `${d.firstName} ${d.name}` : 'Votre pilote');
+  const name = isEng ? 'Ingenieur de piste' : (d ? `${d.firstName} ${d.name}` : 'Votre driver');
   const flag = isEng ? '🔧' : (d?.flag || '🏁');
   const role = isEng ? 'Equipe technique' : (d ? `#${d.number} · ${d.age} ans` : '');
   const accent = (d && F1Data.teams.find(t=>t.id===d.teamId)?.color) || (isEng ? '#4488ff' : 'var(--accent)');
@@ -195,12 +195,12 @@ function handleChoice(eventId, choiceIndex) {
 
 function render() {
   if (!save?.playerTeamId) {
-    document.getElementById('content').innerHTML = '<div class="empty-state"><div class="empty-icon">🏎️</div><div class="empty-title">Aucune carriere</div></div>';
+    document.getElementById('content').innerHTML = '<div class="empty-state"><div class="empty-icon">🏎️</div><div class="empty-title">No career</div></div>';
     return;
   }
 
   const drivers = F1Data.drivers.filter(d => d.teamId && d.teamId !== 'free_agent' && d.teamId && d.teamId !== 'free_agent' && d.teamId === save.playerTeamId && !d.retired);
-  // Exclure les events de pilotes qui ne sont plus dans l'équipe
+  // Exclure les events de drivers qui ne sont plus dans l'team
   const activeDriverIds2 = Object.entries(save.driverStates||{})
     .filter(([,v]) => v.teamId && v.teamId !== 'free_agent' && v.teamId === save.playerTeamId && !v.retired)
     .map(([k]) => k);
@@ -210,7 +210,7 @@ function render() {
     if (engIds.includes(e.driverId)) return true;
     if (activeDriverIds2.length === 0) return true;
     if (activeDriverIds2.includes(e.driverId)) return true;
-    // Vérifier aussi dans F1Data (pilotes standards non dans driverStates)
+    // Vérifier aussi dans F1Data (drivers standards non dans driverStates)
     const d = F1Data.drivers.find(x => x.id === e.driverId);
     if (d && d.teamId && d.teamId !== 'free_agent' && d.teamId === save.playerTeamId) return true;
     // Exclure si explicitement free_agent
@@ -221,7 +221,7 @@ function render() {
   const season  = save.season || 2025;
   const race    = save.race || 0;
   const lastGP  = save.lastGpSummary;
-  // Filtrer playerResults — exclure les pilotes agent libre
+  // Filtrer playerResults — exclure les drivers agent libre
   if (lastGP?.playerResults) {
     lastGP.playerResults = lastGP.playerResults.filter(r => {
       if (!r.driverId) return true;
@@ -243,7 +243,7 @@ function render() {
       html += `<div class="gp-recap">
         <div class="gp-recap-title">📍 ${lastGP.circuitName || 'Dernier GP'}</div>
         ${pRes.map(r=>`<div class="gp-recap-row">
-          <span style="color:var(--muted)">${r.driverName||'Pilote'}</span>
+          <span style="color:var(--muted)">${r.driverName||'Driver'}</span>
           <strong style="color:${r.status==='dnf'?'var(--accent)':r.position<=3?'var(--gold)':r.position<=10?'var(--green)':'var(--muted)'}">
             ${r.status==='dnf'?'Abandon':'P'+r.position}
           </strong>
@@ -258,7 +258,7 @@ function render() {
       <div class="empty-title">Tout est traite</div>
       <div class="empty-sub">Nouvelles discussions apres le prochain Grand Prix.</div>
     </div>`;
-    // Statut pilotes
+    // Statut drivers
     drivers.forEach(d => {
       const moral   = save.immersion?.driverMorale?.[d.id]?.value ?? 70;
       const conf    = save.driverConfidence?.[d.id] ?? 50;
@@ -270,7 +270,7 @@ function render() {
         </div>
         <div class="driver-status">
           <div class="ds-item"><div class="ds-val" style="color:${moralColor(moral)}">${moral}</div><div class="ds-lbl" data-i18n="drivers.morale">Moral</div></div>
-          <div class="ds-item"><div class="ds-val" style="color:${moralColor(conf)}">${conf}</div><div class="ds-lbl" data-i18n="drivers.confidence">Confiance</div></div>
+          <div class="ds-item"><div class="ds-val" style="color:${moralColor(conf)}">${conf}</div><div class="ds-lbl" data-i18n="drivers.confidence">Confidence</div></div>
           <div class="ds-item"><div class="ds-val" style="color:${moralColor(loyalty)}">${loyalty}</div><div class="ds-lbl" data-i18n="drivers.loyalty">Loyaute</div></div>
         </div>
       </div>`;
@@ -318,8 +318,8 @@ render();
 
 <script>
 /* FIX social nouvelle partie :
-   empêche le message pilote isolé au tout début de carrière.
-   Si aucune discussion réelle n'existe, on affiche un état vide + accès briefing équipe.
+   empêche le message driver isolé au tout début de carrière.
+   Si aucune discussion réelle n'existe, on affiche un état vide + accès briefing team.
 */
 (function(){
   const originalAddEventListener = document.addEventListener;
@@ -366,9 +366,9 @@ render();
     box.innerHTML = `
       <div style="padding:22px">
         <div style="font-family:var(--fh,inherit);letter-spacing:2px;text-transform:uppercase;color:#888;font-size:12px;margin-bottom:14px">Discussions</div>
-        <h2 style="margin:0 0 10px;color:#fff">Aucune discussion active</h2>
+        <h2 style="margin:0 0 10px;color:#fff">No active discussion</h2>
         <p style="color:#bbb;line-height:1.5;margin:0 0 16px">
-          La saison vient de commencer. La première rencontre avec les pilotes et le staff se fait dans le briefing d’introduction de l’écurie.
+          La saison vient de commencer. La première rencontre avec les drivers et le staff se fait dans le briefing d’introduction de l’écurie.
         </p>
         <a href="team-intro.html" style="display:inline-block;background:#c40000;color:#fff;text-decoration:none;border-radius:12px;padding:12px 16px;font-weight:800">
           Voir la réunion d’introduction

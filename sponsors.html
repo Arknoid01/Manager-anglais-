@@ -123,7 +123,7 @@
 
 <div class="topbar">
   <div class="logo">F1<span data-i18n="top.manager">Manager</span></div>
-  <a href="index.html" style="font-family:var(--fh);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px" data-i18n="nav.home">← Accueil</a>
+  <a href="index.html" style="font-family:var(--fh);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px" data-i18n="nav.home">← Home</a>
   <div class="top-pills">
     <div class="pill pill-muted" id="seasonBadge">—</div>
     <div class="pill pill-green" id="incomeBadge">💵 —</div>
@@ -134,7 +134,7 @@
 
   <!-- RÉPUTATION -->
   <div class="rep-panel">
-    <div class="rep-title" data-i18n="sponsors.reputation">Réputation de l'équipe</div>
+    <div class="rep-title" data-i18n="sponsors.reputation">Réputation de l'team</div>
     <div class="rep-grid" id="repGrid"></div>
   </div>
 
@@ -249,7 +249,7 @@ function resetSponsorSeasonProgressLocal(save){
 function init() {
   save = Save.load();
   if (!save?.playerTeamId) {
-    document.querySelector('.page').innerHTML = `<div style="padding:30px;text-align:center;font-family:var(--fh);color:var(--muted)">Aucune carrière. <a href="index.html" style="color:var(--accent)">Retour</a></div>`;
+    document.querySelector('.page').innerHTML = `<div style="padding:30px;text-align:center;font-family:var(--fh);color:var(--muted)">No career. <a href="index.html" style="color:var(--accent)">Back</a></div>`;
     return;
   }
 
@@ -359,7 +359,7 @@ function renderContracts() {
   const contracts = save.sponsors || [];
 
   if (!contracts.length) {
-    list.innerHTML = `<div style="padding:20px;text-align:center;color:var(--muted);font-family:var(--fh)">Aucun contrat actif. Va dans le Marché pour signer des sponsors !</div>`;
+    list.innerHTML = `<div style="padding:20px;text-align:center;color:var(--muted);font-family:var(--fh)">No active contract. Go to the Market to sign sponsors!</div>`;
     return;
   }
 
@@ -477,7 +477,7 @@ function renderMarket() {
 
   if (!offers.length) {
     list.innerHTML = `<div style="padding:20px;text-align:center;color:var(--muted);font-family:var(--fh)">
-      Aucune offre disponible. Les offres se renouvellent en fin de saison.
+      No offer available. Offers refresh at the end of the season.
       <br><br>
       <button class="btn btn-sec" onclick="refreshOffers()">🔄 Rafraîchir les offres</button>
     </div>`;
@@ -561,7 +561,7 @@ function renderHistory() {
   const hist = save.sponsorHistory || [];
   const list = document.getElementById('historyList');
   if (!hist.length) {
-    list.innerHTML = `<div style="padding:20px;text-align:center;color:var(--muted);font-family:var(--fh)">Aucun historique pour l'instant.</div>`;
+    list.innerHTML = `<div style="padding:20px;text-align:center;color:var(--muted);font-family:var(--fh)">No history yet.</div>`;
     return;
   }
   list.innerHTML = hist.slice().reverse().map(sp => `
@@ -646,9 +646,9 @@ function renderNegotiationModal(sp) {
       }).join('')}
     </div>
 
-    <!-- Durée et exclusivité -->
+    <!-- Length et exclusivité -->
     <div style="font-family:var(--fh);font-size:12px;color:var(--muted);margin-bottom:16px">
-      📅 Durée : <strong>${sp.duration} an${sp.duration>1?'s':''}</strong>
+      📅 Length : <strong>${sp.duration} an${sp.duration>1?'s':''}</strong>
       ${sp.exclusivity ? `· 🔒 Exclusivité <strong>${sp.exclusivity}</strong>` : ''}
       ${sp.breakClause ? `· ⚡ <strong style="color:var(--orange)">Break clause</strong>` : ''}
     </div>

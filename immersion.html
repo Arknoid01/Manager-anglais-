@@ -44,8 +44,8 @@
   <meta name="apple-mobile-web-app-title" content="F1 Manager">
 </head>
 <body>
-<div class="topbar"><div class="logo"><span style="color:#ffffff !important" data-i18n="top.manager">Manager</span></div><a class="nav-back" href="index.html" data-i18n="nav.home">← Accueil</a><div class="top-pills"><div class="pill pill-muted" id="seasonBadge">Saison —</div><div class="pill pill-gold" id="repBadge">⭐ —</div></div></div>
-<div class="page"><section class="hero"><div class="hero-kicker">Centre narratif</div><div class="hero-title">Paddock & Saison</div><div class="hero-sub" id="heroSub">Réputation, moral, sponsors, interviews, historique et records de carrière.</div></section><div class="tab-bar"><button class="tab-btn active" onclick="showPane('overview',this)" data-i18n="news.paddock">🎙️ Vue paddock</button><button class="tab-btn" onclick="showPane('history',this)" data-i18n="standings.history">📚 Historique</button><button class="tab-btn" onclick="showPane('records',this)" data-i18n="standings.records">🏛️ Records</button><button class="tab-btn" onclick="showPane('academy',this)" data-i18n="training.academy_icon">🌱 Académie</button></div><main id="content"></main></div>
+<div class="topbar"><div class="logo"><span style="color:#ffffff !important" data-i18n="top.manager">Manager</span></div><a class="nav-back" href="index.html" data-i18n="nav.home">← Home</a><div class="top-pills"><div class="pill pill-muted" id="seasonBadge">Saison —</div><div class="pill pill-gold" id="repBadge">⭐ —</div></div></div>
+<div class="page"><section class="hero"><div class="hero-kicker">Centre narratif</div><div class="hero-title">Paddock & Saison</div><div class="hero-sub" id="heroSub">Réputation, moral, sponsors, interviews, historique et records de carrière.</div></section><div class="tab-bar"><button class="tab-btn active" onclick="showPane('overview',this)" data-i18n="news.paddock">🎙️ Vue paddock</button><button class="tab-btn" onclick="showPane('history',this)" data-i18n="standings.history">📚 Historique</button><button class="tab-btn" onclick="showPane('records',this)" data-i18n="standings.records">🏛️ Records</button><button class="tab-btn" onclick="showPane('academy',this)" data-i18n="training.academy_icon">🌱 Academy</button></div><main id="content"></main></div>
 <script src="js/strings.js"></script>
 <script src="js/data.js"></script><script src="js/save.js"></script>
 <script src="js/topbar.js"></script>
@@ -58,10 +58,10 @@ function esc(s){return Immersion.esc(s);}
 function bar(v,cls=''){return `<div class="sbar"><div class="sbar-fill ${cls}" style="width:${clamp(v)}%"></div></div>`;}
 function showPane(id,btn){document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));document.getElementById(id)?.classList.add('active');document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));btn?.classList.add('active'); if(id) history.replaceState(null,'','#'+id);}
 function panel(title,body,extra=''){return `<div class="panel"><div class="sec-lbl">${title}${extra}</div><div class="section-body">${body}</div></div>`;}
-function renderNews(items){ if(!items?.length) return '<div class="empty">Aucune nouvelle paddock pour le moment. Termine un GP pour générer des articles.</div>'; return items.slice(-8).reverse().map(n=>`<div class="news-row"><div class="news-ico">${n.icon||'📰'}</div><div><div class="news-title">${esc(n.title)}</div><div class="news-text">${esc(n.text)}</div></div></div>`).join('');}
-function renderInterviews(items){ if(!items?.length) return '<div class="empty">Aucune interview disponible.</div>'; return items.slice(-3).reverse().map(i=>`<div class="quote"><b>${esc(i.circuitName)} — ${esc(i.headline)}</b>${(i.quotes||[]).map(q=>`<div style="margin-top:8px">${esc(q)}</div>`).join('')}</div>`).join('');}
+function renderNews(items){ if(!items?.length) return '<div class="empty">No paddock news yet. Finish a GP to generate articles.</div>'; return items.slice(-8).reverse().map(n=>`<div class="news-row"><div class="news-ico">${n.icon||'📰'}</div><div><div class="news-title">${esc(n.title)}</div><div class="news-text">${esc(n.text)}</div></div></div>`).join('');}
+function renderInterviews(items){ if(!items?.length) return '<div class="empty">No interview available.</div>'; return items.slice(-3).reverse().map(i=>`<div class="quote"><b>${esc(i.circuitName)} — ${esc(i.headline)}</b>${(i.quotes||[]).map(q=>`<div style="margin-top:8px">${esc(q)}</div>`).join('')}</div>`).join('');}
 function moraleList(m){
-  if(!m||!Object.keys(m).length) return '<div class="empty">Moral pilote disponible après le prochain GP.</div>';
+  if(!m||!Object.keys(m).length) return '<div class="empty">Moral driver disponible après le prochain GP.</div>';
   return Object.entries(m).slice(0,4).map(([id,d])=>{
     const driver = F1Data.drivers.find(x=>x.id===id);
     const name   = driver ? driver.firstName+' '+driver.name : (d.name||id);
@@ -72,7 +72,7 @@ function moraleList(m){
 function topRows(arr,suffix=''){ if(!arr.length) return '<div class="empty">Pas encore assez de données.</div>'; return arr.map((r,i)=>`<div class="row"><div class="row-main"><div class="row-name">${i+1}. ${esc(r.name)}</div></div><div class="row-val">${r.value}${suffix}</div></div>`).join('');}
 function histRows(items){ if(!items?.length) return '<div class="empty">Termine une course pour remplir l’historique.</div>'; return items.slice().reverse().map(g=>`<div class="row"><div class="row-main"><div class="row-name">S${g.season} — ${esc(g.circuitName)}</div><div class="row-sub">Victoire ${esc(g.winner)} · ${esc(g.weather)} · SC ${g.safetyCarLaps||0}t · DNF ${g.dnf||0}</div></div><div class="row-val">${g.teamPoints||0} pts</div></div>`).join('');}
 function init(){
-  save=Save.load(); if(!save){document.getElementById('content').innerHTML=panel('Erreur','<div class="empty">Aucune carrière chargée.</div>');return;}
+  save=Save.load(); if(!save){document.getElementById('content').innerHTML=panel('Error','<div class="empty">No career loaded.</div>');return;}
   Immersion.ensure(save); Save.save(save);
   const im=save.immersion; const rep=im.teamReputation||{};
   document.getElementById('seasonBadge').textContent=`Saison ${save.season||2025}`;
@@ -82,9 +82,9 @@ function init(){
   document.getElementById('content').innerHTML=`
   <section class="tab-pane active" id="overview">
     <div class="tiles-grid">
-      ${panel('Réputation équipe',`<div class="tile-val">${clamp(rep.value)}</div>${bar(rep.value,'blue')}<div>${(rep.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`)}
+      ${panel('Réputation team',`<div class="tile-val">${clamp(rep.value)}</div>${bar(rep.value,'blue')}<div>${(rep.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`)}
       ${panel('Humeur sponsors',`<div class="tile-val">${clamp(im.sponsorMood.value)}<span style="font-size:13px;color:var(--muted)">/100</span></div>${bar(im.sponsorMood.value,'orange')}<div class="tile-sub" style="margin-top:8px">${esc(im.sponsorMood.note)}</div>`)}
-      ${panel('Moral pilotes',moraleList(im.driverMorale))}
+      ${panel('Driver morale',moraleList(im.driverMorale))}
       ${panel('Garage & staff',`<div class="tile-val">${clamp(im.staffMorale.value)}</div>${bar(im.staffMorale.value,'green')}<div class="tile-sub" style="margin-top:8px">${esc(im.staffMorale.note)}</div>`)}
     </div>
     ${panel('📰 Paddock news',renderNews(im.paddockNews))}
@@ -92,7 +92,7 @@ function init(){
     <div class="btns"><a class="btn btn-sec" href="news.html">Actualités classiques</a><a class="btn btn-red" href="weekend.html">Prochain week-end</a></div>
   </section>
   <section class="tab-pane" id="history">
-    ${panel('Résumé récent',last?`<div class="quote"><b>${esc(last.circuitName)}</b><div>${esc(last.winner)} gagne pour ${esc(last.winnerTeam)}.</div><div class="row-sub">Podium : ${(last.podium||[]).map(esc).join(' · ')||'—'} · Votre meilleur résultat : ${last.playerBest?'P'+last.playerBest:'—'} · ${last.teamPoints||0} pts</div></div>`:'<div class="empty">Aucun GP archivé.</div>')}
+    ${panel('Recent summary',last?`<div class="quote"><b>${esc(last.circuitName)}</b><div>${esc(last.winner)} wins for ${esc(last.winnerTeam)}.</div><div class="row-sub">Podium : ${(last.podium||[]).map(esc).join(' · ')||'—'} · Your best result : ${last.playerBest?'P'+last.playerBest:'—'} · ${last.teamPoints||0} pts</div></div>`:'<div class="empty">No archived GP.</div>')}
     ${panel('Historique des GP',histRows(im.gpHistory))}
   </section>
   <section class="tab-pane" id="records">
@@ -133,7 +133,7 @@ function renderJuniorCard(j){
       ${sessLabel ? `<div style="font-family:var(--fh);font-size:11px;color:var(--muted);margin-bottom:8px">${sessLabel}</div>` : ''}
       <div class="jr-actions">
         ${isPromotable ? `<button class="btn btn-red" onclick="doPromote('${j.id}')">🏁 Promouvoir en F1</button>` : ''}
-        <button class="btn btn-sec" style="border-color:#3a0000;color:#ff6666" onclick="doRelease('${j.id}','${esc(j.firstName)} ${esc(j.name)}')">🚪 Libérer</button>
+        <button class="btn btn-sec" style="border-color:#3a0000;color:#ff6666" onclick="doRelease('${j.id}','${esc(j.firstName)} ${esc(j.name)}')">🚪 Release</button>
       </div>
     </div>`;
   }
@@ -166,7 +166,7 @@ function renderAcademy(im){
     Lance-le en essais libres avant de le promouvoir en titulaire.
   </div>`;
   const cards = juniors.map(j=>renderJuniorCard(j)).join('');
-  return panel('🌱 Académie Junior', intro+cards, extra);
+  return panel('🌱 Academy Junior', intro+cards, extra);
 }
 
 function toggleJr(id){
@@ -183,13 +183,13 @@ function doPromote(juniorId){
   let replaceDriverId = null;
   if(current.length >= 2){
     const list = current.map((d,i)=>`${i+1}. ${d.firstName} ${d.name}`).join('\n');
-    const choice = prompt(`Choisis le pilote à remplacer :\n${list}\n\nEntre le numéro du pilote.`);
+    const choice = prompt(`Choisis le driver à remplacer :\n${list}\n\nEntre le numéro du driver.`);
     if(choice === null) return;
     const idx = Number(choice) - 1;
     if(!current[idx]){ alert('Choix invalide. Promotion annulée.'); return; }
     replaceDriverId = current[idx].id;
     if(!confirm(`${current[idx].firstName} ${current[idx].name} deviendra agent libre. Confirmer la promotion ?`)) return;
-  } else if(!confirm('Promouvoir ce pilote comme titulaire ? Il rejoindra immédiatement votre équipe avec un contrat rookie.')) return;
+  } else if(!confirm('Promouvoir ce driver comme titulaire ? Il rejoindra immédiatement votre team avec un contrat rookie.')) return;
   const result = Immersion.promoteJunior(save, juniorId, replaceDriverId);
   if(!result.ok){ alert(result.msg); return; }
   save = Save.load();
@@ -206,16 +206,16 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
   }
   Immersion.ensure(save);
   document.getElementById('academyContent').innerHTML = renderAcademy(save.immersion);
-  alert(result.msg + (result.replaced ? `\n${result.replaced.firstName} ${result.replaced.name} devient agent libre.` : '') + '\n\nContrat rookie généré : 2 ans, 1 à 3M€/an.');
+  alert(result.msg + (result.replaced ? `\n${result.replaced.firstName} ${result.replaced.name} devient agent libre.` : '') + '\n\nContrat rookie généré : 2 years old, 1 à 3M€/an.');
 }
 
 
 function doRelease(juniorId, juniorName){
-  if(!confirm(`Libérer ${juniorName} de l'académie ?\n\nIl deviendra agent libre et pourra être recruté par n'importe quelle équipe. Cette action est irréversible.`)) return;
+  if(!confirm(`Release ${juniorName} de l'académie ?\n\nIl deviendra agent libre et pourra être recruté par n'importe quelle team. Cette action est irréversible.`)) return;
   const im = save.immersion;
   im.juniorAcademy = im.juniorAcademy.filter(j => j.id !== juniorId);
   // Ajouter une news paddock
-  Immersion.addNews(save, '🚪', 'Académie — Départ', `${juniorName} quitte votre centre de formation. Il est désormais agent libre sur le marché des transferts.`, 'junior');
+  Immersion.addNews(save, '🚪', 'Academy — Départ', `${juniorName} quitte votre centre de formation. Il est désormais agent libre sur le marché des transferts.`, 'junior');
   Save.save(save);
   save = Save.load();
   Immersion.ensure(save);

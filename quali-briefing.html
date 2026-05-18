@@ -51,7 +51,7 @@
 <body>
 <div class="topbar">
   <span class="logo"><span style="color:#ffffff !important" data-i18n="top.manager">Manager</span></span>
-  <a href="index.html" class="nav-back" data-i18n="nav.home">← Accueil</a>
+  <a href="index.html" class="nav-back" data-i18n="nav.home">← Home</a>
   <div class="top-pills" id="topPills"></div>
 </div>
 <div class="wrap"><div id="content"></div></div>
@@ -66,8 +66,8 @@ const QUALI_ANECDOTES = {
   monaco:     'A Monaco, la pole est presque synonyme de victoire. Depuis 2003, plus de 75% des pole sitters ont gagne la course. Chaque dixieme en qualif vaut de l\'or ici.',
   silverstone:'Le record de la pole a Silverstone depasse les 260 km/h de moyenne. La sequence Copse-Maggots-Becketts est l\'une des plus belles en F1.',
   spa:        'La pole a Spa se gagne souvent dans le secteur 1 — Eau Rouge-Raidillon est un moment de verite. Une sortie la peut ruiner une session entiere.',
-  monza:      'A Monza, l\'aspiration entre pilotes cree des trains en qualif. Se positionner dans le bon groupe au bon moment peut faire gagner 3 dixiemes d\'un coup.',
-  suzuka:     'La sequence S-Curves de Suzuka est l\'endroit ou les grands pilotes se revelent. Un tour parfait ici est une oeuvre d\'art mecanique.',
+  monza:      'A Monza, l\'aspiration entre drivers cree des trains en qualif. Se positionner dans le bon groupe au bon moment peut faire gagner 3 dixiemes d\'un coup.',
+  suzuka:     'La sequence S-Curves de Suzuka est l\'endroit ou les grands drivers se revelent. Un tour parfait ici est une oeuvre d\'art mecanique.',
   barcelona:  'La derniere chicane de Barcelona est souvent contournee en qualif. Couper sur le vibreur peut faire gagner 2 dixiemes sans sanction si bien execute.',
   baku:       'La ligne droite de Baku est si longue qu\'un train DRS vaut plus de 0.5s. Le positionnement en Q3 est strategique — ne pas sortir premier est crucial.',
   singapore:  'En qualif nocturne a Singapore, la piste s\'ameliore tout au long de la session. Le dernier run est toujours le plus rapide.',
@@ -101,8 +101,8 @@ function render(){
   const save = Save.load();
 if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStats(save);
 
-  // Appliquer driverStates sur TOUS les pilotes F1Data (y compris GAS, COL etc.)
-  // pour refléter les changements d'équipe en cours de saison
+  // Appliquer driverStates sur TOUS les drivers F1Data (y compris GAS, COL etc.)
+  // pour refléter les changements d'team en cours de saison
   if (save.driverStates) {
     F1Data.drivers.forEach(d => {
       const state = save.driverStates[d.id];
@@ -115,11 +115,11 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
       }
     });
   }
-  if(!save||!save.playerTeamId){ document.getElementById('content').innerHTML='<div style="padding:40px;text-align:center;color:var(--muted)">Aucune carriere. <a href="index.html" style="color:var(--accent)">Retour</a></div>'; return; }
+  if(!save||!save.playerTeamId){ document.getElementById('content').innerHTML='<div style="padding:40px;text-align:center;color:var(--muted)">No career. <a href="index.html" style="color:var(--accent)">Back</a></div>'; return; }
   const raceNum   = (save.race||0) % F1Data.circuits.length;
   const circuit   = F1Data.circuits[raceNum];
   const cid       = circuit.id;
-  // Restaurer les pilotes generés (juniors promus) avant de filtrer
+  // Restaurer les drivers generés (juniors promus) avant de filtrer
   if (save.generatedDrivers?.length) {
     save.generatedDrivers.forEach(gd => {
       const state  = save.driverStates?.[gd.id];
@@ -153,7 +153,7 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
   const tyreBase    = circuit.tyreDegradation || 1.0;
   const reliability = save.carDev?.reliability?.level || 75;
   const degradFactor = Math.round(tyreBase * (1 + (100 - reliability) / 200) * 100) / 100;
-  const degradLabel = degradFactor > 1.3 ? 'Elevee' : degradFactor > 1.1 ? 'Moderee' : 'Faible';
+  const degradLabel = degradFactor > 1.3 ? 'Elevee' : degradFactor > 1.1 ? 'Moderee' : 'Low';
   const degradColor = degradFactor > 1.3 ? 'var(--accent)' : degradFactor > 1.1 ? 'var(--gold)' : 'var(--green)';
 
   const elCards = myDrivers.map(d=>{
@@ -163,7 +163,7 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
     // Meilleur temps — simuler si pas de données EL réelles
     let bestRaw = dRes.length ? Math.min(...dRes.map(r=>r.bestLap||999)) : null;
     if (!bestRaw || bestRaw >= 999) {
-      // Simuler un temps réaliste selon le circuit et la perf pilote
+      // Simuler un temps réaliste selon le circuit et la perf driver
       const baseTime   = circuit.lapRecord || 90;
       const carPerf    = ((save.carDev?.aero?.level||70) + (save.carDev?.chassis?.level||70) + (save.carDev?.engine?.level||70)) / 3;
       const driverPace = state?.pace || d.pace || 80;
@@ -223,7 +223,7 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
       <div class="track-analysis">
         <div class="ta-row"><span>Niveau de grip</span><div class="bar-wrap"><div class="bar-fill" style="width:${gripLevel}%;background:var(--green)"></div></div></div>
         <div class="ta-row"><span>Temperature piste</span><b style="color:${tempColor}">${tempLabel}</b></div>
-        <div class="ta-row"><span>Degradation attendue</span><b style="color:${circuit.tyreDegradation>1.2?'var(--accent)':circuit.tyreDegradation>0.9?'var(--gold)':'var(--green)'}">${circuit.tyreDegradation>1.2?'Elevee':circuit.tyreDegradation>0.9?'Moderee':'Faible'}</b></div>
+        <div class="ta-row"><span>Degradation attendue</span><b style="color:${circuit.tyreDegradation>1.2?'var(--accent)':circuit.tyreDegradation>0.9?'var(--gold)':'var(--green)'}">${circuit.tyreDegradation>1.2?'Elevee':circuit.tyreDegradation>0.9?'Moderee':'Low'}</b></div>
         <div class="ta-row"><span>Zones DRS</span><b>${circuit.drsZones} zone${circuit.drsZones>1?'s':''}</b></div>
       </div>
     </div>

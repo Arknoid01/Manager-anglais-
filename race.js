@@ -34,7 +34,7 @@ function ensureFullGrid(save){
       });
     });
 
-    console.warn('[FIX] Pilotes manquants réajoutés à la grille:', missing.length);
+    console.warn('[FIX] Drivers manquants réajoutés à la grille:', missing.length);
   }
 }
 
@@ -78,7 +78,7 @@ const Race = {
       const baseTeam = F1Data.teams.find(t => t.id === driver.teamId);
       if (!baseTeam) return;
       const team     = this.getEffectiveTeam(baseTeam);
-      // Appliquer moral + confiance + loyauté (uniquement équipe joueur)
+      // Appliquer moral + confiance + loyauté (uniquement team joueur)
       try {
         const _sv = Save.load();
         if (_sv?.playerTeamId === driver.teamId) {
@@ -89,9 +89,9 @@ const Race = {
 
           // Moral : +0.2 pace par point au-dessus de 70
           const moralDelta = Math.round((moral - 70) * 0.2);
-          // Confiance haute → régularité améliorée
+          // Confidence haute → régularité améliorée
           const confDelta  = Math.round((confiance - 50) * 0.1);
-          // Loyauté basse → pilote moins motivé (-pace si < 30)
+          // Loyalty basse → driver moins motivé (-pace si < 30)
           const loyDelta   = loyalty < 30 ? -2 : loyalty < 40 ? -1 : 0;
 
           driver.pace        = Math.max(1, Math.min(100, (driver.pace||75)        + moralDelta + loyDelta));
@@ -102,8 +102,8 @@ const Race = {
 
       // Stratégie joueur : recherche robuste.
       // Certains écrans sauvegardent les clés en string, ou utilisent un nom/index
-      // selon l'origine du pilote. Sans ça, la course repasse parfois sur une
-      // stratégie auto IA, ce qui donne l'impression que le pilote ignore les consignes.
+      // selon l'origine du driver. Sans ça, la course repasse parfois sur une
+      // stratégie auto IA, ce qui donne l'impression que le driver ignore les consignes.
       const strategyKeyCandidates = [
         driver.id,
         String(driver.id),
@@ -295,7 +295,7 @@ const Race = {
           const criticalTyre = car.tyre.condition < 0.04;
           if (!criticalTyre && !closeToPlan) pitDecision = { pit: false };
         } else if (pitDecision.reason === 'undercut') {
-          // Plus d'undercut automatique pour l'équipe joueur.
+          // Plus d'undercut automatique pour l'team joueur.
           pitDecision = { pit: false };
         } else {
           pitDecision = { pit: false };
@@ -353,7 +353,7 @@ const Race = {
           } else if (hum >= 32) {
             nextCompound = 'INTER';
           } else if (isWeatherPit && ['INTER','WET'].includes(car.tyre.compound)) {
-            // Retour au sec : reprendre le prochain pneu prévu par la stratégie.
+            // Back au sec : reprendre le prochain pneu prévu par la stratégie.
             const nextPlannedLap = car.strategy?.pitLaps?.find(pl => pl >= lap - 2);
             if (nextPlannedLap && lap >= nextPlannedLap - 2) {
               car.currentCompoundIndex = Math.min(car.currentCompoundIndex + 1, car.strategy.compounds.length - 1);

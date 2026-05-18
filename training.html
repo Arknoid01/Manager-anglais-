@@ -10,7 +10,7 @@
 *{box-sizing:border-box}
 .wrap{max-width:680px;margin:0 auto;padding:0 14px 60px}
 
-/* Cartes pilote */
+/* Cartes driver */
 .driver-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:16px}
 .dc-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
 .dc-flag{font-size:24px}
@@ -66,7 +66,7 @@
 <body>
 <div class="topbar">
   <span class="logo"><span style="color:#ffffff !important" data-i18n="top.manager">Manager</span></span>
-  <a href="index.html" class="nav-back" data-i18n="nav.home">← Accueil</a>
+  <a href="index.html" class="nav-back" data-i18n="nav.home">← Home</a>
   <div class="top-pills" id="topPills"></div>
 </div>
 
@@ -85,8 +85,8 @@
 <script>
 let save = Save.load();
 
-  // Appliquer driverStates sur TOUS les pilotes F1Data (y compris GAS, COL etc.)
-  // pour refléter les changements d'équipe en cours de saison
+  // Appliquer driverStates sur TOUS les drivers F1Data (y compris GAS, COL etc.)
+  // pour refléter les changements d'team en cours de saison
   if (save.driverStates) {
     F1Data.drivers.forEach(d => {
       const state = save.driverStates[d.id];
@@ -102,10 +102,10 @@ let save = Save.load();
 
 const STAT_LABELS = {
   pace:        { label:'Pace',        icon:'⚡', color:'#e8003d' },
-  consistency: { label:'Régularité',  icon:'📊', color:'#0090ff' },
-  wetSkill:    { label:'Pluie',       icon:'🌧️', color:'#00b4d8' },
+  consistency: { label:'Consistency',  icon:'📊', color:'#0090ff' },
+  wetSkill:    { label:'Wet',       icon:'🌧️', color:'#00b4d8' },
   overtaking:  { label:'Dépassement', icon:'🏎️', color:'#ff8800' },
-  defending:   { label:'Défense',     icon:'🛡️', color:'#00c875' },
+  defending:   { label:'Defending',     icon:'🛡️', color:'#00c875' },
 };
 
 // Sessions utilisées ce GP — stockées dans save
@@ -159,7 +159,7 @@ function doTrain(driverId, type) {
   save = Save.load();
 
   const driver  = F1Data.drivers.find(d=>d.id===driverId);
-  if (!driver) { showToast('Pilote introuvable', true); return; }
+  if (!driver) { showToast('Driver introuvable', true); return; }
   // Initialiser driverStates si absent (save ancien)
   if (!save.driverStates) save.driverStates = {};
   if (!save.driverStates[driverId]) {
@@ -231,11 +231,11 @@ function doTrain(driverId, type) {
     if (!save.news) save.news = [];
     save.news.push({ icon:'🏋️', category:'entrainement',
       title:`Physique — ${driver.firstName} ${driver.name}`,
-      text:`Session d'entraînement physique. Régularité +${gainCons}${gainDef > 0 ? `, Défense +${gainDef}` : ''}.` });
+      text:`Session d'entraînement physique. Consistency +${gainCons}${gainDef > 0 ? `, Defending +${gainDef}` : ''}.` });
 
     Save.save(save);
     save = Save.load();
-    showToast(`✅ 💪 Physique — Régularité +${gainCons}${gainDef > 0 ? ` / Défense +${gainDef}` : ''}`);
+    showToast(`✅ 💪 Physique — Consistency +${gainCons}${gainDef > 0 ? ` / Defending +${gainDef}` : ''}`);
   }
 
   render();
@@ -250,7 +250,7 @@ function showToast(msg, isError=false) {
 
 function render() {
   if (!save?.playerTeamId) {
-    document.getElementById('content').innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted)">Aucune carrière. <a href="index.html" style="color:var(--accent)">Retour</a></div>';
+    document.getElementById('content').innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted)">No career. <a href="index.html" style="color:var(--accent)">Back</a></div>';
     return;
   }
 
@@ -267,10 +267,10 @@ function render() {
   let html = `
     <div class="info-box">
       <strong>Comment ça fonctionne</strong><br>
-      Les pilotes progressent principalement <strong>en course</strong>. L'entraînement apporte de très petits gains (+0.1 à +0.3 pts) et ne peut dépasser le <strong>potentiel naturel</strong> du pilote. Sur 2-3 saisons, un jeune talent peut atteindre son plafond.
+      Les drivers progressent principalement <strong>en course</strong>. L'entraînement apporte de très petits gains (+0.1 à +0.3 pts) et ne peut dépasser le <strong>potentiel naturel</strong> du driver. Sur 2-3 saisons, un jeune talent peut atteindre son plafond.
       <br><br>
       <strong>🎮 Simulateur</strong> — 1 token R&D · 2 sessions max/GP · +0.15 à +0.30 pts sur la stat choisie<br>
-      <strong>🏋️ Physique</strong> — 0.5M€ · 1 session max/GP · +0.08 à +0.20 pts (Régularité + Défense)
+      <strong>🏋️ Physique</strong> — 0.5M€ · 1 session max/GP · +0.08 à +0.20 pts (Consistency + Defending)
     </div>`;
 
   drivers.forEach(d => {
@@ -350,7 +350,7 @@ function render() {
           onclick="${phyUsed >= phyMax ? '' : `doTrain('${d.id}','physical')`}">
           <span class="tb-icon">🏋️</span>
           <div class="tb-info">
-            <div class="tb-name">Session physique — Régularité + Défense</div>
+            <div class="tb-name">Session physique — Consistency + Defending</div>
             <div class="tb-desc">${phyUsed >= phyMax ? 'Session épuisée pour ce GP' : `Gain estimé : +0.08 à +0.20 pts · Coût 0.5M€`}</div>
           </div>
           <div class="tb-cost">

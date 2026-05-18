@@ -234,7 +234,7 @@ input[type=number],input[type=text]{background:var(--surface);color:var(--text);
 <body>
 <div class="topbar">
   <div class="logo"><span style="color:#ffffff !important" data-i18n="top.manager">Manager</span></div>
-  <a href="index.html" class="back-home" data-i18n="nav.home">← Accueil</a>
+  <a href="index.html" class="back-home" data-i18n="nav.home">← Home</a>
   <div class="top-pills">
     <div class="pill pill-muted" id="seasonBadge">—</div>
     <div class="pill pill-gold" id="budgetBadge">—</div>
@@ -305,11 +305,11 @@ function init() {
     });
   }
   if (!save || !save.playerTeamId) {
-    document.querySelector('.page').innerHTML = `<div style="padding:40px;text-align:center;color:var(--muted);font-family:var(--fh)"><div style="font-size:22px;margin-bottom:12px">Aucune carrière trouvée</div><a href="index.html" class="btn btn-red">Créer une carrière</a></div>`;
+    document.querySelector('.page').innerHTML = `<div style="padding:40px;text-align:center;color:var(--muted);font-family:var(--fh)"><div style="font-size:22px;margin-bottom:12px">No career found</div><a href="index.html" class="btn btn-red">Create a career</a></div>`;
     return;
   }
 
-  // Restaurer pilotes
+  // Restaurer drivers
   if (save.driverStates) {
     F1Data.drivers.forEach(d => {
       const st = save.driverStates[d.id];
@@ -353,7 +353,7 @@ function init() {
       }
     } catch(e) {
       save.weekendPaddockEvent = null;
-      console.error('[PaddockEvent] Erreur:', e);
+      console.error('[PaddockEvent] Error:', e);
     }
     save[evKey] = true;
     Save.save(save);
@@ -393,7 +393,7 @@ function buildPaddockEventCard() {
 
   // Label d'impact selon catégorie
   const catLabels = {
-    medical:'Impact pilote', performance:'Boost performance', financial:'Impact budget',
+    medical:'Impact driver', performance:'Boost performance', financial:'Impact budget',
     technical:'Impact technique', regulatory:'Décision FIA', mercato:'Situation contrats',
     competitor:'Rival en forme', board:'Signal direction', general:'Info paddock',
   };
@@ -476,7 +476,7 @@ function renderContent() {
 function buildCircuitHero() {
   const flag  = CIRCUIT_FLAGS[circuit.id] || '🏁';
   const w     = save.weekendWeather || 'dry';
-  const wText = w === 'heavy_rain' ? '⛈️ Forte pluie' : w === 'light_rain' ? '🌧️ Pluie légère' : '☀️ Sec';
+  const wText = w === 'heavy_rain' ? '⛈️ Forte pluie' : w === 'light_rain' ? '🌧️ Wet légère' : '☀️ Sec';
   const wCls  = w === 'heavy_rain' ? 'w-heavy' : w === 'light_rain' ? 'w-rain' : 'w-dry';
 
   const el = document.createElement('div');
@@ -486,7 +486,7 @@ function buildCircuitHero() {
       <div class="circuit-flag">${flag}</div>
       <div>
         <div class="circuit-name">${circuit.fullName || circuit.name}</div>
-        <div class="circuit-full">Grand Prix de ${circuit.name} · Saison ${save.season || 2025}</div>
+        <div class="circuit-full">Grand Prix of ${circuit.name} · Saison ${save.season || 2025}</div>
         <div class="circuit-stats">
           <div class="cstat">🔄 <span>${circuit.laps}</span> tours</div>
           <div class="cstat">📏 <span>${circuit.lapDistance}</span> km/tour</div>
@@ -518,21 +518,21 @@ function getPlayerTeam() {
 function flowWeatherLabel() {
   const w = save.weekendWeather || 'dry';
   if (w === 'heavy_rain') return 'Forte pluie';
-  if (w === 'light_rain') return 'Pluie légère';
+  if (w === 'light_rain') return 'Wet légère';
   return 'Sec';
 }
 
 
 function circuitTypeLabel(type) {
   const labels = {
-    balanced: 'Équilibré',
+    balanced: 'Balanced',
     power: 'Puissance moteur',
     high_speed: 'Haute vitesse',
     technical: 'Technique',
     street: 'Urbain',
     mixed: 'Mixte'
   };
-  return labels[type] || 'Équilibré';
+  return labels[type] || 'Balanced';
 }
 
 function circuitProfileLine() {
@@ -550,16 +550,16 @@ function getBestFPRun(results) {
 
 function buildArrivalBriefing() {
   const team = getPlayerTeam();
-  const driversLine = myDrivers.map(d => `${d.firstName} ${d.name}`).join(' / ') || 'Pilotes non définis';
+  const driversLine = myDrivers.map(d => `${d.firstName} ${d.name}`).join(' / ') || 'Drivers non définis';
   const expected = team?.performance >= 90 ? 'jouer la victoire' : team?.performance >= 78 ? 'viser les gros points' : team?.performance >= 65 ? 'se battre pour les points' : 'surprendre avec la stratégie';
   return makeFlowCard('Arrivée au Grand Prix', `
     <div style="font-size:13px;color:var(--muted);line-height:1.5">
-      Le garage <strong style="color:var(--text)">${team?.name || 'de ton équipe'}</strong> s'installe à ${circuit.fullName || circuit.name}. Objectif logique d'après la performance actuelle : <strong style="color:var(--gold)">${expected}</strong>.
+      Le garage <strong style="color:var(--text)">${team?.name || 'de ton team'}</strong> s'installe à ${circuit.fullName || circuit.name}. Objectif logique d'après la performance actuelle : <strong style="color:var(--gold)">${expected}</strong>.
     </div>
     <div class="flow-grid">
       <div class="flow-mini"><div class="flow-k">Météo week-end</div><div class="flow-v">${flowWeatherLabel()}</div><div class="flow-sub">Valeur issue de la météo générée pour ce GP.</div></div>
       <div class="flow-mini"><div class="flow-k">Profil piste</div><div class="flow-v">${circuitTypeLabel(circuit.circuitType)}</div><div class="flow-sub">${circuitProfileLine()}</div></div>
-      <div class="flow-mini"><div class="flow-k">Tes pilotes</div><div class="flow-v">${myDrivers.length} engagés</div><div class="flow-sub">${driversLine}</div></div>
+      <div class="flow-mini"><div class="flow-k">Tes drivers</div><div class="flow-v">${myDrivers.length} engagés</div><div class="flow-sub">${driversLine}</div></div>
     </div>
     <div class="flow-cta"><button class="btn btn-gold" onclick="document.getElementById('fpConfig')?.scrollIntoView({behavior:'smooth'})">Préparer EL1</button></div>
   `, '🛬');
@@ -575,10 +575,10 @@ function buildFPDebriefCard() {
   const avgWear = last.length ? (last.reduce((s,r)=>s+(r.finalWear||0),0)/last.length).toFixed(0) : '0';
   return makeFlowCard(`Débrief EL${done}`, `
     <div style="font-size:13px;color:var(--muted);line-height:1.5">
-      Les données affichées viennent uniquement des runs simulés en essais libres : pneus choisis, programmes, chronos et usure réelle de tes pilotes.
+      Les données affichées viennent uniquement des runs simulés en essais libres : pneus choisis, programmes, chronos et usure réelle de tes drivers.
     </div>
     <div class="flow-grid">
-      <div class="flow-mini"><div class="flow-k">Meilleur tour équipe</div><div class="flow-v">${best ? Weekend.fmtTime(best.bestLap) : '—'}</div><div class="flow-sub">${bestDriver ? `${bestDriver.firstName} ${bestDriver.name}` : 'Aucun run'} · ${best ? (F1Data.tyres[best.compound]?.name || best.compound) : ''}</div></div>
+      <div class="flow-mini"><div class="flow-k">Best team lap</div><div class="flow-v">${best ? Weekend.fmtTime(best.bestLap) : '—'}</div><div class="flow-sub">${bestDriver ? `${bestDriver.firstName} ${bestDriver.name}` : 'No run'} · ${best ? (F1Data.tyres[best.compound]?.name || best.compound) : ''}</div></div>
       <div class="flow-mini"><div class="flow-k">Pneus testés</div><div class="flow-v">${tested}</div><div class="flow-sub">Mélange basé sur tes choix d'EL.</div></div>
       <div class="flow-mini"><div class="flow-k">Usure moyenne dernière séance</div><div class="flow-v">${avgWear}%</div><div class="flow-sub">Bonus pneus acquis : -${(knowledge.tyreBonus*100).toFixed(0)}% dégradation.</div></div>
     </div>
@@ -596,7 +596,7 @@ function buildPreQualiStoryCard() {
     <div class="flow-grid">
       <div class="flow-mini"><div class="flow-k">Préparation</div><div class="flow-v">${knowledge.label}</div><div class="flow-sub">${save.weekendFPDone || 0}/3 séances effectuées.</div></div>
       <div class="flow-mini"><div class="flow-k">Bonus pace</div><div class="flow-v">+${(knowledge.paceBonus*100).toFixed(0)}%</div><div class="flow-sub">Issu des programmes quali sim.</div></div>
-      <div class="flow-mini"><div class="flow-k">Référence EL</div><div class="flow-v">${best ? Weekend.fmtTime(best.bestLap) : '—'}</div><div class="flow-sub">${bestDriver ? `${bestDriver.firstName} ${bestDriver.name}` : 'Aucun run disponible'}.</div></div>
+      <div class="flow-mini"><div class="flow-k">FP reference</div><div class="flow-v">${best ? Weekend.fmtTime(best.bestLap) : '—'}</div><div class="flow-sub">${bestDriver ? `${bestDriver.firstName} ${bestDriver.name}` : 'No run available'}.</div></div>
     </div>
   `, '⚡');
 }
@@ -625,7 +625,7 @@ function buildQualiStoryCard() {
     </div>
     <div class="flow-grid">
       <div class="flow-mini"><div class="flow-k">Pole position</div><div class="flow-v">${poleName}</div><div class="flow-sub">${pole ? Weekend.fmtTime(pole.qualiTime) : 'Qualification non disponible'}.</div></div>
-      <div class="flow-mini"><div class="flow-k">Meilleur pilote équipe</div><div class="flow-v">${bestPlayer ? `P${bestPlayer.gridPos}` : '—'}</div><div class="flow-sub">${bestPlayer ? `${getDriverName(bestPlayer.driverId)} · ${gap}` : 'Aucun pilote joueur dans la grille'}.</div></div>
+      <div class="flow-mini"><div class="flow-k">Best team driver</div><div class="flow-v">${bestPlayer ? `P${bestPlayer.gridPos}` : '—'}</div><div class="flow-sub">${bestPlayer ? `${getDriverName(bestPlayer.driverId)} · ${gap}` : 'No player driver on the grid'}.</div></div>
       <div class="flow-mini"><div class="flow-k">Tes positions</div><div class="flow-v">${player.map(p=>`P${p.gridPos}`).join(' / ') || '—'}</div><div class="flow-sub">${playerLine}</div></div>
     </div>
   `, '🏁');
@@ -675,7 +675,7 @@ function buildFPSection() {
 }
 
 function getAvailableJuniors() {
-  // Retourne les juniors promouvables qui ont encore des sessions EL disponibles cette saison
+  // Backne les juniors promouvables qui ont encore des sessions EL disponibles cette saison
   const im = save?.immersion;
   if (!im || !Array.isArray(im.juniorAcademy)) return [];
   const maxFP = (typeof Immersion !== 'undefined' && Immersion.FP_PER_SEASON) ? Immersion.FP_PER_SEASON : 2;
@@ -713,7 +713,7 @@ function buildFPConfig() {
       <div class="select-row" style="margin-bottom:6px">
         <span class="lbl">Junior</span>
         <select class="sel" id="fp-junior-select">
-          <option value="">— Aucun (titulaires uniquement) —</option>
+          <option value="">— None (starters only) —</option>
           ${juniorOptions}
         </select>
       </div>
@@ -864,7 +864,7 @@ function runFP() {
 
   // Sessions des titulaires (ou du titulaire non remplacé)
   myDrivers.forEach(driver => {
-    // Si ce pilote est remplacé par le junior, on saute sa session normale
+    // Si ce driver est remplacé par le junior, on saute sa session normale
     if(juniorId && replaceId === driver.id) return;
     const compound = document.getElementById(`fp-compound-${driver.id}`)?.value || 'MEDIUM';
     const program  = document.getElementById(`fp-program-${driver.id}`)?.value  || 'quali_sim';
@@ -901,7 +901,7 @@ function buildQualiSection() {
         <div class="ph"><div class="dot"></div>⚡ Qualifications — Configuration</div>
         <div class="content">
           <div style="font-family:var(--fh);font-size:12px;color:var(--muted);margin-bottom:10px">
-            Q1 → 20 pilotes (élimine les 5 derniers) · Q2 → 15 pilotes (élimine les 5 derniers) · Q3 → 10 pilotes (pole position)
+            Q1 → 20 drivers (élimine les 5 derniers) · Q2 → 15 drivers (élimine les 5 derniers) · Q3 → 10 drivers (pole position)
             <br>En Q3 : tout le monde roule en <strong style="color:#FF3333">Soft</strong>.
           </div>
           <div class="quali-setup" id="qualiConfig">
@@ -996,7 +996,7 @@ function buildQualiResults() {
   el.innerHTML = `
     <div class="panel">
       <div class="ph"><div class="dot"></div>⚡ Résultats des qualifications
-        <span class="ml">Tes pilotes : ${playerPositions}</span>
+        <span class="ml">Tes drivers : ${playerPositions}</span>
       </div>
       <div class="content">
         <div style="font-family:var(--fh);font-size:12px;color:var(--muted);margin-bottom:10px">
@@ -1070,7 +1070,7 @@ function buildRaceBriefing() {
             <div style="color:var(--muted)">Bonus setup : <strong style="color:var(--blue)">+${(knowledge.setupBonus*100).toFixed(0)}% stabilité</strong></div>
             ${pitWindow ? `<div style="color:var(--orange);margin-top:4px">⚠️ ${pitWindow}</div>` : ''}
             ${tyreEst.length ? `
-              <div style="margin-top:6px;font-weight:700;color:var(--text)">Durée pneus estimée :</div>
+              <div style="margin-top:6px;font-weight:700;color:var(--text)">Length pneus estimée :</div>
               ${tyreEst.map(e=>`<div style="color:${e.color}">● ${e.compound} ~${e.life}t · ${e.wearPerLap.toFixed(1)}%/t</div>`).join('')}
             ` : ''}
           </div>
@@ -1117,7 +1117,7 @@ function buildRaceBriefing() {
         </div>
 
         <!-- STRATÉGIE MANUELLE -->
-        <div class="ph" style="border:1px solid var(--border);border-radius:5px;margin-bottom:8px"><div class="dot"></div>🔧 Stratégie personnalisée — Tes pilotes</div>
+        <div class="ph" style="border:1px solid var(--border);border-radius:5px;margin-bottom:8px"><div class="dot"></div>🔧 Stratégie personnalisée — Tes drivers</div>
         <div id="raceStratConfig">
           ${myDrivers.map(driver=>{
             // Chercher dans qualiGrid — par driverId ou par nom

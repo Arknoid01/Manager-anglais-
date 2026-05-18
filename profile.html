@@ -23,14 +23,14 @@
 <body>
 <div class="topbar">
   <div class="logo"><span style="color:#ffffff !important" data-i18n="top.manager">Manager</span></div>
-  <a href="index.html" class="back-home" data-i18n="nav.home">← Accueil</a>
+  <a href="index.html" class="back-home" data-i18n="nav.home">← Home</a>
   <div class="top-pills">
     <div class="pill pill-muted" id="seasonBadge">—</div>
     <div class="pill pill-gold" id="budgetBadge">—</div>
   </div>
 </div>
 <div class="page">
-  <a href="javascript:history.back()" class="back" data-i18n="nav.back">← Retour</a>
+  <a href="javascript:history.back()" class="back" data-i18n="nav.back">← Back</a>
   <div id="profile"></div>
 </div>
 <script src="js/strings.js"></script>
@@ -73,19 +73,19 @@ function immersiveTeamPanel(t){
   const im=save.immersion||{}, rep=im.teamReputation||{}, sponsor=im.sponsorMood||{}, staff=im.staffMorale||{};
   const hist=(im.gpHistory||[]).slice(-3).reverse();
   const tags=(rep.tags||[]).map(x=>`<span class="badge">${esc(x)}</span>`).join('');
-  return `<div class="panel"><div class="ph"><div class="dot"></div>Vie de l'équipe</div><div class="content">${stats([
+  return `<div class="panel"><div class="ph"><div class="dot"></div>Vie de l'team</div><div class="content">${stats([
     {label:'Réputation',value:clamp(rep.value||save.reputation||50),color:'#ffd700'}, {label:'Sponsors',value:clamp(sponsor.value||60),color:'#00e676'}, {label:'Staff',value:clamp(staff.value||60),color:'#aa44ff'}, {label:'GP archivés',value:(im.gpHistory||[]).length,color:'#2979ff'}
   ])}<div style="margin-top:10px">${tags||'<span class="badge">Projet stable</span>'}</div><div class="desc" style="margin-top:12px">${esc(sponsor.note||'Les sponsors attendent les prochains résultats.')}</div>${hist.length?hist.map(g=>line(esc(g.circuitName), `${g.teamPoints||0} pts · ${esc(g.weather||'—')}`)).join(''):''}</div></div>`;
 }
 
 if (!entity) {
   root.innerHTML = `<div class="panel"><div class="empty">Fiche introuvable pour <strong>${esc(type||'?')}</strong> / <strong>${esc(id||'?')}</strong>.</div></div>`;
-} else if (type === 'driver' || type === 'pilote') {
+} else if (type === 'driver' || type === 'driver') {
   const d = entity, team = d.teamId ? F1Data.teams.find(t=>String(t.id)===String(d.teamId)) : null;
-  root.innerHTML = hero('🏎️', full(d), `${team ? Profiles.linkTeam(team) : 'Agent libre'} · N° ${fmt(d.number)} · ${fmt(d.age)} ans`, driverScore(d), team?.color)
-    + `<div class="grid"><div class="panel"><div class="ph"><div class="dot"></div>Stats pilote</div><div class="content">${stats([
-      {label:'Pace',value:fmt(d.pace),color:'#ffd700'},{label:'Régularité',value:fmt(d.consistency),color:'#00e676'},{label:'Pluie',value:fmt(d.wetSkill),color:'#2979ff'},{label:'Attaque',value:fmt(d.overtaking),color:'#ff9944'},{label:'Défense',value:fmt(d.defending),color:'#e10600'},{label:'Potentiel',value:fmt(d.potential),color:'#aa44ff'}
-    ])}</div></div><div class="panel"><div class="ph"><div class="dot"></div>Contrat</div><div class="content">${line('Écurie', team?Profiles.linkTeam(team):'Agent libre')}${line('Salaire', `${fmt(d.salary)}M€/an`)}${line('Contrat', `${fmt(save.contracts?.[d.id]?.years, 0)} an(s)`)}${line('Trait', fmt(d.trait))}${line('Statut', d.retired?'Retraité':'Actif')}</div></div></div>` + immersiveDriverPanel(d);
+  root.innerHTML = hero('🏎️', full(d), `${team ? Profiles.linkTeam(team) : 'Free agent'} · N° ${fmt(d.number)} · ${fmt(d.age)} ans`, driverScore(d), team?.color)
+    + `<div class="grid"><div class="panel"><div class="ph"><div class="dot"></div>Stats driver</div><div class="content">${stats([
+      {label:'Pace',value:fmt(d.pace),color:'#ffd700'},{label:'Consistency',value:fmt(d.consistency),color:'#00e676'},{label:'Wet',value:fmt(d.wetSkill),color:'#2979ff'},{label:'Overtaking',value:fmt(d.overtaking),color:'#ff9944'},{label:'Defending',value:fmt(d.defending),color:'#e10600'},{label:'Potentiel',value:fmt(d.potential),color:'#aa44ff'}
+    ])}</div></div><div class="panel"><div class="ph"><div class="dot"></div>Contrat</div><div class="content">${line('Écurie', team?Profiles.linkTeam(team):'Free agent')}${line('Salary', `${fmt(d.salary)}M€/an`)}${line('Contrat', `${fmt(save.contracts?.[d.id]?.years, 0)} an(s)`)}${line('Trait', fmt(d.trait))}${line('Statut', d.retired?'Retraité':'Actif')}</div></div></div>` + immersiveDriverPanel(d);
 } else if (type === 'team' || type === 'ecurie' || type === 'écurie') {
   // Restaurer les stats IA avant de lire les valeurs
   if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStats(save);
@@ -98,7 +98,7 @@ if (!entity) {
   const displayName = st.firstName ? `${st.firstName} ${st.name}` : (st.fullName || st.name);
   const impacts = st.impacts || {};
   root.innerHTML = hero(st.icon||'🧑‍🔧', displayName, `${fmt(st.role)} · ${fmt(st.age,'âge inconnu')}${st.age?' ans':''}`, fmt(Math.round(st.level||0)), '#ffd700')
-    + `<div class="grid"><div class="panel"><div class="ph"><div class="dot"></div>Compétences</div><div class="content">${stats(Object.entries(impacts).map(([k,v])=>({label:k,value:'+'+v,color:'#ffd700'})))}<div class="desc" style="margin-top:12px">${fmt(st.desc,'Membre de staff qualifié.')}</div></div></div><div class="panel"><div class="ph"><div class="dot"></div>Contrat & passif</div><div class="content">${line('Spécialité', fmt(st.specialty || st.bonus))}${line('Salaire', `${fmt(st.salary)}M€/an`)}${line('Coût recrutement', `${fmt(st.cost)}M€`)}${line('Statut', save.staff?.map(Profiles.normalizeStaffId).includes(Profiles.normalizeStaffId(st.id))?'En poste':'Disponible')}<div class="badge">🔮 ${fmt(st.passive,'Bonus de performance')}</div></div></div></div>`;
+    + `<div class="grid"><div class="panel"><div class="ph"><div class="dot"></div>Compétences</div><div class="content">${stats(Object.entries(impacts).map(([k,v])=>({label:k,value:'+'+v,color:'#ffd700'})))}<div class="desc" style="margin-top:12px">${fmt(st.desc,'Membre de staff qualifié.')}</div></div></div><div class="panel"><div class="ph"><div class="dot"></div>Contrat & passif</div><div class="content">${line('Spécialité', fmt(st.specialty || st.bonus))}${line('Salary', `${fmt(st.salary)}M€/an`)}${line('Coût recrutement', `${fmt(st.cost)}M€`)}${line('Statut', save.staff?.map(Profiles.normalizeStaffId).includes(Profiles.normalizeStaffId(st.id))?'En poste':'Disponible')}<div class="badge">🔮 ${fmt(st.passive,'Bonus de performance')}</div></div></div></div>`;
 }
 </script>
 

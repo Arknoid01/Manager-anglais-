@@ -173,7 +173,7 @@
 
 <div class="topbar">
   <div class="logo"><span style="color:#ffffff !important" data-i18n="top.manager">Manager</span></div>
-  <a href="index.html" class="back-home" data-i18n="nav.home">← Accueil</a>
+  <a href="index.html" class="back-home" data-i18n="nav.home">← Home</a>
   <div class="top-pills">
     <div id="teamLogoBadge" style="display:none;margin-right:4px"></div>
     <div class="pill pill-muted" id="seasonBadge">—</div>
@@ -188,7 +188,7 @@
     <div class="ph"><div class="dot"></div>🏢 Pression de la direction</div>
     <div class="pressure-section">
       <div id="fireWarning" class="fire-warning" style="display:none">
-        🔥 ATTENTION : La direction envisage sérieusement de vous remplacer. Améliorez les résultats immédiatement !
+        🔥 WARNING: the board is seriously considering replacing you. Improve results immediately!
       </div>
       <div class="pressure-header">
         <div>
@@ -197,14 +197,14 @@
         </div>
         <div>
           <div class="pressure-label" id="pressureLabel">—</div>
-          <div class="pressure-sub" id="pressureSub">Basé sur vos performances et objectifs</div>
+          <div class="pressure-sub" id="pressureSub">Based on your performance and objectives</div>
         </div>
       </div>
       <div class="pressure-bar-wrap">
         <div class="pressure-bar" id="pressureBar"></div>
       </div>
       <div style="font-family:var(--fh);font-size:11px;color:var(--muted)">
-        La pression monte si vous ratez les objectifs et baisse après chaque bon résultat.
+        Pressure rises when you miss objectives and drops after good results.
         À 100 : licenciement automatique.
       </div>
     </div>
@@ -232,7 +232,7 @@
   <div class="panel">
     <div class="ph"><div class="dot"></div>📋 Historique des saisons</div>
     <div class="season-history" id="seasonHistory">
-      <div style="padding:12px;color:var(--muted);font-family:var(--fh);font-size:13px" data-i18n="standings.no_season">Aucune saison complète enregistrée.</div>
+      <div style="padding:12px;color:var(--muted);font-family:var(--fh);font-size:13px" data-i18n="standings.no_season">No completed seasons recorded.</div>
     </div>
   </div>
 
@@ -282,11 +282,11 @@ let save = null;
 function init() {
   save = Save.load();
   if (!save || !save.playerTeamId) {
-    document.querySelector('.page').innerHTML = `<div style="padding:40px;text-align:center;color:var(--muted);font-family:var(--fh)"><div style="font-size:24px;margin-bottom:12px">Aucune carrière trouvée</div><a href="index.html" class="btn btn-red">Créer une carrière</a></div>`;
+    document.querySelector('.page').innerHTML = `<div style="padding:40px;text-align:center;color:var(--muted);font-family:var(--fh)"><div style="font-size:24px;margin-bottom:12px">No career found</div><a href="index.html" class="btn btn-red">Create a career</a></div>`;
     return;
   }
 
-  // Restaurer les pilotes
+  // Restaurer les drivers
   if (save.driverStates) {
     F1Data.drivers.forEach(d => {
       const st = save.driverStates[d.id];
@@ -344,32 +344,32 @@ function renderObjectives() {
 
   function objectiveStatus(ok, finalOnly=false) {
     if (ok === true) return true;
-    // Objectifs de classement (constructeurs, pilotes) : en cours jusqu'à la fin
+    // Objectifs de classement (constructeurs, drivers) : en cours jusqu'à la fin
     if (finalOnly && !seasonFinished) return null;
-    // Objectifs progressifs (courses avec points, budget) : afficher l'état réel
+    // Objectifs progressifs (points-scoring races, budget) : afficher l'état réel
     return ok;
   }
 
   const items = [
     {
       icon: '🏗️',
-      label: `Championnat constructeurs`,
+      label: `Constructor championship`,
       desc:  `Objectif : P${obj.constructorPos} ou mieux`,
-      detail: eval_.constPos ? `Actuellement P${eval_.constPos}` : 'Pas encore de données cette saison',
+      detail: eval_.constPos ? `Currently P${eval_.constPos}` : 'No data yet this season',
       ok:    objectiveStatus(eval_.details[0]?.ok, true),
     },
     {
       icon: '👤',
-      label: `Championnat pilotes`,
-      desc:  `Objectif : Avoir un pilote dans le top ${obj.driverPos}`,
-      detail: eval_.driverPos ? `Meilleur pilote P${eval_.driverPos}` : 'Pas encore de données cette saison',
+      label: `Driver championship`,
+      desc:  `Objectif : Avoir un driver dans le top ${obj.driverPos}`,
+      detail: eval_.driverPos ? `Best driver P${eval_.driverPos}` : 'No data yet this season',
       ok:    objectiveStatus(eval_.details[1]?.ok, true),
     },
     {
       icon: '🏁',
       label: `Courses avec points`,
       desc:  `Objectif : ${obj.minPointsRaces} courses avec au moins 1 point`,
-      detail: `${eval_.racesWithPoints || 0} / ${obj.minPointsRaces} courses avec points${racesDone ? ` · ${racesDone} GP disputé${racesDone>1?'s':''}` : ''}`,
+      detail: `${eval_.racesWithPoints || 0} / ${obj.minPointsRaces} points-scoring races${racesDone ? ` · ${racesDone} GP disputé${racesDone>1?'s':''}` : ''}`,
       ok:    objectiveStatus(eval_.details[2]?.ok, false),
     },
     {
@@ -381,7 +381,7 @@ function renderObjectives() {
     },
     {
       icon: '⭐',
-      label: `Réputation équipe`,
+      label: `Réputation team`,
       desc:  `Maintenir une réputation supérieure à 40`,
       detail: `Réputation : ${save.reputation||50}/100`,
       ok:    objectiveStatus((save.reputation||50) >= 40, false),
@@ -418,11 +418,11 @@ function renderBoardStats() {
     { val: totalPoints,               lbl:'Points saison',color:'#ffd700', max:500 },
     { val: races,                     lbl:'Courses',      color:'#00e676', max:23  },
     { val: team?.performance||70,     lbl:'Perf. voiture',color:'#e8003d', max:100 },
-    { val: avgDriverScore,            lbl:'Score pilotes', color:'#ff8800', max:100 },
+    { val: avgDriverScore,            lbl:'Score drivers', color:'#ff8800', max:100 },
     { val: save.tokens||0,            lbl:'Tokens R&D',   color:'#aa44ff', max:20  },
   ];
 
-  // Logo équipe dans la topbar
+  // Logo team dans la topbar
   const logoDiv = document.getElementById('teamLogoBadge');
   if(logoDiv && team?.logo) {
     logoDiv.innerHTML = '<img src="'+team.logo+'" style="width:36px;height:18px;object-fit:contain" alt="">';
@@ -578,7 +578,7 @@ function renderHistory() {
   const el      = document.getElementById('seasonHistory');
 
   if (!history.length) {
-    el.innerHTML = '<div style="padding:12px;color:var(--muted);font-family:var(--fh);font-size:13px" data-i18n="standings.no_season">Aucune saison complète enregistrée.</div>';
+    el.innerHTML = '<div style="padding:12px;color:var(--muted);font-family:var(--fh);font-size:13px" data-i18n="standings.no_season">No completed seasons recorded.</div>';
     return;
   }
 
@@ -590,7 +590,7 @@ function renderHistory() {
       <div class="season-row">
         <div class="season-num">${icon} ${s.season}</div>
         <div class="season-info">
-          Champion pilote : ${champ ? champ.firstName+' '+champ.name : '?'} ·
+          Champion driver : ${champ ? champ.firstName+' '+champ.name : '?'} ·
           Champion constructeur : ${team?.name || '?'}
         </div>
         <div class="season-result" style="color:${s.playerConstructorPos<=3?'var(--gold)':s.playerConstructorPos<=6?'var(--green)':'var(--muted)'}">

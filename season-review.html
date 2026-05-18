@@ -75,7 +75,7 @@
 .car-stat .cs-fill{height:100%;border-radius:3px}
 .car-stat .cs-val{font-family:var(--fh);font-size:13px;font-weight:700;display:flex;justify-content:space-between}
 
-/* Pilotes */
+/* Drivers */
 .driver-row{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:6px}
 .dr-flag{font-size:20px}
 .dr-info{flex:1}
@@ -164,26 +164,26 @@ function esc(s){ return String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&l
 // Narratives selon la position finale
 const NARRATIVES = {
   1: [
-    "Une saison historique. Chaque week-end, chaque décision, chaque arrêt au stand a contribué à ce titre. L'équipe entre dans la légende.",
+    "Une saison historique. Chaque week-end, chaque décision, chaque arrêt au stand a contribué à ce titre. L'team entre dans la légende.",
     "Champion du monde constructeurs. Ces trois mots résument une année de travail acharné, de stratégies parfaites et de pilotage exceptionnel.",
     "La saison parfaite n'existe pas — mais celle-ci s'en est approchée. Titre mérité, acquis sur la durée.",
   ],
   2: [
     "Vice-champion. La saison a été exceptionnelle mais une poignée de points ont tout changé. La faim est là pour l'an prochain.",
-    "Deuxième au championnat. La frustration est réelle mais le progrès est indéniable. L'équipe a tout donné cette saison.",
+    "Deuxième au championnat. La frustration est réelle mais le progrès est indéniable. L'team a tout donné cette saison.",
     "P2 constructeurs. Le titre s'est joué dans les détails — ces quelques points perdus ici et là auraient tout changé.",
   ],
   3: [
-    "Troisième au championnat constructeurs. Un podium de saison solide qui confirme la progression de l'équipe.",
-    "P3 constructeurs. La saison a montré le potentiel réel de cette équipe. Le podium final récompense une régularité remarquable.",
+    "Troisième au championnat constructeurs. Un podium de saison solide qui confirme la progression de l'team.",
+    "P3 constructeurs. La saison a montré le potentiel réel de cette team. Le podium final récompense une régularité remarquable.",
   ],
   top5: [
-    "Dans le top 5 constructeurs. La trajectoire est bonne — l'équipe grandit GP après GP.",
+    "Dans le top 5 constructeurs. La trajectoire est bonne — l'team grandit GP après GP.",
     "Saison solide dans le milieu de peloton. Les fondations sont posées pour viser plus haut la saison prochaine.",
   ],
   bad: [
     "Une saison difficile. Les résultats n'ont pas suivi les ambitions, mais les leçons tirées valent de l'or pour la suite.",
-    "Saison compliquée mais instructive. Chaque difficulté traversée renforce l'équipe pour l'avenir.",
+    "Saison compliquée mais instructive. Chaque difficulté traversée renforce l'team pour l'avenir.",
   ],
 };
 
@@ -226,7 +226,7 @@ function computeSeasonStats(save) {
 
 function render() {
   if(!save||!save.playerTeamId){
-    document.getElementById('content').innerHTML='<div class="loading">Aucune carrière trouvée. <a href="index.html" style="color:var(--accent)">Retour</a></div>';
+    document.getElementById('content').innerHTML='<div class="loading">No career found. <a href="index.html" style="color:var(--accent)">Back</a></div>';
     return;
   }
 
@@ -242,7 +242,7 @@ function render() {
   const myPos = constructors.findIndex(t=>t.id===save.playerTeamId)+1;
   const myPts = save.teamStandings?.[save.playerTeamId]||0;
 
-  // Classement pilotes final
+  // Classement drivers final
   const driverStandings = F1Data.drivers
     .filter(d=>!d.retired)
     .map(d=>({...d, pts:save.driverStandings?.[d.id]||0}))
@@ -258,12 +258,12 @@ function render() {
   // Voiture — delta R&D
   const carStats = ['aero','chassis','engine','reliability'].map(stat=>({
     stat,
-    label:{aero:'Aérodynamique',chassis:'Châssis',engine:'Moteur',reliability:'Fiabilité'}[stat],
+    label:{aero:'Aerodynamics',chassis:'Chassis',engine:'Engine',reliability:'Reliability'}[stat],
     base:  myTeam?.[stat]||70,
     level: save.carDev?.[stat]?.level || myTeam?.[stat] || 70,
   }));
 
-  // Contrats pilotes
+  // Contrats drivers
   const pilotCards = myDrivers.map(d=>{
     const contract = save.contracts?.[d.id];
     const years    = contract?.years ?? 1;
@@ -284,7 +284,7 @@ function render() {
       <div class="hero-season">Saison ${season} — Bilan final</div>
       <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:6px">
         <div style="width:70px;height:35px">${myTeam?.logo ? '<img src=\"'+myTeam.logo+'\" style=\"width:100%;height:100%;object-fit:contain\" alt=\"\">' : ''}</div>
-        <div class="hero-title" style="margin:0">${esc(myTeam?.name||'Votre équipe')}</div>
+        <div class="hero-title" style="margin:0">${esc(myTeam?.name||'Votre team')}</div>
       </div>
       <div class="hero-pos" style="color:${posColor(myPos)}">${myPos}</div>
       <div class="hero-pos-label">Position championnat constructeurs</div>
@@ -309,7 +309,7 @@ function render() {
 
     <!-- CHAMPION PILOTE -->
     <div class="section">
-      <div class="section-title">🏆 Champion du monde pilotes</div>
+      <div class="section-title">🏆 Champion du monde drivers</div>
       <div class="standings-row champion" style="border-radius:10px;background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.2)">
         <div class="sr-pos p1">1</div>
         <div class="sr-name">${esc(champion?.firstName||'')} ${esc(champion?.name||'—')}</div>
@@ -319,7 +319,7 @@ function render() {
 
     <!-- CLASSEMENT CONSTRUCTEURS -->
     <div class="section">
-      <div class="section-title">🏗️ Championnat constructeurs final</div>
+      <div class="section-title">🏗️ Constructor championship final</div>
       <div class="standings-card">
         ${constructors.slice(0,10).map((t,i)=>`
           <div class="standings-row ${t.id===save.playerTeamId?'me':i===0?'champion':''}">
@@ -333,7 +333,7 @@ function render() {
 
     <!-- CLASSEMENT PILOTES -->
     <div class="section">
-      <div class="section-title">🏎️ Championnat pilotes final (Top 8)</div>
+      <div class="section-title">🏎️ Driver championship final (Top 8)</div>
       <div class="standings-card">
         ${driverStandings.map((d,i)=>`
           <div class="standings-row ${d.teamId===save.playerTeamId?'me':i===0?'champion':''}">
@@ -347,13 +347,13 @@ function render() {
 
     <!-- VOS PILOTES -->
     <div class="section">
-      <div class="section-title">🏎️ Vos pilotes — bilan</div>
+      <div class="section-title">🏎️ Your drivers — bilan</div>
       ${pilotCards.map(({d,years,pts,rank})=>`
         <div class="driver-row">
           <div class="dr-flag">${d.flag||'🏁'}</div>
           <div class="dr-info">
             <div class="dr-name">${esc(d.firstName)} ${esc(d.name)}</div>
-            <div class="dr-sub">P${rank} pilotes · ${pts} pts · Contrat : ${years} an${years!==1?'s':''} restant${years!==1?'s':''}</div>
+            <div class="dr-sub">P${rank} drivers · ${pts} pts · Contrat : ${years} an${years!==1?'s':''} restant${years!==1?'s':''}</div>
           </div>
           <div class="dr-badge ${years<=0?'badge-bad':years===1?'badge-warn':'badge-ok'}">${years<=0?'⚠️ Libre':'✅ Sous contrat'}</div>
         </div>
@@ -382,7 +382,7 @@ function render() {
       <div class="budget-card">
         <div class="bc-row"><span>Budget actuel</span><b>${Math.round((save.budget||0)*10)/10}M€</b></div>
         <div class="bc-row"><span>Prime classement P${myPos}</span><b class="bc-pos">+${prize}M€</b></div>
-        <div class="bc-row"><span>Revenus annuels équipe</span><b class="bc-pos">+${incomeBonus}M€</b></div>
+        <div class="bc-row"><span>Revenus annuels team</span><b class="bc-pos">+${incomeBonus}M€</b></div>
         <div class="bc-row"><span>Tokens R&D bonus</span><b class="bc-pos">+3 tokens</b></div>
         <div class="bc-row"><span>Budget saison ${season+1}</span><b class="bc-total">${Math.round(((save.budget||0)+prize+incomeBonus)*10)/10}M€</b></div>
       </div>
@@ -415,7 +415,7 @@ function launchNextSeason() {
     const report = Career.endOfSeason(save) || {};
     save = Save.load() || save;
 
-    // Restaurer les états pilotes/équipes
+    // Restaurer les états drivers/teams
     if(typeof restoreDriverStates === 'function') restoreDriverStates(save);
     if(typeof Career.restoreTeamStates === 'function') Career.restoreTeamStates(save);
 
@@ -432,7 +432,7 @@ function launchNextSeason() {
     console.error('end season error:', err);
     btn.disabled = false;
     btn.textContent = '🏁 Démarrer la saison →';
-    alert('Erreur : ' + err.message);
+    alert('Error : ' + err.message);
   }
 }
 

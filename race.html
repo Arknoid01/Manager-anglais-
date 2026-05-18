@@ -391,7 +391,7 @@
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="logo"><span style="color:#ffffff !important" data-i18n="top.manager">Manager</span></div>
-  <a href="index.html" class="nav-back" data-i18n="nav.home">← Accueil</a>
+  <a href="index.html" class="nav-back" data-i18n="nav.home">← Home</a>
   <div class="top-pills race-live-pills">
     <div class="lap-pill" id="tLap">Tour <b>0</b>/<span id="tTotal">—</span></div>
     <div id="wBadge" class="w-badge w-dry" onclick="toggleWeatherPopup()" style="cursor:pointer" title="Voir les prévisions météo" data-i18n="race.dry">☀️ SEC</div>
@@ -457,7 +457,7 @@
     <!-- CLASSEMENT -->
     <div class="stand-panel">
       <div class="panel-head"><div class="dot"></div> Classement</div>
-      <div class="s-head"><div>Pos</div><div>#</div><div></div><div data-i18n="drivers.driver">Pilote</div><div data-i18n="race.tyre">Pneu/Gap</div><div data-i18n="race.last">Dernier</div></div>
+      <div class="s-head"><div>Pos</div><div>#</div><div></div><div data-i18n="drivers.driver">Driver</div><div data-i18n="race.tyre">Pneu/Gap</div><div data-i18n="race.last">Dernier</div></div>
       <div id="standBody" class="stand-scroll"></div>
     </div>
 
@@ -471,7 +471,7 @@
       </div>
     </div>
     <div class="strat-panel">
-      <div class="panel-head"><div class="dot"></div> 🛞 Durée estimée des pneus</div>
+      <div class="panel-head"><div class="dot"></div> 🛞 Length estimée des pneus</div>
       <div id="stratRecoBody" style="padding:8px;display:flex;flex-direction:column;gap:6px">
         <div style="color:var(--muted);font-size:11px;text-align:center;padding:8px">Lance une course pour voir les estimations pneus.</div>
       </div>
@@ -510,7 +510,7 @@
     </div>
     <div class="tab-pane" id="tab-strat">
       <div id="playerStrategyLive"></div>
-      <div style="font-family:var(--fh);font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px" data-i18n="race.strategies_all">Stratégies — Tous les pilotes</div>
+      <div style="font-family:var(--fh);font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px" data-i18n="race.strategies_all">Stratégies — Tous les drivers</div>
       <div id="stratFull"></div>
     </div>
   </div>
@@ -808,7 +808,7 @@ function getInterval() {
 //  RECOMMANDATIONS STRATÉGIE PNEUS
 // ══════════════════════════════════════════════════════════
 function calcTyreLifeFromEL(fpResults, circuit) {
-  // Retourne la durée estimée par compound depuis les données EL
+  // Backne la durée estimée par compound depuis les données EL
   const lifemap = {};
   if (fpResults && fpResults.length) {
     fpResults.forEach(r => {
@@ -893,8 +893,8 @@ function buildStrategyOptions(circuit, lifeMap) {
 function getRaceLifeMap(circuit) {
   const save = Save.load();
 
-  // Appliquer driverStates sur TOUS les pilotes F1Data (y compris GAS, COL etc.)
-  // pour refléter les changements d'équipe en cours de saison
+  // Appliquer driverStates sur TOUS les drivers F1Data (y compris GAS, COL etc.)
+  // pour refléter les changements d'team en cours de saison
   if (save.driverStates) {
     F1Data.drivers.forEach(d => {
       const state = save.driverStates[d.id];
@@ -1051,7 +1051,7 @@ function renderStratReco() {
       }).join('')}
     </div>
     <div style="font-family:var(--fh);font-size:10px;color:var(--muted);line-height:1.35;margin-top:2px;padding:0 2px">
-      Repère stratégique uniquement : pluie, Safety Car et rythme pilote peuvent déplacer la fenêtre réelle.
+      Repère stratégique uniquement : pluie, Safety Car et rythme driver peuvent déplacer la fenêtre réelle.
     </div>
   `;
 }
@@ -1183,7 +1183,7 @@ function renderWeatherPopup() {
           <span style="color:${m.color}">${m.text}</span>
         </div>
       `).join('')}
-      ${!forecast?.messages?.length ? '<div style="color:var(--muted);font-family:var(--fh);font-size:11px">Aucun changement majeur prévu dans les 20 prochains tours.</div>' : ''}
+      ${!forecast?.messages?.length ? '<div style="color:var(--muted);font-family:var(--fh);font-size:11px">No major change expected in the next 20 laps.</div>' : ''}
     </div>
   `;
 
@@ -1300,7 +1300,7 @@ function startRace() {
   } catch(err) {
     console.error('startRace ERROR:', err);
     console.error('Stack:', err.stack);
-    alert('Erreur démarrage : ' + err.message + '\n' + (err.stack||'').split('\n').slice(0,3).join('\n'));
+    alert('Error démarrage : ' + err.message + '\n' + (err.stack||'').split('\n').slice(0,3).join('\n'));
   }
 }
 
@@ -1418,7 +1418,7 @@ function renderStandings() {
       ? fmtTime(car.totalTime)
       : car.gap !== null ? '+'+car.gap.toFixed(1)+'s' : 'DNF';
 
-    // Intervalle avec le pilote devant
+    // Intervalle avec le driver devant
     const carAhead  = allStandings.find(c => c.position === car.position - 1 && c.status !== 'dnf');
     const interval  = (!isLead && !isDnf && carAhead && car.gap !== null && carAhead.gap !== null)
       ? '+' + Math.abs(car.gap - carAhead.gap).toFixed(2) + 's'
@@ -1543,7 +1543,7 @@ const NarrativePool = {
       `📻 ${name} grignote une place : P${pos}. Le rythme est bon.`,
       `📻 Bien joué ${name} — P${pos}. On surveille le suivant.`,
       `📻 ${name} profite d'une erreur adverse — P${pos}. Bonne opportunité.`,
-      `📻 P${pos} pour ${name}. L'équipe valide le dépassement depuis le muret.`,
+      `📻 P${pos} pour ${name}. L'team valide le dépassement depuis le muret.`,
     ];
     return this.pick(pool);
   },
@@ -1612,7 +1612,7 @@ const NarrativePool = {
       `📻 ${name} revient fort sur ${opp} — ${delta}. La place est dans le viseur.`,
       `📻 ${delta} seulement pour ${name} derrière ${opp}. Le DRS va tout changer.`,
       `📻 ${name} dans les roues de ${opp} — ${delta}. L'opportunité approche.`,
-      `📻 Attaque imminente de ${name} sur ${opp}. ${delta} de marge pour l'adversaire.`,
+      `📻 Overtaking imminente de ${name} sur ${opp}. ${delta} de marge pour l'adversaire.`,
       `📻 ${name} est là — ${delta} de ${opp}. On surveille la ligne droite.`,
       `📻 Le muret donne le feu vert à ${name}. ${delta} sur ${opp} — c'est jouable.`,
       `📻 ${name} chasse ${opp} — ${delta}. Choisis bien ton point de freinage.`,
@@ -1631,7 +1631,7 @@ const NarrativePool = {
       `📻 Attention ${name} — ${opp} revient à ${delta}. Protège les freinage.`,
       `📻 ${opp} est là, ${delta} de ${name}. Couvre l'intérieur dans le prochain virage.`,
       `📻 ${name} : ${opp} souffle dans le casque — ${delta}. On reste concentrés.`,
-      `📻 Défense capitale pour ${name}. ${opp} à ${delta} — pas question de céder.`,
+      `📻 Defending capitale pour ${name}. ${opp} à ${delta} — pas question de céder.`,
       `📻 ${name} : garde ton style de conduite. ${opp} à ${delta} mais tu contrôles.`,
       `📻 ${opp} attaque — ${delta} sur ${name}. Défends proprement, pas de pénalité.`,
     ];
@@ -1705,11 +1705,11 @@ const NarrativePool = {
     `🎙️ Une voiture s'arrête. Chaque place récupérée compte en championnat.`,
     `🎙️ Abandon confirmé. Le muret recalcule les positions.`,
     `🎙️ Une voiture hors course. Le classement se redistribue.`,
-    `🎙️ Abandon ! Mauvaise journée pour cette équipe — bonne nouvelle pour les autres.`,
+    `🎙️ Abandon ! Mauvaise journée pour cette team — bonne nouvelle pour les autres.`,
     `🎙️ Retrait en course. Les places libérées font avancer tout le monde.`,
     `🎙️ Voiture abandonnée. La course ne pardonne pas.`,
     `🎙️ Encore un abandon. La F1 peut être cruelle.`,
-    `🎙️ Une équipe de moins dans la bagarre. Le muret met à jour le classement.`,
+    `🎙️ Une team de moins dans la bagarre. Le muret met à jour le classement.`,
   ],
   pitUndercut: [
     `Box cette tour ! On couvre l'undercut — fenêtre fermée après ça.`,
@@ -1734,11 +1734,11 @@ const NarrativePool = {
   pitPlanned: [
     `🧠 Muret : arrêt planifié dans la fenêtre. Tout est prêt côté stand.`,
     `🧠 On confirme l'arrêt — la fenêtre est bonne, les pneus chauds.`,
-    `🧠 Pit stop confirmé. L'équipe est prête, objectif arrêt propre.`,
+    `🧠 Pit stop confirmé. L'team est prête, objectif arrêt propre.`,
   ],
   pitTeamOrder: [
     `📻 Box sur consigne — le muret a décidé, on exécute.`,
-    `📻 Arrêt sur ordre d'équipe. Stratégie globale prioritaire.`,
+    `📻 Arrêt sur ordre d'team. Stratégie globale prioritaire.`,
   ],
 };
 
@@ -1793,7 +1793,7 @@ function buildRaceNarrative(res) {
     ])));
   }
 
-  // Messages pilotes joueur
+  // Messages drivers joueur
   pCars.forEach(car => {
     const name    = car.driver.name;
     const id      = car.driver.id;
@@ -1829,7 +1829,7 @@ function buildRaceNarrative(res) {
   (res?.events || []).forEach(ev => {
     if (ev.type === 'pit') {
       const reason     = ev.reason || '';
-      const driverName = (ev.message || '').replace(/^\uD83D\uDD27\s*/, '').split(' — ')[0] || 'Pilote';
+      const driverName = (ev.message || '').replace(/^\uD83D\uDD27\s*/, '').split(' — ')[0] || 'Driver';
       const radioKey   = `pit_reason_${reason}_${ev.driverId || driverName}_${lap}`;
       if      (reason === 'undercut'               && RaceNarrative.once(radioKey)) msgs.push(lapEvent(lap, 'radio',    `📻 ${driverName} — ${NarrativePool.pick(NarrativePool.pitUndercut)}`));
       else if (reason === 'safety_car_opportunity' && RaceNarrative.once(radioKey)) msgs.push(lapEvent(lap, 'radio',    NarrativePool.pick(NarrativePool.pitSafetyCar)));
@@ -1867,7 +1867,7 @@ function addPostRaceBroadcast(results) {
   ];
   if (playerResults.length) {
     const pts = playerResults.reduce((sum, r) => sum + (r.points || 0), 0);
-    msg.push(lapEvent(Race.state.currentLap || Race.state.totalLaps, 'engineer', `🎧 Débrief équipe : P${playerResults.map(r=>r.position).join(' / P')} · ${pts} point${pts>1?'s':''}.`));
+    msg.push(lapEvent(Race.state.currentLap || Race.state.totalLaps, 'engineer', `🎧 Débrief team : P${playerResults.map(r=>r.position).join(' / P')} · ${pts} point${pts>1?'s':''}.`));
   }
   addEvents(msg);
 }
@@ -1900,7 +1900,7 @@ function initPreRaceStrategy() {
   const circuit = F1Data.circuits.find(c => c.id === cid) || F1Data.circuits[0];
   const drivers = getPlayerDrivers();
   if (!drivers.length) {
-    box.innerHTML = '<span style="color:var(--muted);font-size:11px">Aucune équipe joueur détectée. Va sur la page Équipe pour créer/charger une carrière.</span>';
+    box.innerHTML = '<span style="color:var(--muted);font-size:11px">No player team detected. Go to the Team page to create/load a career.</span>';
     return;
   }
   box.innerHTML = '';
@@ -1958,7 +1958,7 @@ function syncOrdersTab() {
   if (!Race.state) { box.innerHTML = '<span style="color:var(--muted);font-size:11px">Démarre une course.</span>'; return; }
   const save = Save.load(); const pid = save?.playerTeamId;
   const cars = Race.state.grid.filter(c => c.driver.teamId === pid && c.status === 'racing');
-  if (!cars.length) { box.innerHTML = '<span style="color:var(--muted);font-size:11px;padding:6px">Aucune équipe joueur.</span>'; return; }
+  if (!cars.length) { box.innerHTML = '<span style="color:var(--muted);font-size:11px;padding:6px">No player team.</span>'; return; }
   box.innerHTML = '';
   cars.forEach(car => {
     const tyre = F1Data.tyres[car.tyre.compound], cond = Math.round(car.tyre.condition*100);
@@ -1972,14 +1972,14 @@ function syncOrdersTab() {
         <div style="font-family:var(--fh);font-weight:900;font-size:20px;color:${col}">P${car.position}</div>
         <div style="font-family:var(--fh);font-weight:700;font-size:15px;flex:1">${car.driver.firstName} ${car.driver.name}</div>
         <div style="font-family:var(--fh);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:${mode==='attack'?'#1a1a00':mode==='save'?'#001a00':'var(--surface)'};color:${mode==='attack'?'var(--gold)':mode==='save'?'var(--green)':'var(--muted)'};border:1px solid ${mode==='attack'?'#3a3a00':mode==='save'?'#003a00':'var(--border)'}">
-          ${mode==='attack'?'⚡ Attaque':mode==='save'?'🌿 Économie':'◼ Normal'}
+          ${mode==='attack'?'⚡ Overtaking':mode==='save'?'🌿 Économie':'◼ Normal'}
         </div>
       </div>
       <div style="font-family:var(--fh);font-size:11px;color:var(--muted);margin-bottom:8px">
         <span style="color:${tyre.color}">● ${tyre.name}</span> ${cond}% &nbsp;|&nbsp; Gap: ${car.gap===0?'LEADER':'+'+car.gap.toFixed(1)+'s'} &nbsp;|&nbsp; ${pit} &nbsp;|&nbsp; ${laps} tours restants
       </div>
       <div class="race-order-grid">
-        <button class="btn race-order-btn order-attack ${mode==='attack'?'order-active':''}" onclick="setMode('${car.driver.id}','attack')">⚡ Attaquer</button>
+        <button class="btn race-order-btn order-attack ${mode==='attack'?'order-active':''}" onclick="setMode('${car.driver.id}','attack')">⚡ Overtakingr</button>
         <button class="btn race-order-btn order-normal ${mode==='normal'?'order-active':''}" onclick="setMode('${car.driver.id}','normal')">◼ Normal</button>
         <button class="btn race-order-btn order-save ${mode==='save'?'order-active':''}" onclick="setMode('${car.driver.id}','save')">🌿 Économiser</button>
       </div>
@@ -2022,7 +2022,7 @@ function persistRaceResults(results) {
   Race.state._careerReward = careerReward;
 
   if (!careerReward) {
-    console.warn('[Race] Résultat affiché, mais non enregistré dans la carrière. Crée/charge une carrière depuis la page Équipe.');
+    console.warn('[Race] Résultat affiché, mais non enregistré dans la carrière. Crée/charge une carrière depuis la page Team.');
   }
   return careerReward;
 }
@@ -2034,7 +2034,7 @@ function saveLastGpSummary(results, careerReward) {
     if (!save || !Race.state || !Array.isArray(results) || !results.length) return;
     const circuit = Race.state.circuit || {};
     const playerTeamId = save.playerTeamId;
-    // Filtrer avec driverStates pour exclure les pilotes libérés en cours de saison
+    // Filtrer avec driverStates pour exclure les drivers libérés en cours de saison
     const activeDriverIds = Object.entries(save.driverStates||{})
       .filter(([,v]) => v.teamId && v.teamId !== 'free_agent' && v.teamId === playerTeamId && !v.retired)
       .map(([k]) => k);
@@ -2043,7 +2043,7 @@ function saveLastGpSummary(results, careerReward) {
       const did = r.driver?.id;
       return tid === playerTeamId && (!did || activeDriverIds.length === 0 || activeDriverIds.includes(did));
     });
-    const weatherLabel = Race.state.weather === 'heavy_rain' ? 'Pluie forte'
+    const weatherLabel = Race.state.weather === 'heavy_rain' ? 'Wet forte'
       : Race.state.weather === 'light_rain' ? 'Piste humide'
       : 'Sec';
     const normalized = results.map(r => ({
@@ -2104,9 +2104,9 @@ function saveLastGpSummary(results, careerReward) {
 function showResults() {
   try { CR.stopAnim(); } catch(e) { console.warn(e); }
   let results = [];
-  try { results = Race.assignPoints(); } catch(e) { console.error('[Race] Erreur assignPoints', e); }
+  try { results = Race.assignPoints(); } catch(e) { console.error('[Race] Error assignPoints', e); }
   let careerReward = null;
-  try { careerReward = persistRaceResults(results); } catch(e) { console.error('[Race] Erreur sauvegarde résultats', e); }
+  try { careerReward = persistRaceResults(results); } catch(e) { console.error('[Race] Error sauvegarde résultats', e); }
   // Déclencher événement post-course
   try {
     const sv2 = Save.load();
@@ -2117,7 +2117,7 @@ function showResults() {
   } catch(e) { console.warn('[Race] triggerPostRace:', e); }
   careerReward = careerReward || Race.state?._careerReward;
   try { saveLastGpSummary(results, careerReward); } catch(e) { console.warn('[Race] sauvegarde résumé GP:', e); }
-  document.getElementById('resSub').textContent = `Grand Prix de ${Race.state.circuit.name}` + (careerReward ? ` · Gains équipe : +${careerReward.reward}M € · Frais GP : -${careerReward.operatingCost || 0}M € · +${careerReward.tokens} token${careerReward.tokens > 1 ? 's' : ''}` : '');
+  document.getElementById('resSub').textContent = `Grand Prix of ${Race.state.circuit.name}` + (careerReward ? ` · Gains team : +${careerReward.reward}M € · Frais GP : -${careerReward.operatingCost || 0}M € · +${careerReward.tokens} token${careerReward.tokens > 1 ? 's' : ''}` : '');
   const body = document.getElementById('resBody');
   body.innerHTML = '';
   results.forEach((r,i) => {
@@ -2249,7 +2249,7 @@ const Telem = {
     if(!Race.state)return;
     const save=Save.load(),pid=save?.playerTeamId;
     const standings=Race.getStandings();
-    // Pneus - pilotes joueur (match insensible à la casse)
+    // Pneus - drivers joueur (match insensible à la casse)
     const tc = pid
       ? standings.filter(c => c.driver.teamId?.toLowerCase() === pid?.toLowerCase())
       : standings.slice(0,2);
@@ -2284,7 +2284,7 @@ function showTab(id){
 }
 
 
-// ── Restaurer les états pilotes depuis la save ─────────────
+// ── Restaurer les états drivers depuis la save ─────────────
 function restoreDriverStates() {
   const save = Save.load();
   if (!save) return;
@@ -2309,7 +2309,7 @@ function restoreDriverStates() {
     });
   }
 
-  // Restaurer les pilotes générés (juniors promus)
+  // Restaurer les drivers générés (juniors promus)
   if (save.generatedDrivers?.length) {
     save.generatedDrivers.forEach(gd => {
       // Fusionner avec driverStates pour avoir le teamId final
@@ -2590,7 +2590,7 @@ initSel();
     });
   }
 
-  /* ── Lecture pilotes ── */
+  /* ── Lecture drivers ── */
   function readDrivers(){
     var arrays = [
       window.raceState && window.raceState.drivers,
