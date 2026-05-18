@@ -134,7 +134,7 @@
 
   <!-- RÉPUTATION -->
   <div class="rep-panel">
-    <div class="rep-title" data-i18n="sponsors.reputation">Réputation de l'team</div>
+    <div class="rep-title" data-i18n="sponsors.reputation"><span data-i18n="auto.reputation_de_lteam">Réputation de l'team</span></div>
     <div class="rep-grid" id="repGrid"></div>
   </div>
 
@@ -154,8 +154,8 @@
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden">
     <div class="tab-bar">
       <button class="tab-btn active" onclick="showTab('tab-contracts')">📋 Contrats actifs (<span id="cCount">0</span>)</button>
-      <button class="tab-btn" onclick="showTab('tab-market')">🛒 Marché (<span id="mCount">0</span>)</button>
-      <button class="tab-btn" onclick="showTab('tab-history')" data-i18n="journal.history_icon">📜 Historique</button>
+      <button class="tab-btn" onclick="showTab('tab-market')"><span data-i18n="auto.marche">🛒 Marché (</span><span id="mCount">0</span>)</button>
+      <button class="tab-btn" onclick="showTab('tab-history')" data-i18n="journal.history_icon"><span data-i18n="auto.historique_2">📜 Historique</span></button>
     </div>
     <div class="tab-pane active" id="tab-contracts">
       <div id="contractsList" style="padding:10px"></div>

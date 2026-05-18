@@ -423,7 +423,7 @@ function renderPhases() {
   const phases = [
     { id:'fp',            icon:'🔧', label:'Essais Libres', done: save.weekendFPDone >= 3 },
     { id:'quali',         icon:'⚡', label:'Qualifications', done: save.weekendQualiDone },
-    { id:'race_briefing', icon:'🏁', label:'Course',        done: false },
+    { id:'race_briefing', icon:'🏁', label: S("auto.course"),        done: false },
   ];
 
   document.getElementById('phasesBar').innerHTML = phases.map(p => {
@@ -488,7 +488,7 @@ function buildCircuitHero() {
         <div class=S("auto.circuitname")>${circuit.fullName || circuit.name}</div>
         <div class=S("auto.circuitfull")>Grand Prix of ${circuit.name} · Saison ${save.season || 2025}</div>
         <div class=S("auto.circuitstats")>
-          <div class="cstat">🔄 <span>${circuit.laps}</span> tours</div>
+          <div class="cstat">🔄 <span>${circuit.laps}</span> <span data-i18n="auto.tours_4">tours</span></div>
           <div class="cstat">📏 <span>${circuit.lapDistance}</span> km/tour</div>
           <div class="cstat">⏱ <span>${Weekend.fmtTime(circuit.baseLapTime)}</span> ref.</div>
           <div class="cstat">🏎️ DRS <span>${circuit.drsZones}</span> zones</div>

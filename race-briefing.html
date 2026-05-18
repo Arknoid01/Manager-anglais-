@@ -283,7 +283,7 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
     <div class=S("auto.section")>
       <div class=S("auto.sectiontitle")>&#127942; Enjeux championnat</div>
       <div class="stakes-card">
-        <div class="stake-row"><div class="stake-icon">📊</div><div class="stake-text">Vous etes <strong>P${myRank}</strong> au championnat constructeurs avec <strong>${myPts} points</strong>.</div></div>
+        <div class="stake-row"><div class="stake-icon">📊</div><div class="stake-text">Vous etes <strong>P${myRank}</strong> <span data-i18n="auto.au_championnat_constructeurs_avec">au championnat constructeurs avec</span> <strong>${myPts} points</strong>.</div></div>
         ${gapAbove!==null?`<div class="stake-row"><div class="stake-icon">⬆️</div><div class="stake-text"><strong>${esc(teamAbove.name)}</strong> devant vous. Il faudrait <strong>${gapAbove} points</strong> de plus pour les depasser. Un podium + abandon adverse pourrait suffire.</div></div>`:'<div class="stake-row"><div class="stake-icon">🏆</div><div class="stake-text">Vous etes en tete du championnat. <strong>Defendre cette position.</strong></div></div>'}
         ${gapBelow!==null?`<div class="stake-row"><div class="stake-icon">⬇️</div><div class="stake-text"><strong>${esc(teamBelow.name)}</strong> est a <strong>${gapBelow} points</strong> derriere. Ne pas se laisser rattraper.</div></div>`:''}
       </div>

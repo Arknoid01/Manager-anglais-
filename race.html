@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>F1 Manager — Course</title>
+  <title><span data-i18n="auto.f1_manager_course">F1 Manager — Course</span></title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -398,10 +398,10 @@
     <!-- POPUP MÉTÉO -->
     <div id="weatherPopup" style="display:none;position:fixed;top:56px;right:10px;z-index:300;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;width:300px;box-shadow:0 8px 32px rgba(0,0,0,.6)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-        <div style="font-family:var(--fh);font-weight:900;font-size:14px;letter-spacing:2px;text-transform:uppercase" data-i18n="race.weather">🌦️ Météo & Piste</div>
+        <div style="font-family:var(--fh);font-weight:900;font-size:14px;letter-spacing:2px;text-transform:uppercase" data-i18n="race.weather"><span data-i18n="auto.meteo_piste">🌦️ Météo & Piste</span></div>
         <button onclick="toggleWeatherPopup()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px">✕</button>
       </div>
-      <div id="weatherPopupContent"><div style="color:var(--muted);font-family:var(--fh);font-size:12px">Lance une course pour voir les prévisions.</div></div>
+      <div id="weatherPopupContent"><div style="color:var(--muted);font-family:var(--fh);font-size:12px"><span data-i18n="auto.lance_une_course_pour_voir_les_prev">Lance une course pour voir les prévisions.</span></div></div>
     </div>
     <div id="scPill" class="sc-pill" data-i18n="race.sc">🟡 SC</div>
   </div>
@@ -413,10 +413,10 @@
   <!-- CONTROLS -->
   <div class="controls">
     <select id="circSel" class="sel"></select>
-    <button class="btn btn-red"  id="btnStart" onclick="startRace()" data-i18n="race.start">▶ Démarrer</button>
-    <button class="btn btn-gold" id="btnSlow"  onclick="setSimSpeed('slow')"  disabled data-i18n="race.slow">🐢 Lent</button>
+    <button class="btn btn-red"  id="btnStart" onclick="startRace()" data-i18n="race.start"><span data-i18n="auto.demarrer">▶ Démarrer</span></button>
+    <button class="btn btn-gold" id="btnSlow"  onclick="setSimSpeed('slow')"  disabled data-i18n="race.slow"><span data-i18n="auto.lent">🐢 Lent</span></button>
     <button class="btn btn-sec"  id="btnPause" onclick="togglePause()"        disabled data-i18n="race.pause">⏸ Pause</button>
-    <button class="btn btn-sec"  id="btnSkip"  onclick="skipEnd()"        disabled data-i18n="race.end">⏩ Fin de course</button>
+    <button class="btn btn-sec"  id="btnSkip"  onclick="skipEnd()"        disabled data-i18n="race.end"><span data-i18n="auto.fin_de_course">⏩ Fin de course</span></button>
   </div>
 
   <!-- MAIN ROW : circuit + classement -->
@@ -438,7 +438,7 @@
         <canvas id="canvas3d" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
         <div class="svg-overlay">Tour <span id="svgLap">0</span> / <span id="svgTotal">—</span></div>
         <div id="lightsOverlay" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:rgba(0,0,0,0.75);z-index:10;">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;letter-spacing:3px;color:#fff;text-transform:uppercase;" data-i18n="race.ready">Prêt au départ</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;letter-spacing:3px;color:#fff;text-transform:uppercase;" data-i18n="race.ready"><span data-i18n="auto.pret_au_depart">Prêt au départ</span></div>
           <div style="display:flex;gap:8px;" id="lightDots">
             <div class="light-dot"></div>
             <div class="light-dot"></div>
@@ -457,7 +457,7 @@
     <!-- CLASSEMENT -->
     <div class=S("auto.standpanel")>
       <div class="panel-head"><div class="dot"></div> Classement</div>
-      <div class="s-head"><div>Pos</div><div>#</div><div></div><div data-i18n="drivers.driver">Driver</div><div data-i18n="race.tyre">Pneu/Gap</div><div data-i18n="race.last">Dernier</div></div>
+      <div class="s-head"><div>Pos</div><div>#</div><div></div><div data-i18n="drivers.driver">Driver</div><div data-i18n="race.tyre"><span data-i18n="auto.pneugap">Pneu/Gap</span></div><div data-i18n="race.last">Dernier</div></div>
       <div id="standBody" class=S("auto.standscroll")></div>
     </div>
 
@@ -465,15 +465,15 @@
   <!-- BOTTOM ROW : events + stratégie -->
   <div class="bottom-row">
     <div class="events-panel">
-      <div class="panel-head"><div class="dot"></div> Radio & Événements</div>
+      <div class="panel-head"><div class="dot"></div> <span data-i18n="auto.radio_evenements">Radio & Événements</span></div>
       <div id="evLog" class="events-scroll">
-        <div style="padding:10px;color:var(--muted);font-size:11px;text-align:center" data-i18n="race.waiting">En attente du départ…</div>
+        <div style="padding:10px;color:var(--muted);font-size:11px;text-align:center" data-i18n="race.waiting"><span data-i18n="auto.en_attente_du_depart">En attente du départ…</span></div>
       </div>
     </div>
     <div class="strat-panel">
-      <div class="panel-head"><div class="dot"></div> 🛞 Length estimée des pneus</div>
+      <div class="panel-head"><div class="dot"></div> <span data-i18n="auto.length_estimee_des_pneus">🛞 Length estimée des pneus</span></div>
       <div id="stratRecoBody" style=S("auto.padding8pxdisplayflexflexdirectionc")>
-        <div style="color:var(--muted);font-size:11px;text-align:center;padding:8px">Lance une course pour voir les estimations pneus.</div>
+        <div style="color:var(--muted);font-size:11px;text-align:center;padding:8px"><span data-i18n="auto.lance_une_course_pour_voir_les_esti">Lance une course pour voir les estimations pneus.</span></div>
       </div>
     </div>
   </div>
@@ -485,10 +485,10 @@
   <div class="telem-panel">
     <div class="tab-bar">
       <button class="tab-btn active" onclick="showTab('tab-orders')" data-i18n="race.orders">🎧 Ordres</button>
-      <button class="tab-btn" onclick="showTab('tab-tyres')">🔴 Pneus</button>
+      <button class="tab-btn" onclick="showTab('tab-tyres')"><span data-i18n="auto.pneus">🔴 Pneus</span></button>
       <button class="tab-btn" onclick="showTab('tab-pace')" data-i18n="race.rhythm">⏱ Rythme</button>
       <button class="tab-btn" onclick="showTab('tab-gaps')" data-i18n="race.gaps">📊 Gaps</button>
-      <button class="tab-btn" onclick="showTab('tab-strat')" data-i18n="race.strategy">🗺 Stratégie</button>
+      <button class="tab-btn" onclick="showTab('tab-strat')" data-i18n="race.strategy"><span data-i18n="auto.strategie">🗺 Stratégie</span></button>
     </div>
     <div class="tab-pane active" id="tab-orders">
       <div id="playerControlsNew"></div>
@@ -506,11 +506,11 @@
     <div class="tab-pane" id="tab-gaps">
       <div id="gapsLegend" class="chart-legend"></div>
       <div class="chart-wrap"><canvas id="canvasGaps"></canvas></div>
-      <div class="chart-hint">Écart en secondes au leader</div>
+      <div class="chart-hint"><span data-i18n="auto.ecart_en_secondes_au_leader">Écart en secondes au leader</span></div>
     </div>
     <div class="tab-pane" id="tab-strat">
       <div id="playerStrategyLive"></div>
-      <div style="font-family:var(--fh);font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px" data-i18n="race.strategies_all">Stratégies — Tous les drivers</div>
+      <div style="font-family:var(--fh);font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px" data-i18n="race.strategies_all"><span data-i18n="auto.strategies_tous_les_drivers">Stratégies — Tous les drivers</span></div>
       <div id="stratFull"></div>
     </div>
   </div>
@@ -518,12 +518,12 @@
 <!-- RESULTS -->
 <div id="resOverlay" class="overlay" style="display:none">
   <div class="res-card">
-    <div class="res-title" data-i18n="season.results">🏁 Résultats</div>
+    <div class="res-title" data-i18n="season.results"><span data-i18n="auto.resultats">🏁 Résultats</span></div>
     <div class="res-sub" id="resSub"></div>
     <div id="resBody"></div>
     <div style="margin-top:14px;display:flex;gap:8px">
       <button class="btn btn-red" onclick="closeRes()" data-i18n="nav.close">Fermer</button>
-      <button class="btn btn-sec" onclick="window.location.href='podium.html'" data-i18n="race.see_podium">Voir le podium</button>
+      <button class="btn btn-sec" onclick="window.location.href='podium.html'" data-i18n="race.see_podium"><span data-i18n="auto.voir_le_podium">Voir le podium</span></button>
     </div>
   </div>
 </div>
@@ -999,7 +999,7 @@ function renderStratReco() {
   if (!box) return;
 
   if (!Race.state) {
-    box.innerHTML = '<div style="color:var(--muted);font-size:11px;text-align:center;padding:8px">Lance une course pour voir les estimations pneus.</div>';
+    box.innerHTML = '<div style="color:var(--muted);font-size:11px;text-align:center;padding:8px"><span data-i18n="auto.lance_une_course_pour_voir_les_esti">Lance une course pour voir les estimations pneus.</span></div>';
     return;
   }
 
@@ -2161,7 +2161,7 @@ function resetRace() {
   document.getElementById('svgTotal').textContent = '—';
   document.getElementById('progFill').style.width = '0%';
   document.getElementById('standBody').innerHTML  = '';
-  document.getElementById('evLog').innerHTML = '<div style="padding:10px;color:var(--muted);font-size:11px;text-align:center" data-i18n="race.waiting">En attente du départ…</div>';
+  document.getElementById('evLog').innerHTML = '<div style="padding:10px;color:var(--muted);font-size:11px;text-align:center" data-i18n="race.waiting"><span data-i18n="auto.en_attente_du_depart">En attente du départ…</span></div>';
   const sb2=document.getElementById('stratBody'); if(sb2) sb2.innerHTML  = '<div style="color:var(--muted);font-size:11px;text-align:center">—</div>';
   document.getElementById('trackG').innerHTML = '';
   document.getElementById('carsG').innerHTML  = '';

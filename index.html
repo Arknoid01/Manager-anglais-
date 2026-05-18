@@ -203,9 +203,9 @@ html,body{
 <!-- Bannière portrait -->
 <div id="rot-banner" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(7,7,13,.97);flex-direction:column;align-items:center;justify-content:center;gap:14px;font-family:'Barlow Condensed',sans-serif;text-align:center;padding:24px;">
   <div style=S("auto.fontsize52pxanimationrotphone_2s_ea")>📱</div>
-  <div style="font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;letter-spacing:2px;color:#fff;" data-i18n="index.rotate">TOURNE TON TÉLÉPHONE</div>
-  <div style="font-size:13px;color:rgba(255,255,255,.4);letter-spacing:1px;" data-i18n="index.rotate_sub">Le QG s'affiche en mode paysage</div>
-  <div onclick="document.getElementById('rot-banner').style.display='none'" style="margin-top:8px;font-size:11px;color:rgba(255,255,255,.25);text-decoration:underline;cursor:pointer;" data-i18n="nav.continue">Continuer quand même</div>
+  <div style="font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;letter-spacing:2px;color:#fff;" data-i18n="index.rotate"><span data-i18n="auto.tourne_ton_telephone">TOURNE TON TÉLÉPHONE</span></div>
+  <div style="font-size:13px;color:rgba(255,255,255,.4);letter-spacing:1px;" data-i18n="index.rotate_sub"><span data-i18n="auto.le_qg_saffiche_en_mode_paysage">Le QG s'affiche en mode paysage</span></div>
+  <div onclick="document.getElementById('rot-banner').style.display='none'" style="margin-top:8px;font-size:11px;color:rgba(255,255,255,.25);text-decoration:underline;cursor:pointer;" data-i18n="nav.continue"><span data-i18n="auto.continuer_quand_meme">Continuer quand même</span></div>
 </div>
 <style>
 @keyframes rot-phone{
@@ -215,10 +215,10 @@ html,body{
 </style>
 
 <div class="sel" id="sel">
-  <div class="sel-t" data-i18n="index.choose_team">🏎 CHOISIR TON ÉCURIE</div>
-  <div class="sel-s" data-i18n="index.choose_sub">Sélectionne l'team que tu vas diriger</div>
+  <div class="sel-t" data-i18n="index.choose_team"><span data-i18n="auto.choisir_ton_ecurie">🏎 CHOISIR TON ÉCURIE</span></div>
+  <div class="sel-s" data-i18n="index.choose_sub"><span data-i18n="auto.selectionne_lteam_que_tu_vas_dirige">Sélectionne l'team que tu vas diriger</span></div>
   <div class="tg" id="tGrid"></div>
-  <button class="btn-go" id="btnGo" data-i18n="index.enter_hq">Entrer au QG →</button>
+  <button class="btn-go" id="btnGo" data-i18n="index.enter_hq"><span data-i18n="auto.entrer_au_qg">Entrer au QG →</span></button>
 </div>
 
 <script src="js/strings.js"></script>

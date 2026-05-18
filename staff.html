@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>F1 Manager — Staff</title>
+  <title><span data-i18n="auto.f1_manager_staff">F1 Manager — Staff</span></title>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>/* === TOPBAR UNIFIÉE === */
 
@@ -208,15 +208,15 @@
 
   <!-- APERÇU ÉQUIPE TECHNIQUE -->
   <div class="panel">
-    <div class="ph"><div class="dot"></div>📊 Performance technique actuelle</div>
+    <div class="ph"><div class="dot"></div><span data-i18n="auto.performance_technique_actuelle">📊 Performance technique actuelle</span></div>
     <div class="overview-grid" id="overviewGrid"></div>
   </div>
 
   <!-- TABS -->
   <div class="panel">
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="showTab('tab-hired')">👥 Mon staff (<span id="hiredCount">0</span>)</button>
-      <button class="tab-btn" onclick="showTab('tab-market')" data-i18n="drivers.recruit">🛒 Recrutement</button>
+      <button class="tab-btn active" onclick="showTab('tab-hired')"><span data-i18n="auto.mon_staff">👥 Mon staff (</span><span id="hiredCount">0</span>)</button>
+      <button class="tab-btn" onclick="showTab('tab-market')" data-i18n="drivers.recruit"><span data-i18n="auto.recrutement">🛒 Recrutement</span></button>
       <button class="tab-btn" onclick="showTab('tab-finances')" data-i18n="staff.salary">💰 Masse salariale</button>
     </div>
 
@@ -230,12 +230,12 @@
       <div style="padding:8px 12px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;align-items:center">
         <span style="font-family:var(--fh);font-size:11px;color:var(--muted)" data-i18n="drivers.filter">Filtrer :</span>
         <button class="btn btn-sec" id="fAll"   onclick="filterMarket('all')"        data-i18n="drivers.all">Tous</button>
-        <button class="btn btn-sec" id="fAero"  onclick="filterMarket('aero')"       data-i18n="rd.aero_icon">🌊 Aéro</button>
+        <button class="btn btn-sec" id="fAero"  onclick="filterMarket('aero')"       data-i18n="rd.aero_icon"><span data-i18n="auto.aero">🌊 Aéro</span></button>
         <button class="btn btn-sec" id="fChassis" onclick="filterMarket('chassis')"  data-i18n="rd.chassis_icon">🏗️ Chassis</button>
         <button class="btn btn-sec" id="fEngine" onclick="filterMarket('engine')"    data-i18n="rd.engine_icon">⚡ Engine</button>
         <button class="btn btn-sec" id="fPit"   onclick="filterMarket('pitstop')"   >⏱️ Pit Stop</button>
         <button class="btn btn-sec" id="fRel"   onclick="filterMarket('reliability')" data-i18n="rd.reliability_icon">🔩 Reliability</button>
-        <button class="btn btn-sec" id="fElite" onclick="filterMarket('elite')"      data-i18n="staff.elite">⭐ Élite</button>
+        <button class="btn btn-sec" id="fElite" onclick="filterMarket('elite')"      data-i18n="staff.elite"><span data-i18n="auto.elite">⭐ Élite</span></button>
       </div>
       <div class=S("auto.staffgrid") id="marketGrid"></div>
     </div>
@@ -869,7 +869,7 @@ function buildCard(st, isHired) {
         <div class="sc-badges">
           <span class="badge badge-spec" style="color:${specColor};border-color:${specColor}40;background:${specColor}18">${specLabel}</span>
           <span class="badge" style="color:${lvlLabel.color}">Niv. ${Math.round(st.level||70)} · ${lvlLabel.label}</span>
-          ${st.elite ? '<span class="badge badge-elite" data-i18n="staff.elite">⭐ Élite</span>' : ''}
+          ${st.elite ? '<span class="badge badge-elite" data-i18n="staff.elite"><span data-i18n="auto.elite">⭐ Élite</span></span>' : ''}
           ${st.generated ? '<span class="badge" style="color:#00e676;border-color:#003a18;background:#001a0a">✨ Nouveau</span>' : ''}
           ${isHired ? '<span class="badge badge-hired">✅ En poste</span>' : ''}
           ${st.aiContracted ? '<span class="badge" style="color:#ff9944;border-color:#3a1a00;background:#1a0a00">🔒 Sous contrat</span>' : ''}
