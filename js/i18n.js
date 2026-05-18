@@ -89,6 +89,15 @@
     'weekend.gp':         { fr:'Grand Prix',          en:'Grand Prix' },
     'weekend.fp':         { fr:'Essais Libres',       en:'Free Practice' },
     'drivers.title':      { fr:'Pilotes',             en:'Drivers' },
+
+    'drivers.center_contracts': { fr:'Centre pilotes & contrats', en:'Driver centre & contracts' },
+    'drivers.contract_intro': { fr:"Chaque offre tient compte du salaire, du rôle, de la durée, de la réputation de ton équipe, du classement constructeur et de la personnalité du pilote. Un refus rend le pilote plus difficile à convaincre jusqu'à la saison suivante.", en:"Each offer takes salary, role, length, team reputation, constructor ranking and driver personality into account. A refusal makes the driver harder to convince until next season." },
+    'drivers.my_contracts': { fr:'Mes pilotes — contrats & gestion', en:'My drivers — contracts & management' },
+    'drivers.market': { fr:'Marché des pilotes', en:'Driver market' },
+    'drivers.search': { fr:'Rechercher…', en:'Search…' },
+    'drivers.young': { fr:'Jeunes ≤24', en:'Young ≤24' },
+    'drivers.top_score': { fr:'Top score ≥85', en:'Top score ≥85' },
+    'drivers.end_season_title': { fr:'Fin de saison', en:'End of season' },
     'drivers.filter':     { fr:'Filtrer :',           en:'Filter:' },
     'drivers.all':        { fr:'Tous',                en:'All' },
     'drivers.free_agents':{ fr:'Agents libres',       en:'Free agents' },
@@ -168,6 +177,12 @@
     'Jeunes ≤24':'Young ≤24',
     'Aucun pilote trouvé.':'No driver found.',
     'Aucun pilote dans ton équipe.':'No driver in your team.',
+    "Aucun bonus pour l\'instant":"No bonuses yet",
+    'Aucun bonus':'No bonus',
+    'Aucun journal disponible pour le moment.':'No journal available yet.',
+    'Fin de saison':'End of season',
+    'Centre pilotes & contrats':'Driver centre & contracts',
+    "Chaque offre tient compte du salaire, du rôle, de la durée, de la réputation de ton équipe, du classement constructeur et de la personnalité du pilote. Un refus rend le pilote plus difficile à convaincre jusqu\'à la saison suivante.":"Each offer takes salary, role, length, team reputation, constructor ranking and driver personality into account. A refusal makes the driver harder to convince until next season.",
     'Créer une carrière':'Create a career',
     'Aucune carrière trouvée':'No career found',
     'Continuer quand même':'Continue anyway',
@@ -202,7 +217,7 @@
     ['Membre de staff qualifié.','Qualified staff member.'], ['Bonus de performance','Performance bonus'], ['Performance technique actuelle','Current technical performance'],
     ['Recrutement','Recruitment'], ['Marché','Market'], ['Aéro','Aero'], ['Châssis','Chassis'], ['Moteur','Engine'], ['Fiabilité','Reliability'], ['Élite','Elite'], ['Nouveau','New'], ['Sous contrat','Under contract'],
     ['Aucun staff recruté. Va sur l\'onglet Recrutement pour engager des experts.','No staff hired. Go to the Recruitment tab to hire experts.'],
-    ['Aérodynamique','Aerodynamics'], ['Confirmé','Confirmed'], ['Passif','Passive'], ['Améliore les performances de l\'équipe.','Improves team performance.'], ['Recruter','Recruit'], ['Licencier','Fire'], ['Budget','Budget'], ['Budget insuffisant','Insufficient budget'], ['Tu as déjà un Directeur Technique exclusif !','You already have an exclusive Technical Director!'], ['rejoint l\'équipe','joins the team'], ['recruté','hired'], ['licencié','fired'], ['Indemnité','Compensation'],
+    ['Saison actuelle','Current season'], ['Saison suivante','Next season'], ['Voiture actuelle','Current car'], ['Voiture suivante','Next car'], ['Conservé de la saison précédente','Kept from previous season'], ['Aucune — atteins','None — reach'], ['dans un domaine pour débloquer un bonus circuit','in one area to unlock a circuit bonus'], ['upgrades','upgrades'], ['efficacité','efficiency'], ['investi','invested'], ['Aérodynamique','Aerodynamics'], ['Confirmé','Confirmed'], ['Passif','Passive'], ['Améliore les performances de l\'équipe.','Improves team performance.'], ['Recruter','Recruit'], ['Licencier','Fire'], ['Budget','Budget'], ['Budget insuffisant','Insufficient budget'], ['Tu as déjà un Directeur Technique exclusif !','You already have an exclusive Technical Director!'], ['rejoint l\'équipe','joins the team'], ['recruté','hired'], ['licencié','fired'], ['Indemnité','Compensation'],
     ['Masse salariale','Salary bill'], ['Staff technique','Technical staff'], ['Marge opérationnelle','Operating margin'],
     ['Immersion carrière','Career immersion'], ['Vie de l\'équipe','Team life'], ['Le moral sera alimenté après les prochains GP.','Morale will update after the next Grands Prix.'], ['Les sponsors attendent les prochains résultats.','Sponsors are waiting for the next results.'], ['Projet stable','Stable project'], ['GP archivés','Archived GPs'],
     ['Samedi','Saturday'], ['Dimanche','Sunday'], ['Vendredi','Friday'], ['Briefing Qualifications','Qualifying Briefing'], ['Qualifications','Qualifying'], ['Piste humide','Wet track'], ['Piste seche','Dry track'], ['Analyse ingenieur','Engineer analysis'], ['Pneu','Tyre'], ['Pneus','Tyres'], ['Soft neuf','Fresh Soft'], ['Medium','Medium'], ['Intermediaires','Intermediates'], ['Full Wet','Full Wet'], ['Secteur cle','Key sector'], ['La pole est decisive ici','Pole is decisive here'], ['Bonne grille utile','A good grid slot is useful'], ['avant les qualifications','before qualifying'], ['Aucune carriere','No career'],
@@ -268,6 +283,11 @@
       var key = el.getAttribute('data-i18n');
       var val = t(key);
       if(val !== key) el.textContent = val;
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){
+      var key = el.getAttribute('data-i18n-placeholder');
+      var val = t(key);
+      if(val !== key) el.setAttribute('placeholder', val);
     });
   }
 
