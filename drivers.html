@@ -33,20 +33,20 @@
 </div>
 <div class="page" id="page">
   <div class="panel">
-    <div class="ph"><div class="dot"></div> Centre pilotes & contrats</div>
-    <div class="intro">Chaque offre tient compte du salaire, du rôle, de la durée, de la réputation de ton équipe, du classement constructeur et de la personnalité du pilote. Un refus rend le pilote plus difficile à convaincre jusqu'à la saison suivante.</div>
+    <div class="ph"><div class="dot"></div><span data-i18n="drivers.center_contracts">Centre pilotes & contrats</span></div>
+    <div class="intro" data-i18n="drivers.contract_intro">Chaque offre tient compte du salaire, du rôle, de la durée, de la réputation de ton équipe, du classement constructeur et de la personnalité du pilote. Un refus rend le pilote plus difficile à convaincre jusqu'à la saison suivante.</div>
   </div>
   <div class="panel">
-    <div class="ph"><div class="dot"></div> Mes pilotes — contrats & gestion</div>
+    <div class="ph"><div class="dot"></div><span data-i18n="drivers.my_contracts">Mes pilotes — contrats & gestion</span></div>
     <div class="grid" id="myGrid"></div>
   </div>
   <div class="panel">
-    <div class="ph"><div class="dot"></div> Marché des pilotes</div>
-    <div id="transferBanner" style="display:none;padding:8px 12px;background:#1a0808;border-bottom:1px solid #5a1a1a;font-family:var(--fh);font-size:13px;color:#ff8888">🚫 <strong>Mercato fermé</strong> — Les transferts sont uniquement autorisés avant la première course de la saison. Termine la saison pour rouvrir.</div><div class="toolbar"><input id="search" placeholder="Rechercher…" oninput="renderMarket()"><select id="filter" onchange="renderMarket()"><option value="all">Tous</option><option value="free">Agents libres</option><option value="young">Jeunes ≤24</option><option value="top">Top score ≥85</option></select></div>
+    <div class="ph"><div class="dot"></div><span data-i18n="drivers.market">Marché des pilotes</span></div>
+    <div id="transferBanner" style="display:none;padding:8px 12px;background:#1a0808;border-bottom:1px solid #5a1a1a;font-family:var(--fh);font-size:13px;color:#ff8888">🚫 <strong>Mercato fermé</strong> — Les transferts sont uniquement autorisés avant la première course de la saison. Termine la saison pour rouvrir.</div><div class="toolbar"><input id="search" placeholder="Rechercher…" data-i18n-placeholder="drivers.search" oninput="renderMarket()"><select id="filter" onchange="renderMarket()"><option value="all" data-i18n="drivers.all">Tous</option><option value="free" data-i18n="drivers.free_agents">Agents libres</option><option value="young" data-i18n="drivers.young">Jeunes ≤24</option><option value="top" data-i18n="drivers.top_score">Top score ≥85</option></select></div>
     <div class="grid" id="marketGrid"></div>
   </div>
   <div class="panel">
-    <div class="ph"><div class="dot"></div> Fin de saison</div>
+    <div class="ph"><div class="dot"></div><span data-i18n="drivers.end_season_title">Fin de saison</span></div>
     <div class="intro" id="seasonPreview">Termine la saison actuelle : les statistiques, classements et courses seront réinitialisés, les contrats seront réduits d'un an, et le mercato IA sera appliqué.</div>
     <div style="padding:12px;display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn btn-red" onclick="confirmEndSeason()" data-i18n="season.end_btn">📅 Terminer la saison</button>
@@ -75,8 +75,53 @@ function updateTop(){document.getElementById('seasonBadge').textContent=`Saison 
 function driverTeam(d){return d.teamId?F1Data.teams.find(t=>t.id===d.teamId):null}
 function roleLabel(r){return r==='pilote1'?'Pilote 1':r==='egal'?'Statut égal':'Pilote 2'}
 function moraleBadge(d){const m=save.immersion?.driverMorale?.[d.id]||save.immersion?.driverMorale?.[String(d.id)]; if(!m)return '<span class="badge">🧠 Moral —</span>'; const v=Math.round(m.value||0); const col=v>=70?'var(--green)':v>=45?'var(--gold)':'var(--accent)'; return `<span class="badge" style="color:${col}">🧠 Moral ${v}</span>`;}
-function buildCard(d,isMine){const team=driverTeam(d),score=Career.getDriverScore(d),p=Career.getPotentialLabel(d.potential||80),pers=Career.getPersonalityInfo(d),c=save.contracts[d.id]||{},prefix=isMine?'renew':'sign';const defaultSalary=Math.max(1,Math.ceil((d.salary||1)*(isMine?1.05:1.15)));const playerDrivers=F1Data.drivers.filter(x=>x.teamId===save.playerTeamId&&!x.retired);const replaceOptions=playerDrivers.map(x=>`<option value="${x.id}">Prendre la place de ${x.firstName} ${x.name}</option>`).join('');const mustReplace=playerDrivers.length>=2;
-  const div=document.createElement('div');div.className='driver-card'+(isMine?' mine':'');div.innerHTML=`<div class="dc-head"><div><div class="dc-name">${Profiles.linkDriver(d)}</div><div class="dc-team">${'','${prefix}')"></div><div class="field"><label>Durée</label><select id="${prefix}-years-${d.id}" onchange="refreshEval('${d.id}','${prefix}')"><option value="1">1 an</option><option value="2" selected>2 ans</option><option value="3">3 ans</option><option value="4">4 ans</option></select></div><div class="field"><label>Rôle</label><select id="${prefix}-role-${d.id}" onchange="refreshEval('${d.id}','${prefix}')"><option value="pilote2">Pilote 2</option><option value="egal">Statut égal</option><option value="pilote1">Pilote 1</option></select></div><div class="field"><label>Prime signature</label><input id="${prefix}-bonus-${d.id}" type="number" min="0" value="${isMine?0:Math.max(1,Math.round((d.salary||1)*0.5))}" oninput="refreshEval('${d.id}','${prefix}')"></div>${!isMine?`<div class="field" style="grid-column:1/-1"><label>${mustReplace?'Siège à remplacer':'Siège cible'}</label><select id="${prefix}-replace-${d.id}">${mustReplace?'':'<option value="">Ajouter sur un siège libre</option>'}${replaceOptions}</select></div>`:''}<div class="actions"><button class="btn btn-green" onclick="sendOffer('${d.id}','${prefix}')">${isMine?'Prolonger':'Faire une offre'}</button><button class="btn btn-sec" onclick="quickOffer('${d.id}','${prefix}','safe')">Offre prudente</button><button class="btn btn-sec" onclick="quickOffer('${d.id}','${prefix}','big')">Offre forte</button>${isMine?`<button class="btn btn-sec" onclick="releaseMyDriver('${d.id}')">Libérer</button>`:''}</div></div>`;setTimeout(()=>refreshEval(d.id,prefix),0);return div;}
+function buildCard(d,isMine){
+  const team=driverTeam(d), score=Career.getDriverScore(d), p=Career.getPotentialLabel(d.potential||80), pers=Career.getPersonalityInfo(d), c=save.contracts[d.id]||{}, prefix=isMine?'renew':'sign';
+  const defaultSalary=Math.max(1,Math.ceil((d.salary||1)*(isMine?1.05:1.15)));
+  const playerDrivers=F1Data.drivers.filter(x=>x.teamId===save.playerTeamId&&!x.retired);
+  const replaceOptions=playerDrivers.map(x=>`<option value="${x.id}">Prendre la place de ${x.firstName} ${x.name}</option>`).join('');
+  const mustReplace=playerDrivers.length>=2;
+  const contractTxt=isMine ? `${c.years??0} an(s) · ${c.salary??d.salary??1}M€/an · ${roleLabel(c.status||'pilote2')}` : (team ? team.name : 'Agent libre');
+  const div=document.createElement('div');
+  div.className='driver-card'+(isMine?' mine':'');
+  div.innerHTML=`
+    <div class="dc-head">
+      <div>
+        <div class="dc-name">${Profiles.linkDriver(d)}</div>
+        <div class="dc-team">${contractTxt}</div>
+      </div>
+      <div class="score">${score}</div>
+    </div>
+    <div class="badges">
+      <span class="badge">#${d.number||'—'} · ${d.age||'?'} ans</span>
+      <span class="badge" style="color:${p.color}">${p.label}</span>
+      <span class="badge">${pers.icon||'🧠'} ${pers.label||d.personality||'Standard'}</span>
+      ${moraleBadge(d)}
+    </div>
+    <div class="stats">
+      <div class="stat"><b>${d.pace||70}</b><span>Pace</span></div>
+      <div class="stat"><b>${d.consistency||70}</b><span>Régularité</span></div>
+      <div class="stat"><b>${d.wetSkill||70}</b><span>Pluie</span></div>
+      <div class="stat"><b>${d.overtaking||70}</b><span>Attaque</span></div>
+      <div class="stat"><b>${d.defending||70}</b><span>Défense</span></div>
+    </div>
+    <div class="offer">
+      <div class="field"><label>Salaire</label><input id="${prefix}-sal-${d.id}" type="number" min="1" value="${defaultSalary}" oninput="refreshEval('${d.id}','${prefix}')"></div>
+      <div class="field"><label>Durée</label><select id="${prefix}-years-${d.id}" onchange="refreshEval('${d.id}','${prefix}')"><option value="1">1 an</option><option value="2" selected>2 ans</option><option value="3">3 ans</option><option value="4">4 ans</option></select></div>
+      <div class="field"><label>Rôle</label><select id="${prefix}-role-${d.id}" onchange="refreshEval('${d.id}','${prefix}')"><option value="pilote2">Pilote 2</option><option value="egal">Statut égal</option><option value="pilote1">Pilote 1</option></select></div>
+      <div class="field"><label>Prime signature</label><input id="${prefix}-bonus-${d.id}" type="number" min="0" value="${isMine?0:Math.max(1,Math.round((d.salary||1)*0.5))}" oninput="refreshEval('${d.id}','${prefix}')"></div>
+      ${!isMine?`<div class="field" style="grid-column:1/-1"><label>${mustReplace?'Siège à remplacer':'Siège cible'}</label><select id="${prefix}-replace-${d.id}">${mustReplace?'':'<option value="">Ajouter sur un siège libre</option>'}${replaceOptions}</select></div>`:''}
+      <div class="chance" id="${prefix}-eval-${d.id}">Chance estimée…</div>
+      <div class="actions">
+        <button class="btn btn-green" onclick="sendOffer('${d.id}','${prefix}')">${isMine?'Prolonger':'Faire une offre'}</button>
+        <button class="btn btn-sec" onclick="quickOffer('${d.id}','${prefix}','safe')">Offre prudente</button>
+        <button class="btn btn-sec" onclick="quickOffer('${d.id}','${prefix}','big')">Offre forte</button>
+        ${isMine?`<button class="btn btn-sec" onclick="releaseMyDriver('${d.id}')">Libérer</button>`:''}
+      </div>
+    </div>`;
+  setTimeout(()=>refreshEval(d.id,prefix),0);
+  return div;
+}
 function getOffer(id,prefix){const sal=document.getElementById(`${prefix}-sal-${id}`);const yrs=document.getElementById(`${prefix}-years-${id}`);const rol=document.getElementById(`${prefix}-role-${id}`);const bon=document.getElementById(`${prefix}-bonus-${id}`);if(!sal||!yrs||!rol)return null;return{salary:Math.max(1,Number(sal.value)||1),years:Math.max(1,Number(yrs.value)||2),role:rol.value||'pilote2',bonus:Math.max(0,Number(bon?.value)||0),replaceDriverId:document.getElementById(`${prefix}-replace-${id}`)?.value||''};}
 function refreshEval(id,prefix){const offer=getOffer(id,prefix);if(!offer)return;const ev=Career.evaluateContractOffer(save,id,offer);const el=document.getElementById(`${prefix}-eval-${id}`);if(!el||!ev.ok)return;el.innerHTML=`Chance estimée : <b style="color:${ev.chance>=65?'var(--green)':ev.chance>=40?'var(--gold)':'var(--accent)'}">${ev.chance}%</b> · Rang équipe: P${ev.teamRank}<br>Demande probable : ${ev.demand.salary}M€/an, ${ev.demand.years} an(s), rôle ${roleLabel(ev.demand.role)}.`;}
 function quickOffer(id,prefix,type){if((save.race||0)>0){toast('🚫 Mercato fermé ! Transferts uniquement avant la 1ère course.',true);return;}const d=F1Data.drivers.find(x=>x.id===id);if(!d)return;const mult=type==='big'?1.35:1.12;document.getElementById(`${prefix}-sal-${id}`).value=Math.ceil((d.salary||1)*mult);document.getElementById(`${prefix}-bonus-${id}`).value=type==='big'?Math.round((d.salary||1)*1.1):Math.round((d.salary||1)*0.4);document.getElementById(`${prefix}-role-${id}`).value=type==='big'?'pilote1':'egal';document.getElementById(`${prefix}-years-${id}`).value=type==='big'?'3':'2';refreshEval(id,prefix);}
