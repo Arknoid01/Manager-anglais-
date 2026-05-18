@@ -595,7 +595,7 @@ function buyLowCost(domainKey) {
   if (!upg) return;
   if ((save.budget||0) < upg.cost) { toast('❌ Budget insuffisant !', true); return; }
   const dev = save.carDev[domainKey];
-  if ((dev.done||[]).includes(upg.id)) { toast(S('rd2.already_done2'), true); return; }
+  if ((dev.done||[]).includes(upg.id)) { toast('Déjà fait cette saison !', true); return; }
   save.budget = Math.round(((save.budget||0) - upg.cost) * 10) / 10;
   dev.pending = dev.pending || [];
   dev.pending.push({ upgradeId: upg.id, name: upg.name, gain: upg.gain, deliverAtRace: (save.race||0) + upg.deliveryGps });
@@ -726,14 +726,14 @@ function launchRiskyConcept(domainKey) {
   let gain, result;
   if (roll < outcomes.success.probability) {
     gain = outcomes.success.gain;
-    result = S('rd2.success');
+    result = '🎉 Succès !';
     save.tokens = (save.tokens||0) + 1; // remboursement partiel si succès
   } else if (roll < outcomes.success.probability + outcomes.partial.probability) {
     gain = outcomes.partial.gain;
-    result = S('rd2.partial');
+    result = '✅ Succès partiel';
   } else {
     gain = outcomes.failure.gain;
-    result = S('rd2.fail');
+    result = '❌ Échec';
   }
 
   dev.level = Math.max(45, Math.min(100, (dev.level||70) + gain));
@@ -793,8 +793,8 @@ function buyUpgrade(domainKey, upgradeId, isNextYear) {
   const buyTokens = buyAboveCap ? upg.tokens * 2 : upg.tokens;
   if (Math.round((save.budget||0) * 10) / 10 < buyCost) { toast('❌ Budget R&D insuffisant !' + (buyAboveCap?' (coût ×2 car ≥85 pts)':''), true); return; }
   if ((save.tokens||0) < buyTokens) { toast('❌ Pas assez de tokens !'  + (buyAboveCap?' (coût ×2 car ≥85 pts)':''), true); return; }
-  if (!isNextYear && (dev.done||[]).includes(upgradeId)) { toast(S('rd2.already_bought'), true); return; }
-  if (!isNextYear && (dev.pending||[]).some(p => p.upgradeId === upgradeId)) { toast(S('rd2.already_ordered'), true); return; }
+  if (!isNextYear && (dev.done||[]).includes(upgradeId)) { toast('Déjà acheté !', true); return; }
+  if (!isNextYear && (dev.pending||[]).some(p => p.upgradeId === upgradeId)) { toast('Déjà commandé !', true); return; }
 
   // Déduire coûts
   save.budget = Math.round(((save.budget||0) - buyCost) * 10) / 10;
