@@ -394,10 +394,10 @@ function buildPaddockEventCard() {
   // Label d'impact selon catégorie
   const catLabels = {
     medical:'Impact pilote', performance:'Boost performance', financial:'Impact budget',
-    technical:'Impact technique', regulatory:'Décision FIA', mercato:'Situation contrats',
+    technical:'Impact technique', regulatory:S('wk.fia_decision'), mercato:'Situation contrats',
     competitor:'Rival en forme', board:'Signal direction', general:'Info paddock',
   };
-  const catLabel = catLabels[cat] || 'Événement paddock';
+  const catLabel = catLabels[cat] || S('wk.paddock_event');
   const sign = positiveCategories.includes(cat) ? '▲' : negativeCategories.includes(cat) ? '▼' : '●';
   const col  = positiveCategories.includes(cat) ? 'var(--green)' : negativeCategories.includes(cat) ? '#ff6666' : 'var(--muted)';
 
@@ -518,28 +518,28 @@ function getPlayerTeam() {
 function flowWeatherLabel() {
   const w = save.weekendWeather || 'dry';
   if (w === 'heavy_rain') return 'Forte pluie';
-  if (w === 'light_rain') return 'Pluie légère';
+  if (w === 'light_rain') return S('wk.light_rain');
   return 'Sec';
 }
 
 
 function circuitTypeLabel(type) {
   const labels = {
-    balanced: 'Équilibré',
+    balanced: S('wk.balanced'),
     power: 'Puissance moteur',
     high_speed: 'Haute vitesse',
     technical: 'Technique',
     street: 'Urbain',
     mixed: 'Mixte'
   };
-  return labels[type] || 'Équilibré';
+  return labels[type] || S('wk.balanced');
 }
 
 function circuitProfileLine() {
   const deg = circuit.tyreDegradation || 1;
   const ovt = circuit.overtakingDifficulty || 0.5;
-  const tyreTxt = deg >= 1.35 ? 'dégradation très élevée' : deg >= 1.15 ? 'dégradation sensible' : deg <= 0.9 ? 'pneus assez protégés' : 'dégradation normale';
-  const ovtTxt = ovt >= 0.75 ? 'dépassements difficiles' : ovt <= 0.4 ? 'dépassements accessibles' : 'dépassements moyens';
+  const tyreTxt = deg >= 1.35 ? S('wk.deg_very_high') : deg >= 1.15 ? S('wk.deg_high') : deg <= 0.9 ? S('wk.tyres_safe') : S('wk.deg_normal');
+  const ovtTxt = ovt >= 0.75 ? S('wk.overtake_hard') : ovt <= 0.4 ? S('wk.overtake_ok') : S('wk.overtake_mid');
   return `${tyreTxt} · ${ovtTxt} · ${circuit.drsZones || 0} zone${(circuit.drsZones||0)>1?'s':''} DRS`;
 }
 
@@ -550,9 +550,9 @@ function getBestFPRun(results) {
 
 function buildArrivalBriefing() {
   const team = getPlayerTeam();
-  const driversLine = myDrivers.map(d => `${d.firstName} ${d.name}`).join(' / ') || 'Pilotes non définis';
-  const expected = team?.performance >= 90 ? 'jouer la victoire' : team?.performance >= 78 ? 'viser les gros points' : team?.performance >= 65 ? 'se battre pour les points' : 'surprendre avec la stratégie';
-  return makeFlowCard('Arrivée au Grand Prix', `
+  const driversLine = myDrivers.map(d => `${d.firstName} ${d.name}`).join(' / ') || S('wk.drivers_undef');
+  const expected = team?.performance >= 90 ? 'jouer la victoire' : team?.performance >= 78 ? 'viser les gros points' : team?.performance >= 65 ? 'se battre pour les points' : S('wk.surprise_strat');
+  return makeFlowCard(S('wk.arrival'), `
     <div style="font-size:13px;color:var(--muted);line-height:1.5">
       Le garage <strong style="color:var(--text)">${team?.name || 'de ton équipe'}</strong> s'installe à ${circuit.fullName || circuit.name}. Objectif logique d'après la performance actuelle : <strong style="color:var(--gold)">${expected}</strong>.
     </div>
@@ -1080,7 +1080,7 @@ function buildRaceBriefing() {
               const driver=F1Data.drivers.find(dr=>dr.id===d.driverId);
               return `<div><strong style="color:var(--gold)">P${d.gridPos}</strong> — ${driver?.firstName||''} ${driver?.name||'?'}</div>`;
             }).join('')||'<div style="color:var(--muted)">Non disponible</div>'}
-            <div style="color:var(--muted);margin-top:4px">${circuit.overtakingDifficulty>0.7?'⛔ Dépassements difficiles':circuit.overtakingDifficulty<0.4?'✅ Piste propice':'⚠️ Dépassements possibles'}</div>
+            <div style="color:var(--muted);margin-top:4px">${circuit.overtakingDifficulty>0.7?'⛔ Dépassements difficiles':circuit.overtakingDifficulty<0.4?'✅ Piste propice':S('wk.overtake_warn')}</div>
             <div style="color:var(--muted)">DRS : ${circuit.drsZones} zone${circuit.drsZones>1?'s':''} · Pit loss : ${circuit.pitLoss}s</div>
           </div>
         </div>
@@ -1093,7 +1093,7 @@ function buildRaceBriefing() {
           ${stratOpts.slice(0,4).map((opt,i)=>{
             const isRec   = i===0 && opt.feasible;
             const isRisky = !opt.feasible;
-            const badge   = isRec?'⭐ Recommandée':isRisky?'⚠️ Risquée':'✅ Viable';
+            const badge   = isRec?'⭐ Recommandée':isRisky?S('wk.risky'):'✅ Viable';
             const bdrClr  = isRec?'var(--gold)':isRisky?'#ff4444':'#2979ff44';
             const bgClr   = isRec?'#1a1a00':isRisky?'#1a0000':'var(--surface2)';
             return `
