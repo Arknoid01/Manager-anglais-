@@ -134,3 +134,43 @@
   });
 
 })();
+
+/* ── Auto-traduction du DOM (textes dynamiques) ── */
+(function(){
+  if(typeof STRINGS === 'undefined') return;
+  var LANG = localStorage.getItem('fm_lang') || 'fr';
+  if(LANG === 'fr') return; // En FR pas besoin de traduire
+
+  /* Construit un index FR→EN depuis STRINGS */
+  var frToEn = {};
+  Object.values(STRINGS).forEach(function(entry){
+    if(entry.fr && entry.en) frToEn[entry.fr.trim()] = entry.en;
+  });
+
+  function translateNode(node){
+    if(node.nodeType === 3){ // Nœud texte
+      var txt = node.textContent.trim();
+      if(txt && frToEn[txt]){
+        node.textContent = node.textContent.replace(txt, frToEn[txt]);
+      }
+    } else if(node.nodeType === 1 && node.childNodes){
+      node.childNodes.forEach(translateNode);
+    }
+  }
+
+  /* Observe les mutations DOM pour attraper les strings dynamiques */
+  var observer = new MutationObserver(function(mutations){
+    mutations.forEach(function(m){
+      m.addedNodes.forEach(function(n){
+        try{ translateNode(n); } catch(e){}
+      });
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function(){
+    /* Traduit le DOM existant */
+    try{ translateNode(document.body); } catch(e){}
+    /* Observe les futurs changements */
+    observer.observe(document.body, {childList:true, subtree:true});
+  });
+})();
