@@ -1,9 +1,9 @@
 
 /* ============================================================
-   INTRO MEETING — rencontre pilotes + staff à la création de partie
+   INTRO MEETING — rencontre drivers + staff à la création de partie
    ------------------------------------------------------------
    Objectif :
-   - éviter le message pilote isolé au début
+   - éviter le message driver isolé au début
    - afficher une introduction complète seulement une fois par sauvegarde
    - ne rien casser si certaines données sont absentes
    ============================================================ */
@@ -100,8 +100,8 @@
     const existing = document.getElementById("introMeetingModal");
     if(existing) existing.remove();
 
-    const d1 = driverName(drivers[0], "Pilote 1");
-    const d2 = driverName(drivers[1], "Pilote 2");
+    const d1 = driverName(drivers[0], "Driver 1");
+    const d2 = driverName(drivers[1], "Driver 2");
     const teamName = team?.name || team?.code || "l'écurie";
 
     const overlay = document.createElement("div");
@@ -112,17 +112,17 @@
         <div class="intro-meeting-kicker">Nouvelle carrière</div>
         <h2>Première réunion avec ${teamName}</h2>
         <p class="intro-meeting-lead">
-          Bienvenue dans le garage. Avant le premier Grand Prix, les pilotes et le staff veulent poser les bases de la saison.
+          Bienvenue dans le garage. Avant le premier Grand Prix, les drivers et le staff veulent poser les bases de la saison.
         </p>
 
         <div class="intro-meeting-grid">
           <div class="intro-person driver">
-            <span class="role">Pilote</span>
+            <span class="role">Driver</span>
             <strong>${d1}</strong>
             <p>“On a besoin d’une direction claire. Donne-nous une voiture régulière et on ira chercher les opportunités.”</p>
           </div>
           <div class="intro-person driver">
-            <span class="role">Pilote</span>
+            <span class="role">Driver</span>
             <strong>${d2}</strong>
             <p>“La saison sera longue. Si la stratégie est solide, on peut marquer gros même dans les week-ends difficiles.”</p>
           </div>

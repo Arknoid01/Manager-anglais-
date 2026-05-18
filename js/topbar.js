@@ -26,11 +26,11 @@
       ? F1Data.teams.find(function(t){ return t.id === pid; })
       : null;
 
-    /* ── Logo : ajoute Orbitron et couleur équipe ── */
+    /* ── Logo : ajoute Orbitron et couleur team ── */
     var logo = document.querySelector('.logo');
     if(logo){
       logo.style.fontFamily = "'Orbitron', sans-serif";
-      /* Ajoute le point coloré équipe si pas déjà là */
+      /* Ajoute le point coloré team si pas déjà là */
       if(team && !logo.querySelector('.logo-dot')){
         var dot = document.createElement('span');
         dot.className = 'logo-dot';
@@ -58,7 +58,7 @@
         budget.classList.add('pill-budget');
       }
 
-      /* Ajoute un badge équipe s'il n'y en a pas */
+      /* Ajoute un badge team s'il n'y en a pas */
       if(team && !pills.querySelector('.pill-team')){
         var tp = document.createElement('div');
         tp.className = 'pill pill-team';
@@ -70,7 +70,7 @@
 
     /* ── nav-back : ajoute ← si texte vide ── */
     document.querySelectorAll('.nav-back, .back-home').forEach(function(el){
-      if(!el.textContent.trim()) el.textContent = '← Accueil';
+      if(!el.textContent.trim()) el.textContent = '← Home';
       if(!el.getAttribute('href') || el.getAttribute('href') === '#')
         el.setAttribute('href', 'index.html');
     });

@@ -35,7 +35,7 @@ const Save = {
       // Résultats des courses
       raceResults: [],
 
-      // État équipe joueur
+      // État team joueur
       playerTeam: null,
 
       // Développement voiture
@@ -53,7 +53,7 @@ const Save = {
       localStorage.setItem(this.KEY, JSON.stringify(data));
       return true;
     } catch (e) {
-      console.error('[Save] Erreur sauvegarde:', e);
+      console.error('[Save] Error sauvegarde:', e);
       return false;
     }
   },
@@ -76,7 +76,7 @@ const Save = {
       this.applyTeamDevelopment(save);
       return save;
     } catch (e) {
-      console.error('[Save] Erreur chargement:', e);
+      console.error('[Save] Error chargement:', e);
       return null;
     }
   },
@@ -131,7 +131,7 @@ const Save = {
     F1Data.drivers.forEach(driver => {
       const state = save.driverStates[driver.id];
       if (!state) {
-        // Nouveau pilote (ex: Antonelli, Colapinto...) — initialiser
+        // Nouveau driver (ex: Antonelli, Colapinto...) — initialiser
         save.driverStates[driver.id] = {
           age:driver.age, pace:driver.pace, consistency:driver.consistency,
           wetSkill:driver.wetSkill, overtaking:driver.overtaking, defending:driver.defending,
@@ -139,14 +139,14 @@ const Save = {
           retired:false, teamId:driver.teamId, seasons:0,
         };
       } else if (!state.teamId || state.teamId === save.playerTeamId) {
-        // Ne pas toucher aux pilotes recrutés par le joueur
+        // Ne pas toucher aux drivers recrutés par le joueur
       } else if (state.teamId !== driver.teamId) {
-        // Pilote qui a changé d'équipe dans la réalité → mettre à jour
+        // Driver qui a changé d'team dans la réalité → mettre à jour
         state.teamId = driver.teamId;
       }
     });
 
-    // Supprimer les états de pilotes qui n'existent plus
+    // Supprimer les états de drivers qui n'existent plus
     const currentIds = new Set(F1Data.drivers.map(d => d.id));
     Object.keys(save.driverStates).forEach(id => {
       if (!currentIds.has(id) && !(save.generatedDrivers||[]).find(g=>g.id===id)) {
@@ -249,7 +249,7 @@ const Save = {
           defending:    existing.defending    ?? d.defending,
         };
       } else {
-        // Nouveau pilote — initialiser avec les valeurs de base
+        // Nouveau driver — initialiser avec les valeurs de base
         save.driverStates[d.id] = {
           age: d.age, pace: d.pace, consistency: d.consistency, wetSkill: d.wetSkill,
           overtaking: d.overtaking, defending: d.defending, salary: d.salary,
@@ -360,22 +360,22 @@ const Save = {
           state[statToImprove] = Math.min(pot, Math.round((current + finalGain) * 100) / 100);
         }
 
-        // Regression legere apres 34 ans
+        // Regression legere apres 34 years old
         if (age >= 34 && Math.random() < 0.15) {
           const regStat = Math.random() < 0.5 ? 'pace' : 'consistency';
           const cur = state[regStat] || driver[regStat] || 75;
           state[regStat] = Math.max(cur - 0.1, Math.round(cur * 0.998 * 10) / 10);
         }
       });
-    } catch(e) { console.warn('Progression pilotes:', e); }
+    } catch(e) { console.warn('Progression drivers:', e); }
 
     // Récompense course de base
     const reward = 2 + Math.round(teamPoints * 0.3) + (bestPosition <= 3 ? 3 : bestPosition <= 10 ? 1 : 0);
 
     // Tokens performance-based + 0.5 garanti (demi-token = 1 token tous les 2 GP)
     // Nerf v2 : gains réduits pour allonger la progression R&D
-    // Petite équipe : ~12-15/saison → 1-2 domaines par saison max
-    // Top équipe    : ~25-30/saison → peut développer 2-3 domaines
+    // Petite team : ~12-15/saison → 1-2 domaines par saison max
+    // Top team    : ~25-30/saison → peut développer 2-3 domaines
     const tokens = (Math.random() < 0.5 ? 1 : 0)  // 1 garanti sur 2 GP (demi-token)
                  + (teamPoints > 0 ? 1 : 0)         // top 10 = +1
                  + (bestPosition <= 5  ? 1 : 0);    // top 5  = +1 (max 3/course)
@@ -458,7 +458,7 @@ const Save = {
       if (!save.news.some(n => n && n.id === `season_review_${save.season||2025}`)) {
         save.news.unshift({
           id:`season_review_${save.season||2025}`, icon:'🏁', category:'season',
-          title:'Fin de saison',
+          title:'End of season',
           text:'Le dernier Grand Prix est terminé. La revue annuelle est disponible avant de lancer la prochaine saison.'
         });
       }
@@ -562,7 +562,7 @@ const Save = {
         "Tu n'y es pour rien. La mécanique nous a lâchés — on va régler ça.",
         "Je suis derrière toi. Ce qui s'est passé n'est pas de ta faute, on corrige ensemble.",
         "On reste soudés. Ce genre de journée arrive, on en sort plus forts.",
-        "Tête haute. L'équipe est avec toi. On reviendra.",
+        "Tête haute. L'team est avec toi. On reviendra.",
         "C'est la course. On analyse, on corrige, et on repart au prochain GP.",
       ],
       // Neutre — analyser
@@ -579,12 +579,12 @@ const Save = {
         "Je comprends la frustration mais les résultats ne sont pas là. Il faut réagir.",
         "On ne peut pas se permettre ces sorties de route. Les prochains GP seront décisifs.",
         "C'est inacceptable à ce niveau. On en parle au debriefing demain, sans complaisance.",
-        "Il faut que tu te ressaisisses. L'équipe compte sur toi et tu dois être là.",
+        "Il faut que tu te ressaisisses. L'team compte sur toi et tu dois être là.",
       ],
       // Félicitations
       congrats_pos: [
         "Une performance magistrale. Tu as tout donné et ça se voit.",
-        "Exactement ce qu'on attendait de toi. Bravo — à toute l'équipe.",
+        "Exactement ce qu'on attendait de toi. Bravo — à toute l'team.",
         "Tu as été parfait aujourd'hui. La voiture, la stratégie, tout s'est aligné.",
         "Je suis fier de toi. Ce résultat, tu l'as construit lap après lap.",
         "Incroyable. Tu m'as donné des frissons dans les stands. Continue comme ça.",
@@ -594,7 +594,7 @@ const Save = {
         "Excellent. Maintenant on ne relâche pas la pression.",
         "Beau résultat. Le prochain GP sera encore plus important — reste concentré.",
         "Très bien. Mais la concurrence va réagir. Il faudra confirmer.",
-        "C'est le minimum qu'on attend de cette équipe. Restons humbles et concentrés.",
+        "C'est le minimum qu'on attend de cette team. Restons humbles et concentrés.",
         "On savait que tu pouvais le faire. Maintenant il faut en faire une habitude.",
       ],
       // Critique constructive
@@ -650,13 +650,13 @@ const Save = {
         "Ces résultats ne sont pas acceptables. Il faut que ça change rapidement.",
         "Je dois être direct avec toi : on attend beaucoup plus. Tu le sais.",
         "Le niveau qu'on te demande n'est pas négociable. Il faut te ressaisir maintenant.",
-        "L'équipe investit énormément. Les résultats doivent suivre. Sans excuse.",
+        "L'team investit énormément. Les résultats doivent suivre. Sans excuse.",
         "On ne peut pas continuer comme ça. Qu'est-ce qui t'empêche de performer ?",
       ],
       // Encouragement générique
       encourage_pos: [
         "Bonne course. On repart de ça pour le prochain GP.",
-        "C'est ça l'esprit d'équipe. On analyse, on s'améliore, on revient plus forts.",
+        "C'est ça l'esprit d'team. On analyse, on s'améliore, on revient plus forts.",
         "Contenu de ce que j'ai vu aujourd'hui. On continue dans cette direction.",
         "Tu m'as donné des éléments positifs à analyser. C'est encourageant.",
         "Bien joué. Le travail de la semaine a payé. On recommence.",
@@ -687,7 +687,7 @@ const Save = {
       const moral   = save.immersion?.driverMorale?.[d.id]?.value ?? 70;
       const loyalty = save.driverLoyalty?.[d.id] ?? 50;
 
-      // Garantir 1 event post-course par pilote
+      // Garantir 1 event post-course par driver
       // Priorite : DNF > podium > points > moral bas > result generique
       if (isDnf) {
         const texts = [
@@ -699,7 +699,7 @@ const Save = {
           `${d.firstName} fixe les donnees sur son ecran sans les lire. L'abandon le ronge. Il n'a pas dit un mot depuis 40 minutes.`,
           `Le mecanicien en chef vous contacte discretement : "${d.firstName} est dans le garage depuis une heure. Seul. Il faudrait quelqu'un."`,
           `${d.firstName} a donne une interview courte puis est parti sans debriefing. Les journalistes ont note sa tension. Vous devez reagir.`,
-          `Retour au paddock. ${d.firstName} evite tout le monde apres l'abandon. Son regard croise le votre — il attend quelque chose de vous.`,
+          `Back au paddock. ${d.firstName} evite tout le monde apres l'abandon. Son regard croise le votre — il attend quelque chose de vous.`,
           `La deuxieme voiture est dans les points. ${d.firstName} l'a vu sur les ecrans du garage. L'ecart entre eux deux pese lourd ce soir.`,
         ];
         events.push({
@@ -1075,7 +1075,7 @@ const Save = {
     save.news.push({
       icon: '📋', category: 'regulation',
       title: regulation.name,
-      text: regulation.desc + ` Reset des performances (×${regulation.resetFactor}). Les équipes qui ont investi dans le nouveau concept partent avec un avantage.`,
+      text: regulation.desc + ` Reset des performances (×${regulation.resetFactor}). Les teams qui ont investi dans le nouveau concept partent avec un avantage.`,
     });
   },
 

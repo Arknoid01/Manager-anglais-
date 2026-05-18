@@ -5,7 +5,7 @@
 const F1Data = {
 
   // Version des données — changer ce numéro force la mise à jour
-  // des équipes/pilotes de base (sans effacer la progression)
+  // des teams/drivers de base (sans effacer la progression)
   DATA_VERSION: 5,
 
   // ── PNEUS ─────────────────────────────────────────────────
@@ -66,7 +66,7 @@ const F1Data = {
     { id:'sauber',      name:'Voltex',            shortName:'VLT', color:'#BB0000', accentColor:'#FFFFFF', budget:95, performance:63, reliability:74, aero:62, chassis:63, engine:85, isPlayer:false  },
     // Racing Bulls — Lawson + Hadjar (après swap Tsunoda→Red Bull)
     { id:'racingbulls', name:'Torino Corse',    shortName:'TRC', color:'#6692FF', accentColor:'#FFD700', budget:88, performance:72, reliability:77, aero:71, chassis:73, engine:85, isPlayer:false  },
-    // Cadillac — 11ème équipe 2026, Pérez + Bottas
+    // Cadillac — 11ème team 2026, Pérez + Bottas
     { id:'cadillac',    name:'Liberty Motorsport',        shortName:'LBM', color:'#6F6F78', accentColor:'#FFFFFF', budget:115, performance:55, reliability:65, aero:54, chassis:56, engine:82, isPlayer:false  },
   ],
 
@@ -136,7 +136,7 @@ const F1Data = {
     technical:   { label:'Technicien',     icon:'🔧', desc:'Excellent feedback technique, optimise la voiture',  paceBonus:0.05,  tyreMultiplier:0.85, overtakingBonus:0,  wetPenalty:0  },
   },
 
-  // ── NUMÉROS DISPONIBLES pour nouveaux pilotes ─────────────
+  // ── NUMÉROS DISPONIBLES pour nouveaux drivers ─────────────
   availableNumbers: [2,3,7,8,9,13,15,17,19,20,21,24,25,26,28,29,32,33,34,35,36,37,38,39,40,41,42,45,46,47,48,49,50,51,52,53,54,56,57,58,59,60,61,62,64,65,66,67,68,69,70,71,72,73,74,75,76,78,79,80,82,83,84,85,86,88,89,90,91,92,93,94,95,96,97,98],
 
   // ── BASE DE NOMS ─────────────────────────────────────────
@@ -204,7 +204,7 @@ const F1Data = {
   rdTree: {
 
     aero: {
-      label: 'Aérodynamique', icon: '🌊', color: '#3d7eff',
+      label: 'Aerodynamics', icon: '🌊', color: '#3d7eff',
       stat: 'aero',
       upgrades: [
         { id:'aero_1', level:1, name:'Fond plat optimisé',      desc:'Refonte du fond plat pour réduire la traînée.',          cost:10, tokens:1, gain:2, deliveryGps:4, requires:null },
@@ -215,36 +215,36 @@ const F1Data = {
     },
 
     chassis: {
-      label: 'Châssis', icon: '🏗️', color: '#e8003d',
+      label: 'Chassis', icon: '🏗️', color: '#e8003d',
       stat: 'chassis',
       upgrades: [
         { id:'chas_1', level:1, name:'Suspension révisée',      desc:'Géométrie de suspension améliorée, meilleur transfert.',  cost:12, tokens:1, gain:2, deliveryGps:4, requires:null },
         { id:'chas_2', level:2, name:'Monocoque allégée',       desc:'Nouvelle monocoque en composite carbone.',               cost:24, tokens:3, gain:3, deliveryGps:5, requires:'chas_1' },
         { id:'chas_3', level:3, name:'Plateforme renforcée',    desc:'Refonte complète de la plateforme châssis.',             cost:42, tokens:5, gain:4, deliveryGps:7, requires:'chas_2' },
       ],
-      nextYear: { id:'chas_ny', name:'Châssis 2026',            desc:'Architecture châssis conçue pour le nouveau règlement.', cost:55, tokens:6, gain:5, isNextYear:true },
+      nextYear: { id:'chas_ny', name:'Chassis 2026',            desc:'Architecture châssis conçue pour le nouveau règlement.', cost:55, tokens:6, gain:5, isNextYear:true },
     },
 
     engine: {
-      label: 'Moteur / ERS', icon: '⚡', color: '#ff8c42',
+      label: 'Engine / ERS', icon: '⚡', color: '#ff8c42',
       stat: 'engine',
       upgrades: [
         { id:'eng_1',  level:1, name:'Mapping moteur optimisé', desc:'Nouveau mapping, meilleure utilisation de l\'énergie.',   cost:15, tokens:1, gain:2, deliveryGps:3, requires:null },
         { id:'eng_2',  level:2, name:'ERS amélioré',            desc:'Nouvelle batterie ERS, déploiement plus efficace.',      cost:28, tokens:3, gain:2, deliveryGps:5, requires:'eng_1' },
         { id:'eng_3',  level:3, name:'Unité de puissance V3',   desc:'Troisième spec moteur de la saison.',                    cost:48, tokens:5, gain:3, deliveryGps:7, requires:'eng_2' },
       ],
-      nextYear: { id:'eng_ny', name:'Moteur hybride 2026',      desc:'Nouveau groupe propulseur pour le règlement 2026.',      cost:65, tokens:7, gain:5, isNextYear:true },
+      nextYear: { id:'eng_ny', name:'Engine hybride 2026',      desc:'Nouveau groupe propulseur pour le règlement 2026.',      cost:65, tokens:7, gain:5, isNextYear:true },
     },
 
     reliability: {
-      label: 'Fiabilité', icon: '🛡️', color: '#00d97e',
+      label: 'Reliability', icon: '🛡️', color: '#00d97e',
       stat: 'reliability',
       upgrades: [
         { id:'rel_1',  level:1, name:'Refroidissement amélioré',desc:'Meilleure gestion thermique, moins de surchauffe.',      cost:10, tokens:1, gain:2, deliveryGps:3, requires:null },
         { id:'rel_2',  level:2, name:'Hydraulique renforcé',    desc:'Circuit hydraulique revu, réduction des fuites.',        cost:18, tokens:3, gain:3, deliveryGps:4, requires:'rel_1' },
         { id:'rel_3',  level:3, name:'Système de contrôle v3',  desc:'Nouveau software de monitoring pièces critiques.',       cost:30, tokens:4, gain:3, deliveryGps:6, requires:'rel_2' },
       ],
-      nextYear: { id:'rel_ny', name:'Fiabilité 2026',           desc:'Conception durable pour le nouveau règlement.',          cost:42, tokens:5, gain:4, isNextYear:true },
+      nextYear: { id:'rel_ny', name:'Reliability 2026',           desc:'Conception durable pour le nouveau règlement.',          cost:42, tokens:5, gain:4, isNextYear:true },
     },
 
     pitstop: {
@@ -282,7 +282,7 @@ const F1Data = {
   nextYearBonusMultiplier: 1.8, // gain × 1.8 si nouveau règlement
 
   // Concepts risqués par domaine — pari R&D
-  // Succès : +bigGain, Échec : -smallLoss, Probabilité selon niveau tech équipe
+  // Succès : +bigGain, Échec : -smallLoss, Probabilité selon niveau tech team
   riskyConceptCost: { budget: 20, tokens: 3 },
   riskyConceptOutcomes: {
     success: { gain: 6, probability: 0.35 },

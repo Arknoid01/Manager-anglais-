@@ -1,13 +1,13 @@
 /**
- * F1 Manager — Thème dynamique par équipe
- * Injecte la couleur de l'équipe joueur comme variable CSS --accent
- * et génère un dégradé fond noir → couleur équipe
+ * F1 Manager — Thème dynamique par team
+ * Injecte la couleur de l'team joueur comme variable CSS --accent
+ * et génère un dégradé fond noir → couleur team
  * À inclure APRÈS data.js et save.js sur toutes les pages
  */
 
 const Theme = {
 
-  // Couleurs de fallback par équipe si data.js pas encore chargé
+  // Couleurs de fallback par team si data.js pas encore chargé
   TEAM_COLORS: {
     mclaren:    '#FF8000',
     ferrari:    '#CC0000',
@@ -63,7 +63,7 @@ const Theme = {
       root.style.setProperty('--accent-dark',  dark);
       root.style.setProperty('--f1-red',       color);
 
-      // Dégradé de fond : noir → légère teinte équipe
+      // Dégradé de fond : noir → légère teinte team
       root.style.setProperty('--bg',
         `#07070d`
       );
@@ -81,7 +81,7 @@ const Theme = {
       document.body.style.background =
         `linear-gradient(180deg, ${darker}18 0%, #07070d 120px)`;
 
-      // Topbar avec léger reflet équipe
+      // Topbar avec léger reflet team
       const topbar = document.querySelector('.topbar');
       if (topbar) {
         topbar.style.borderBottom = `1px solid rgba(${rgb}, 0.2)`;
@@ -93,7 +93,7 @@ const Theme = {
       window.__teamColorRgb = rgb;
 
     } catch(e) {
-      console.warn('[Theme] Erreur application thème:', e);
+      console.warn('[Theme] Error application thème:', e);
     }
   },
 
@@ -103,7 +103,7 @@ const Theme = {
   }
 };
 
-// Helper global pour afficher un logo d'équipe
+// Helper global pour afficher un logo d'team
 function getTeamLogo(teamId, size=40) {
   if (typeof F1Data === 'undefined') return '';
   const team = F1Data.teams.find(t => t.id === teamId);

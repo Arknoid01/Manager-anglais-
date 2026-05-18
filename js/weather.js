@@ -96,7 +96,7 @@ const Weather = {
   },
 
   // ── PÉNALITÉ SI MAUVAIS PNEU ─────────────────────────────
-  // Retourne les secondes perdues par tour si on est sur le mauvais pneu
+  // Backne les secondes perdues par tour si on est sur le mauvais pneu
   getTyreMismatchPenalty(compound, humidity) {
     const optimal = this.getOptimalTyre(humidity);
 
@@ -127,7 +127,7 @@ const Weather = {
   },
 
   // ── DÉCISION PIT MÉTÉO (IA) ───────────────────────────────
-  // Retourne si l'IA devrait pitter et quel pneu mettre
+  // Backne si l'IA devrait pitter et quel pneu mettre
   shouldPitForWeather(compound, humidity, gridPos=10, lap=1) {
     const optimal  = this.getOptimalTyre(humidity);
     const isSlick  = ['SOFT','MEDIUM','HARD'].includes(compound);
@@ -170,7 +170,7 @@ const Weather = {
   },
 
   // ── PRÉVISION MÉTÉO ───────────────────────────────────────
-  // Retourne une prévision texte pour l'interface
+  // Backne une prévision texte pour l'interface
   getForecast(humidityProfile, currentLap, totalLaps) {
     if (!humidityProfile || !humidityProfile.length) return null;
 
@@ -234,7 +234,7 @@ const Weather = {
       forecast.messages.push({
         type: 'rain',
         icon: '🌧️',
-        text: `Pluie attendue vers le tour ${rainLap}`,
+        text: `Wet attendue vers le tour ${rainLap}`,
         color: '#88aaff',
       });
     }

@@ -1,8 +1,8 @@
 // ============================================================
 //  F1 Manager — career.js
 //  Système de carrière long terme :
-//  - Évolution / déclin des pilotes
-//  - Génération de nouveaux pilotes
+//  - Évolution / déclin des drivers
+//  - Génération de nouveaux drivers
 //  - Vieillissement annuel
 //  - Retraites
 // ============================================================
@@ -10,7 +10,7 @@
 const Career = {
 
   // ── COURBE D'ÉVOLUTION PAR ÂGE ────────────────────────────
-  // Retourne un multiplicateur de progression/déclin selon l'âge
+  // Backne un multiplicateur de progression/déclin selon l'âge
   ageProgression(age) {
     if (age <= 20) return { pace: +2.5, consistency: +1.5, wetSkill: +1.0, defending: +0.5, overtaking: +1.5 };
     if (age <= 23) return { pace: +1.8, consistency: +1.2, wetSkill: +0.8, defending: +0.8, overtaking: +1.2 };
@@ -23,7 +23,7 @@ const Career = {
   },
 
   // ── VIEILLISSEMENT ANNUEL ─────────────────────────────────
-  // Appelé en fin de saison pour tous les pilotes
+  // Appelé en fin de saison pour tous les drivers
   ageAllDrivers(save) {
     if (!save) return;
     const retired = [];
@@ -40,7 +40,7 @@ const Career = {
       // Variabilité individuelle (±50% de la progression de base)
       const variance = 0.5 + Math.random();
 
-      // Stats plafonnées par le potentiel du pilote
+      // Stats plafonnées par le potentiel du driver
       const cap = driver.potential || 95;
 
       ['pace','consistency','wetSkill','overtaking','defending'].forEach(stat => {
@@ -48,9 +48,9 @@ const Career = {
         driver[stat] = Math.max(50, Math.min(cap, Math.round((driver[stat] || 70) + delta)));
       });
 
-      // Retraite possible à partir de 38 ans (probabilité croissante).
+      // Retraite possible à partir de 38 years old (probabilité croissante).
       // Les agents libres vieillissent/retraitent plus vite pour éviter un marché saturé
-      // de pilotes générés qui restent disponibles pendant 20 saisons.
+      // de drivers générés qui restent disponibles pendant 20 saisons.
       if (driver.age >= 38) {
         const isFreeAgent = !driver.teamId;
         const retireChance = isFreeAgent
@@ -137,7 +137,7 @@ const Career = {
       name:        lastName,
       firstName,
       nationality: nat,
-      teamId:      null, // sans équipe au départ
+      teamId:      null, // sans team au départ
       number,
       age,
       potential,
@@ -172,7 +172,7 @@ const Career = {
   },
 
   // ── LIBÉRATION DES SIÈGES ─────────────────────────────────
-  // En fin de saison, certains pilotes perdent leur siège (perf insuffisante)
+  // En fin de saison, certains drivers perdent leur siège (perf insuffisante)
   releasePoorPerformers(save) {
     const released = [];
     if (!save?.teamStandings) return released;
@@ -181,7 +181,7 @@ const Career = {
       const teamDrivers = F1Data.drivers.filter(d => d.teamId === team.id && !d.retired);
       if (teamDrivers.length < 2) return;
 
-      // Le pilote le moins bon peut être remplacé si l'écart est trop grand
+      // Le driver le moins bon peut être remplacé si l'écart est trop grand
       const sorted = [...teamDrivers].sort((a, b) => {
         const scoreA = (a.pace + a.consistency + a.wetSkill) / 3;
         const scoreB = (b.pace + b.consistency + b.wetSkill) / 3;
@@ -192,7 +192,7 @@ const Career = {
       const worst = sorted[sorted.length - 1];
       const gap   = ((best.pace + best.consistency) / 2) - ((worst.pace + worst.consistency) / 2);
 
-      // Libère si écart > 12 points et pas l'équipe joueur
+      // Libère si écart > 12 points et pas l'team joueur
       if (gap > 12 && team.id !== save.playerTeamId && Math.random() < 0.45) {
         worst.teamId = 'free_agent';
         released.push(worst);
@@ -214,7 +214,7 @@ const Career = {
       const needed = 2 - count;
       for (let i = 0; i < needed; i++) {
         if (!freeDrivers.length) break;
-        // Choisir le meilleur disponible adapté au niveau de l'équipe
+        // Choisir le meilleur disponible adapté au niveau de l'team
         const teamLevel = team.performance;
         const candidates = freeDrivers.sort((a, b) => {
           const sa = Math.abs(((a.pace + a.consistency) / 2) - teamLevel);
@@ -232,7 +232,7 @@ const Career = {
 
   cleanupDriverPool(save) {
     if (!save || typeof F1Data === 'undefined') return;
-    // On garde les pilotes officiels et les actifs. On retire seulement les vieux générés,
+    // On garde les drivers officiels et les actifs. On retire seulement les vieux générés,
     // agents libres et retraités du pool sauvegardé pour éviter une liste infinie.
     const removable = new Set(
       F1Data.drivers
@@ -301,7 +301,7 @@ const Career = {
     this.ensureContractSystem(save);
 
     // 0. Archiver le palmarès de la saison que l'on termine.
-    // Même si le joueur clique sur "Fin de saison" avant le dernier GP,
+    // Même si le joueur clique sur "End of season" avant le dernier GP,
     // l'ancienne saison est clôturée proprement et les stats repartent à zéro.
     const teamRank = [...F1Data.teams].sort((a, b) =>
       (save.teamStandings[b.id] || 0) - (save.teamStandings[a.id] || 0)
@@ -323,10 +323,10 @@ const Career = {
       racesCompleted: Number(save.race) || 0,
     });
 
-    // 1. Vieillir tous les pilotes
+    // 1. Vieillir tous les drivers
     report.retired = this.ageAllDrivers(save) || [];
 
-    // 2. Libérer les mauvais performers (IA)
+    // 2. Release les mauvais performers (IA)
     report.released = this.releasePoorPerformers(save);
 
     // 3. Générer de nouveaux talents
@@ -334,18 +334,18 @@ const Career = {
     report.newTalents = newDrivers;
     newDrivers.forEach(d => save.generatedDrivers.push(d));
 
-    // 3b. Académie joueur : un junior au hasard est libéré comme agent libre,
+    // 3b. Academy joueur : un junior au hasard est libéré comme agent libre,
     // puis un nouveau talent arrive. Les autres restent à l'académie et ne saturent pas le marché.
     if (typeof Immersion !== 'undefined' && Immersion.academyEndOfSeason) {
       report.academy = Immersion.academyEndOfSeason(save);
     }
 
-    // 4. Remplir les sièges vides (IA) AVANT de persister les états pilotes.
+    // 4. Remplir les sièges vides (IA) AVANT de persister les états drivers.
     // Avant, les changements de teamId pouvaient être perdus au rechargement.
     this.fillEmptySeats(save);
     this.cleanupDriverPool(save);
 
-    // 5. Persister l'état de tous les pilotes
+    // 5. Persister l'état de tous les drivers
     save.driverStates = {};
     F1Data.drivers.forEach(d => {
       save.driverStates[d.id] = {
@@ -382,12 +382,12 @@ const Career = {
     save.driverStandings = {};
     save.teamStandings   = {};
 
-    // Nettoyer les pilotes retraités du driverStates pour le standings
+    // Nettoyer les drivers retraités du driverStates pour le standings
     if (save.driverStates) {
       Object.keys(save.driverStates).forEach(id => {
         const st = save.driverStates[id];
         const d  = F1Data.drivers.find(x => x.id === id);
-        // Marquer comme retraité si plus d'équipe et pas de contrat
+        // Marquer comme retraité si plus d'team et pas de contrat
         if (st.teamId === 'free_agent' || !st.teamId) {
           const contract = save.contracts?.[id];
           if (!contract || contract.years <= 0) {
@@ -410,7 +410,7 @@ const Career = {
 
     save.news            = (save.news || []).slice(0, 5);
 
-    // Changement de règlement tous les 4 ans
+    // Changement de règlement tous les 4 years old
     const newSeason = currentSeason + 1;
     const isRegulationYear = (newSeason % 4 === 0); // 2028, 2032, 2036...
     if (isRegulationYear && typeof Save !== 'undefined' && Save.applyRegulationReset) {
@@ -425,7 +425,7 @@ const Career = {
         icon: '📋',
         category: 'regulation',
         title: `Nouveau règlement ${newSeason}`,
-        text: `La FIA introduit un nouveau règlement technique. Toutes les équipes repartent avec des performances réinitialisées. Les équipes qui ont investi dans la nouvelle réglementation partent avec un avantage.`,
+        text: `La FIA introduit un nouveau règlement technique. Toutes les teams repartent avec des performances réinitialisées. Les teams qui ont investi dans la nouvelle réglementation partent avec un avantage.`,
         date: new Date().toISOString(),
       });
     }
@@ -453,7 +453,7 @@ const Career = {
       const DOMAINS = ['aero','chassis','engine','reliability'];
       const seasonsPlayed = save.completedSeasons?.length || 1;
 
-      // ── Calculer les gains de la saison (delta vs base équipe)
+      // ── Calculer les gains de la saison (delta vs base team)
       const seasonGains = {};
       DOMAINS.forEach(d => {
         const base = team[d] !== undefined ? team[d] : 70;
@@ -462,7 +462,7 @@ const Career = {
       });
 
       // ── Héritage partiel : 35% des gains conservés
-      // Plus on est avancé (saisons jouées), moins on hérite (équipe mature)
+      // Plus on est avancé (saisons jouées), moins on hérite (team mature)
       const heritageFactor = Math.max(0.15, 0.35 - (seasonsPlayed - 1) * 0.03);
 
       // ── Événements de stagnation (30% de chance, max 1 domaine/saison, jamais 2x le même)
@@ -476,7 +476,7 @@ const Career = {
           const stagnationEvents = [
             `Concept technique dans une impasse en ${stagnationDomain}.`,
             `Ingénieur clé parti chez un concurrent — ${stagnationDomain} gelé.`,
-            `Règlement défavorable au concept ${stagnationDomain} de l'équipe.`,
+            `Règlement défavorable au concept ${stagnationDomain} de l'team.`,
             `Direction technique divisée sur l'avenir du ${stagnationDomain}.`,
           ];
           const msg = stagnationEvents[Math.floor(Math.random() * stagnationEvents.length)];
@@ -544,18 +544,18 @@ const Career = {
       if (inheritedTotal > 0) {
         save.news = save.news || [];
         save.news.push({
-          icon:'🔧', category:'technical', title:'Héritage technique conservé',
-          text:`Votre équipe conserve ${inheritedTotal.toFixed(1)} pts de développement pour la nouvelle saison.`,
+          icon:'🔧', category:'technical', title:'Technical legacy conservé',
+          text:`Votre team conserve ${inheritedTotal.toFixed(1)} pts de développement pour la nouvelle saison.`,
         });
       }
     }
 
     // ── IA progresse chaque saison (course perpétuelle)
-    // Budget-dépendant : grosses équipes progressent plus vite
+    // Budget-dépendant : grosses teams progressent plus vite
     this.progressAITeams(save, currentSeason);
 
     // ── Filet de sécurité budget : droits TV minimum garanti
-    // Même au pire classement, l'équipe touche 18M€ (TV rights plancher)
+    // Même au pire classement, l'team touche 18M€ (TV rights plancher)
     const TV_FLOOR = 18;
     if ((save.budget || 0) < TV_FLOOR) {
       const boost = TV_FLOOR - (save.budget || 0);
@@ -563,7 +563,7 @@ const Career = {
       save.news = save.news || [];
       save.news.push({
         icon:'📺', category:'finance', title:'Droits TV — plancher garanti',
-        text:`La FIA verse ${boost.toFixed(1)}M€ de droits TV minimum. L'équipe peut continuer à opérer.`,
+        text:`La FIA verse ${boost.toFixed(1)}M€ de droits TV minimum. L'team peut continuer à opérer.`,
       });
     }
 
@@ -596,7 +596,7 @@ const Career = {
   },
 
   // ── PROGRESSION IA ANNUELLE ──────────────────────────────
-  // Les équipes rivales progressent chaque saison — budget-dépendant
+  // Les teams rivales progressent chaque saison — budget-dépendant
   // Crée une course perpétuelle, empêche le joueur d'atteindre un mur fixe
   progressAITeams(save, season) {
     const DOMAINS = ['aero','chassis','engine','reliability'];
@@ -667,7 +667,7 @@ const Career = {
     if (!save) return { ok: false, msg: 'Pas de sauvegarde' };
 
     const driver = F1Data.drivers.find(d => d.id === driverId);
-    if (!driver) return { ok: false, msg: 'Pilote introuvable' };
+    if (!driver) return { ok: false, msg: 'Driver introuvable' };
     if (driver.retired) return { ok: false, msg: S('career.retired') };
 
     const signingFee = Math.round(driver.salary * 1.5); // frais de transfert
@@ -682,7 +682,7 @@ const Career = {
     const transfer = this.replacePlayerDriver(save, driver, slot === 'replace' ? '' : slot, {
       salary: driver.salary,
       years: 2,
-      role: 'pilote2',
+      role: 'driver2',
     });
     if (!transfer.ok) return transfer;
 
@@ -692,7 +692,7 @@ const Career = {
       CareerEvents.log(save, {
         phase: 'mercato',
         title: S('career.transfer'),
-        text: `${driver.firstName} ${driver.name} rejoint l'équipe${oldTeam ? ` depuis ${oldTeam}` : ''} pour ${signingFee}M€.${transfer.replaced ? ` ${transfer.replaced.firstName} ${transfer.replaced.name} devient agent libre.` : ''}`,
+        text: `${driver.firstName} ${driver.name} rejoint l'team${oldTeam ? ` depuis ${oldTeam}` : ''} pour ${signingFee}M€.${transfer.replaced ? ` ${transfer.replaced.firstName} ${transfer.replaced.name} devient agent libre.` : ''}`,
       });
     }
 
@@ -737,7 +737,7 @@ const Career = {
         save.contracts[d.id] = {
           years: baseYears,
           salary: Number(d.salary) || 1,
-          status: 'pilote2',
+          status: 'driver2',
           refus: 0,
           cooldownUntilSeason: 0,
           satisfaction: d.teamId === save.playerTeamId ? 58 : 50,
@@ -751,7 +751,7 @@ const Career = {
     const map = {
       loyal:      { label:'Loyal', icon:'🤝', desc:'Préfère la stabilité, plus simple à prolonger.' },
       mercenaire: { label:'Mercenaire', icon:'💰', desc:'Très sensible au salaire et aux primes.' },
-      ambitieux:  { label:'Ambitieux', icon:'🏆', desc:'Veut une équipe compétitive et un vrai statut.' },
+      ambitieux:  { label:'Ambitieux', icon:'🏆', desc:'Veut une team compétitive et un vrai statut.' },
       prudent:    { label:'Prudent', icon:'🧠', desc:'Aime les contrats longs et le risque faible.' },
       jeune_loup: { label:'Jeune loup', icon:'🌱', desc:'Cherche du temps de piste et une progression rapide.' },
     };
@@ -773,12 +773,12 @@ const Career = {
   evaluateContractOffer(save, driverId, offer = {}) {
     this.ensureContractSystem(save);
     const d = F1Data.drivers.find(x=>x.id===driverId);
-    if (!d || d.retired) return { ok:false, msg:'Pilote indisponible' };
+    if (!d || d.retired) return { ok:false, msg:'Driver indisponible' };
     const c = save.contracts[d.id] || {};
     const score = this.getDriverScore(d);
     const salary = Math.max(1, Number(offer.salary) || Number(d.salary) || 1);
     const years = Math.max(1, Number(offer.years) || 2);
-    const role = offer.role || 'pilote2';
+    const role = offer.role || 'driver2';
     const bonus = Math.max(0, Number(offer.bonus) || 0);
     const isRenewal = d.teamId === save.playerTeamId;
     const baseSalary = Math.max(1, Number(d.salary) || 1);
@@ -795,7 +795,7 @@ const Career = {
     chance += Math.max(0, Math.min(12, bonus * 0.8));
     chance += (rep - 50) * 0.35;
     chance += Math.max(-18, 12 - teamRank * 3);
-    if (role === 'pilote1') chance += 11;
+    if (role === 'driver1') chance += 11;
     if (role === 'egal') chance += 5;
     if (years >= 3) chance += 4;
     if (years <= 1) chance -= 5;
@@ -815,14 +815,14 @@ const Career = {
         break;
       case 'ambitieux':
         if (teamRank > 5) chance -= 18;
-        if (role !== 'pilote1') chance -= 8;
+        if (role !== 'driver1') chance -= 8;
         break;
       case 'prudent':
         if (years >= 3) chance += 10;
         if (years <= 1) chance -= 8;
         break;
       case 'jeune_loup':
-        if (role === 'pilote1' || role === 'egal') chance += 8;
+        if (role === 'driver1' || role === 'egal') chance += 8;
         if (score > 82 && teamRank > 7) chance -= 8;
         break;
     }
@@ -834,28 +834,28 @@ const Career = {
     if (isNaN(chance)) chance = 25;
     chance = Math.round(Math.max(5, Math.min(92, chance)));
     const safeDemandSalary = isNaN(demandSalary) ? Math.ceil((d.salary||1) * 1.1) : demandSalary;
-    return { ok:true, chance, isRenewal, score, teamRank, demand:{ salary:safeDemandSalary, bonus:demandBonus||0, years:demandYears||2, role: score >= 86 ? 'pilote1' : 'egal' } };
+    return { ok:true, chance, isRenewal, score, teamRank, demand:{ salary:safeDemandSalary, bonus:demandBonus||0, years:demandYears||2, role: score >= 86 ? 'driver1' : 'egal' } };
   },
 
   replacePlayerDriver(save, incomingDriver, replaceDriverId, contractData = {}) {
     if (!save || !incomingDriver) return { ok:false, msg:'Transfert impossible.' };
 
     const playerTeamId = save.playerTeamId;
-    // Exclure le pilote entrant du comptage pour eviter faux positif
+    // Exclure le driver entrant du comptage pour eviter faux positif
     const teamDrivers = F1Data.drivers.filter(x => x.teamId && x.teamId && x.teamId !== 'free_agent' && x.teamId === playerTeamId && !x.retired && x.id !== incomingDriver.id);
     let replaced = null;
 
-    // Si l'équipe a déjà 2 pilotes, le joueur doit choisir le siège à remplacer.
+    // Si l'team a déjà 2 drivers, le joueur doit choisir le siège à remplacer.
     if (teamDrivers.length >= 2) {
       if (!replaceDriverId) return { ok:false, msg:S('career.replace') };
       replaced = F1Data.drivers.find(x => x.id === replaceDriverId && x.teamId && x.teamId !== 'free_agent' && x.teamId === playerTeamId && !x.retired);
       if (!replaced) return { ok:false, msg:S('career.not_found') };
-      if (replaced.id === incomingDriver.id) return { ok:false, msg:'Ce pilote est déjà dans ton équipe.' };
+      if (replaced.id === incomingDriver.id) return { ok:false, msg:'Ce driver est déjà dans ton team.' };
     }
 
     const oldTeamId = incomingDriver.teamId || null;
 
-    // L'ancien pilote du joueur devient agent libre.
+    // L'ancien driver du joueur devient agent libre.
     if (replaced) {
       replaced.teamId = 'free_agent';
       replaced.contractYears = 0;
@@ -875,7 +875,7 @@ const Career = {
         const gi = save.generatedDrivers.findIndex(d => d.id === replaced.id);
         if (gi >= 0) { save.generatedDrivers[gi].teamId = 'free_agent'; save.generatedDrivers[gi].retired = false; }
       }
-      // Nettoyer moral et effets de l'ancien pilote
+      // Nettoyer moral et effets de l'ancien driver
       if (save.immersion?.driverMorale?.[replaced.id]) {
         delete save.immersion.driverMorale[replaced.id];
       }
@@ -890,7 +890,7 @@ const Career = {
       }
     }
 
-    // Le nouveau pilote prend exactement ce siège.
+    // Le nouveau driver prend exactement ce siège.
     incomingDriver.teamId = playerTeamId;
     incomingDriver.salary = Number(contractData.salary ?? incomingDriver.salary ?? 1);
     incomingDriver.contractYears = Number(contractData.years ?? 1);
@@ -909,14 +909,14 @@ const Career = {
       ...(save.contracts[incomingDriver.id] || {}),
       years: Number(contractData.years ?? 1),
       salary: Number(contractData.salary ?? incomingDriver.salary ?? 1),
-      status: contractData.role || 'pilote2',
+      status: contractData.role || 'driver2',
       refus: 0,
       cooldownUntilSeason: 0,
       satisfaction: Math.min(95, (save.contracts[incomingDriver.id]?.satisfaction ?? 58) + 10),
     };
 
-    // Si le pilote recruté venait d'une autre équipe, l'IA peut combler le siège vide.
-    // Cela permet notamment à l'ancien pilote du joueur d'être recruté ailleurs.
+    // Si le driver recruté venait d'une autre team, l'IA peut combler le siège vide.
+    // Cela permet notamment à l'ancien driver du joueur d'être recruté ailleurs.
     if (oldTeamId && oldTeamId !== playerTeamId) {
       this.fillEmptySeats(save);
     }
@@ -931,7 +931,7 @@ const Career = {
     const salary = Number(offer.salary ?? d.salary ?? 1);
     const years = Number(offer.years ?? 2);
     const bonus = Number(offer.bonus ?? 0);
-    const role = offer.role || 'pilote2';
+    const role = offer.role || 'driver2';
     const isRenewal = d.teamId === save.playerTeamId;
     const upfront = isRenewal ? bonus : Math.round((Number(d.salary)||1) * 1.2 + bonus);
     if ((save.budget || 0) < upfront) return { ok:false, msg:`Budget insuffisant : il faut ${upfront}M€ maintenant.` };
@@ -957,7 +957,7 @@ const Career = {
       return { ok:true, accepted:true, replaced:transfer?.replaced?.id || null, msg:`${d.firstName} ${d.name} accepte l'offre !${transfer?.replaced ? ' '+transfer.replaced.firstName+' '+transfer.replaced.name+' devient agent libre.' : ''}`, cost:upfront, chance:evalResult.chance };
     }
 
-    save.contracts[d.id] = { ...c, refus:(c.refus||0)+1, cooldownUntilSeason:(save.season || 2025) + 1, salary:c.salary || d.salary, years:c.years || 0, status:c.status || 'pilote2', satisfaction: Math.max(15, (c.satisfaction ?? 50) - 6) };
+    save.contracts[d.id] = { ...c, refus:(c.refus||0)+1, cooldownUntilSeason:(save.season || 2025) + 1, salary:c.salary || d.salary, years:c.years || 0, status:c.status || 'driver2', satisfaction: Math.max(15, (c.satisfaction ?? 50) - 6) };
     const counter = roll <= evalResult.chance + 22 ? evalResult.demand : null;
     Save.save(save);
     return { ok:true, accepted:false, counter, chance:evalResult.chance, msg: counter ? `${d.firstName} ${d.name} refuse mais propose une contre-offre.` : `${d.firstName} ${d.name} refuse l'offre.` };
@@ -968,12 +968,12 @@ const Career = {
     if (!save) return { ok: false, msg: 'Pas de sauvegarde' };
     const driver = F1Data.drivers.find(d => d.id === driverId);
     if (!driver || driver.teamId !== save.playerTeamId) {
-      return { ok: false, msg: 'Ce pilote n\'est pas dans ton équipe' };
+      return { ok: false, msg: 'Ce driver n\'est pas dans ton team' };
     }
 
     const teamDrivers = F1Data.drivers.filter(d => d.teamId && d.teamId !== 'free_agent' && d.teamId === save.playerTeamId && !d.retired);
     if (teamDrivers.length <= 1) {
-      return { ok: false, msg: 'Tu dois garder au moins 1 pilote' };
+      return { ok: false, msg: 'Tu dois garder au moins 1 driver' };
     }
 
     // Indemnité de licenciement
@@ -994,7 +994,7 @@ const Career = {
       CareerEvents.log(save, {
         phase: 'mercato',
         title: S('career.released'),
-        text:  `${driver.firstName} ${driver.name} quitte l'équipe. Indemnité : ${penalty}M€.`,
+        text:  `${driver.firstName} ${driver.name} quitte l'team. Indemnité : ${penalty}M€.`,
       });
     }
 
@@ -1075,11 +1075,11 @@ const Career = {
 
   // Icônes et labels par spécialité
   staffSpecialties: {
-    aero:        { icon:'🌊', label:'Aérodynamique', roles:['Ingénieur Aéro','Analyste CFD','Responsable Soufflerie',S('career.aero_chief')] },
-    chassis:     { icon:'🏗️', label:'Châssis',       roles:['Ingénieur Châssis',S('career.susp_spec'),S('career.setup_eng'),S('career.vehicle_dyn')] },
-    engine:      { icon:'⚡', label:'Moteur/ERS',    roles:['Ingénieur Moteur',S('career.ers_spec'),'Thermicien','Responsable Groupe Propulseur'] },
-    pitstop:     { icon:'⏱️', label:'Pit Stop',      roles:['Chef Mécanicien','Responsable Pit Stop','Coordinateur Stand','Chef d\'Équipe Pit'] },
-    reliability: { icon:'🛡️', label:'Fiabilité',     roles:['Ingénieur Fiabilité',S('career.data_analyst'),S('career.quality_mgr'),'Chef Maintenance'] },
+    aero:        { icon:'🌊', label:'Aerodynamics', roles:['Ingénieur Aéro','Analyste CFD','Responsable Soufflerie',S('career.aero_chief')] },
+    chassis:     { icon:'🏗️', label:'Chassis',       roles:['Ingénieur Chassis',S('career.susp_spec'),S('career.setup_eng'),S('career.vehicle_dyn')] },
+    engine:      { icon:'⚡', label:'Engine/ERS',    roles:['Ingénieur Engine',S('career.ers_spec'),'Thermicien','Responsable Groupe Propulseur'] },
+    pitstop:     { icon:'⏱️', label:'Pit Stop',      roles:['Chef Mécanicien','Responsable Pit Stop','Coordinateur Stand','Chef d\'Team Pit'] },
+    reliability: { icon:'🛡️', label:'Reliability',     roles:['Ingénieur Reliability',S('career.data_analyst'),S('career.quality_mgr'),'Chef Maintenance'] },
   },
 
   // ── GÉNÉRER UN MEMBRE DE STAFF ────────────────────────────
@@ -1093,14 +1093,14 @@ const Career = {
     const lastName  = names.lastNames [Math.floor(Math.random() * names.lastNames.length)];
     const role      = specData.roles  [Math.floor(Math.random() * specData.roles.length)];
 
-    // Âge : 25-45 ans (staff plus mature que les pilotes)
+    // Âge : 25-45 years old (staff plus mature que les drivers)
     const age = 25 + Math.floor(Math.random() * 20);
 
     // Niveau selon l'âge (expérience = niveau plus élevé)
     const ageBonus = Math.min(15, Math.floor((age - 25) / 2));
     const baseLevel = 58 + Math.floor(Math.random() * 20) + ageBonus; // 58-93
 
-    // Potentiel : plafond de progression (moins varié que les pilotes)
+    // Potentiel : plafond de progression (moins varié que les drivers)
     const potential = Math.min(97, baseLevel + 2 + Math.floor(Math.random() * 12));
 
     // Elite très rare (2%)
@@ -1180,12 +1180,12 @@ const Career = {
         });
       }
 
-      // Retraite : possible à partir de 58 ans
+      // Retraite : possible à partir de 58 years old
       if (st.age >= 58) {
         const retireChance = (st.age - 57) * 0.20;
         if (Math.random() < retireChance) {
           st.retired = true;
-          // Libérer de l'équipe joueur si recruté
+          // Release de l'team joueur si recruté
           if (save.staff?.includes(st.id)) {
             save.staff = save.staff.filter(id => id !== st.id);
           }
@@ -1207,7 +1207,7 @@ const Career = {
     save.generatedStaff = save.generatedStaff || [];
     const season        = save.season || 2025;
 
-    // Générer tous les 1-2 ans (pas forcément chaque saison)
+    // Générer tous les 1-2 years old (pas forcément chaque saison)
     // Mais on génère toujours au moins 2 la première fois
     const isFirst  = (save.generatedStaff?.length ?? 0) === 0;
     const count    = isFirst
@@ -1225,7 +1225,7 @@ const Career = {
   },
 
   // ── DÉBAUCHAGES IA ────────────────────────────────────────
-  // Certains staffs générés sont "recrutés" par des équipes IA
+  // Certains staffs générés sont "recrutés" par des teams IA
   aiStaffMovements(save) {
     if (!save?.generatedStaff) return;
 
@@ -1244,12 +1244,12 @@ const Career = {
           CareerEvents.log(save, {
             phase:'mercato', icon:'🔄', category:'competitor',
             title:S('career.staff_poached'),
-            text:`${st.firstName} ${st.name} (${st.role}) a rejoint une équipe rivale.`,
+            text:`${st.firstName} ${st.name} (${st.role}) a rejoint une team rivale.`,
           });
         }
       }
 
-      // Libérer si contrat IA expiré
+      // Release si contrat IA expiré
       if (st.aiContracted && (save.season||2025) >= (st.aiContractUntil||9999)) {
         st.aiContracted    = false;
         st.aiContractUntil = null;

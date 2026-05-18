@@ -49,11 +49,11 @@ const Weekend = {
       // Bonus/malus setup
       lapTime -= setupOpt.aeroBonus * 0.1;
 
-      // EL : pas à 100% (pilotes apprennent le circuit, pas en mode quali)
+      // EL : pas à 100% (drivers apprennent le circuit, pas en mode quali)
       const explorationFactor = prog.id === 'quali_sim' ? 0.97 : 0.99;
       lapTime /= explorationFactor;
 
-      // Amélioration progressive (pilote apprend la piste)
+      // Amélioration progressive (driver apprend la piste)
       lapTime -= lap * 0.012;
 
       // Variabilité
@@ -125,7 +125,7 @@ const Weekend = {
         if (qs.mode === 'push') {
           // Push : plus rapide mais risqué
           baseTime -= 0.25;  // gain significatif
-          // Risque de trafic/erreur selon consistance du pilote
+          // Risque de trafic/erreur selon consistance du driver
           const errorChance = Math.max(0.05, 0.20 - (driver.consistency||80) * 0.002);
           if (Math.random() < errorChance) {
             baseTime += 0.35 + Math.random() * 0.4; // erreur annule le gain

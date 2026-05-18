@@ -56,7 +56,7 @@ const Sponsors = {
       reputationMin:{ sport:40, media:35, tech:45, finance:40 },
       personality:'developer',
       techBonus:{ tokens:1 },
-      desc:'Société IT en croissance. Idéal pour les équipes en progression.',
+      desc:'Société IT en croissance. Idéal pour les teams en progression.',
       clauses:[
         { type:'points',     target:40, bonus:5,   penalty:-3  },
         { type:'position_up',target:1,  bonus:8,   penalty:0   },
@@ -125,7 +125,7 @@ const Sponsors = {
       reputationMin:{ sport:60, media:55, tech:30, finance:60 },
       personality:'loyal',
       techBonus:{},
-      desc:'Prestige et tradition. Ne signe qu\'avec les meilleures équipes.',
+      desc:'Prestige et tradition. Ne signe qu\'avec les meilleures teams.',
       clauses:[
         { type:'podiums',    target:5,  bonus:6,   penalty:-8  },
         { type:'position',   target:5,  bonus:4,   penalty:-10 }, // rester top 5 constructeurs
@@ -191,7 +191,7 @@ const Sponsors = {
       reputationMin:{ sport:15, media:20, tech:10, finance:15 },
       personality:'developer',
       techBonus:{},
-      desc:'Équipementier sportif. Évolue avec ta popularité.',
+      desc:'Teammentier sportif. Évolue avec ta popularité.',
       clauses:[
         { type:'races',      target:15, bonus:1,   penalty:0   },
         { type:'points_finishes', target:4,  bonus:2,  penalty:0   },
@@ -221,7 +221,7 @@ const Sponsors = {
       reputationMin:{ sport:50, media:45, tech:45, finance:50 },
       personality:'developer',
       techBonus:{ engine:1 },
-      desc:'Groupe énergétique en expansion. Cherche une équipe en progression.',
+      desc:'Groupe énergétique en expansion. Cherche une team en progression.',
       clauses:[
         { type:'position_up', target:2,  bonus:12,  penalty:0   },
         { type:'points',      target:50, bonus:6,   penalty:-4  },
@@ -264,7 +264,7 @@ const Sponsors = {
       reputationMin:{ sport:32, media:28, tech:28, finance:28 },
       personality:'loyal',
       techBonus:{},
-      desc:'Équipementier motorsport. Partenaire de longue date.',
+      desc:'Teammentier motorsport. Partenaire de longue date.',
       clauses:[
         { type:'races',      target:20, bonus:3,   penalty:-1  },
         { type:'top10',      target:8,  bonus:2,   penalty:0   },
@@ -329,7 +329,7 @@ const Sponsors = {
       reputationMin:{ sport:42, media:38, tech:45, finance:42 },
       personality:'developer',
       techBonus:{ tokens:1 },
-      desc:'CRM cloud. Investit dans les équipes qui progressent.',
+      desc:'CRM cloud. Investit dans les teams qui progressent.',
       clauses:[
         { type:'position_up', target:2,  bonus:8,   penalty:0   },
         { type:'top10',       target:8,  bonus:3,   penalty:-2  },
@@ -344,7 +344,7 @@ const Sponsors = {
       reputationMin:{ sport:18, media:18, tech:12, finance:15 },
       personality:'loyal',
       techBonus:{},
-      desc:'Équipements pilotes. Accessible à toutes les équipes.',
+      desc:'Teamments drivers. Accessible à toutes les teams.',
       clauses:[
         { type:'races',      target:15, bonus:1,   penalty:0   },
       ],
@@ -356,7 +356,7 @@ const Sponsors = {
       reputationMin:{ sport:15, media:12, tech:10, finance:12 },
       personality:'loyal',
       techBonus:{},
-      desc:'Combinaisons et équipements motorsport. Partenaire entrée de gamme.',
+      desc:'Combinaisons et teamments motorsport. Partenaire entrée de gamme.',
       clauses:[
         { type:'races',      target:12, bonus:1,   penalty:0   },
       ],
@@ -556,7 +556,7 @@ const Sponsors = {
       reputationMin:{ sport:20, media:18, tech:22, finance:18 },
       personality:'loyal',
       techBonus:{ reliability:1 },
-      desc:'Équipements de sécurité. Améliore la fiabilité.',
+      desc:'Teamments de sécurité. Améliore la fiabilité.',
       clauses:[
         { type:'races',      target:18, bonus:1,   penalty:0   },
         { type:'dnf_max',    target:5,  bonus:2,   penalty:-1  },
@@ -571,7 +571,7 @@ const Sponsors = {
       reputationMin:{ sport:22, media:25, tech:12, finance:18 },
       personality:'loyal',
       techBonus:{},
-      desc:'Équipementier sportif mondial. Partenaire accessible.',
+      desc:'Teammentier sportif mondial. Partenaire accessible.',
       clauses:[
         { type:'races',      target:15, bonus:1,   penalty:0   },
         { type:'points_finishes', target:4,  bonus:1,  penalty:0   },
@@ -584,7 +584,7 @@ const Sponsors = {
       reputationMin:{ sport:18, media:15, tech:15, finance:15 },
       personality:'loyal',
       techBonus:{},
-      desc:'Équipements de course. Partenaire technique discret.',
+      desc:'Teamments de course. Partenaire technique discret.',
       clauses:[
         { type:'races',      target:14, bonus:1,   penalty:0   },
       ],
@@ -683,12 +683,12 @@ const Sponsors = {
   ],
 
   // ── COMPÉTITION IA POUR LES SPONSORS ──────────────────────
-  // Les équipes IA "occupent" certains sponsors selon leur niveau
+  // Les teams IA "occupent" certains sponsors selon leur niveau
   initAISponsors(save) {
     if (save.aiSponsors) return; // déjà initialisé
     save.aiSponsors = {};
 
-    // Assignation réaliste : top équipes ont les gros sponsors
+    // Assignation réaliste : top teams ont les gros sponsors
     const aiAssignments = [
       { teamId:'mclaren',     sponsorIds:['oracle','monster','dhl','acer','chandon'] },
       { teamId:'ferrari',     sponsorIds:['shell','santander','rolex','adobe','tag_heuer'] },
@@ -721,7 +721,7 @@ const Sponsors = {
     return ai;
   },
 
-  // Débaucher un sponsor d'une équipe IA (coûte de la réputation)
+  // Débaucher un sponsor d'une team IA (coûte de la réputation)
   poachFromAI(save, sponsorId) {
     const ai = save.aiSponsors?.[sponsorId];
     if (!ai) return true; // libre
@@ -739,7 +739,7 @@ const Sponsors = {
     return true;
   },
 
-  // Fin de saison IA : les équipes IA renouvellent ou perdent des sponsors
+  // End of season IA : les teams IA renouvellent ou perdent des sponsors
   updateAISponsorships(save, playerPos) {
     if (!save.aiSponsors) return;
     // Renouvellement aléatoire
@@ -751,7 +751,7 @@ const Sponsors = {
         ai.until = (save.season||2025) + 1 + Math.floor(Math.random() * 2);
       }
     });
-    // Top équipes IA signent de nouveaux sponsors
+    // Top teams IA signent de nouveaux sponsors
     const topAI = ['mclaren','ferrari','redbull','mercedes'];
     const bigSponsors = this.DB.filter(s => s.type === 'title' || s.baseValue >= 30);
     topAI.forEach(teamId => {
@@ -769,7 +769,7 @@ const Sponsors = {
   initCareer(save) {
     if (!save) return;
 
-    // Réputation initiale selon l'équipe
+    // Réputation initiale selon l'team
     const team = F1Data.teams.find(t => t.id === save.playerTeamId);
     const baseRep = Math.round((team?.performance || 70) * 0.7);
 
@@ -1067,7 +1067,7 @@ const Sponsors = {
 
         if (save.news) save.news.push({
           icon:'💔', category:'sponsor',
-          title:`${sp.name} quitte l'équipe`,
+          title:`${sp.name} quitte l'team`,
           text:`Objectifs non atteints. Pénalité : ${totalPenalty}M€.`,
         });
       } else {
@@ -1177,8 +1177,8 @@ const Sponsors = {
     if (val >= 85) return { label:'Légendaire', color:'#f5c842' };
     if (val >= 70) return { label:'Excellente',  color:'#00d97e' };
     if (val >= 55) return { label:'Bonne',        color:'#3d7eff' };
-    if (val >= 40) return { label:'Moyenne',      color:'#ff8c42' };
-    return               { label:'Faible',        color:'#e8003d' };
+    if (val >= 40) return { label:'Medium',      color:'#ff8c42' };
+    return               { label:'Low',        color:'#e8003d' };
   },
 
   // ── PROBABILITÉ D'ACCEPTATION CONTRE-OFFRE ────────────────

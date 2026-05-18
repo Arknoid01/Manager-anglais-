@@ -1,6 +1,6 @@
 // ============================================================
 //  F1 Manager — profiles.js
-//  Liens et fiches universelles : pilotes, écuries, staff
+//  Liens et fiches universelles : drivers, écuries, staff
 // ============================================================
 
 const PROFILE_STAFF_DB = [
@@ -101,7 +101,7 @@ const PROFILE_STAFF_DB = [
   {
     id:'aero_4', name:'Ben Agathangelou', icon:'🏹',
     role:'Responsable Aéro — Haas', specialty:'aero',
-    desc:'Architecte aéro de la Haas depuis la création de l\'équipe. Maître de l\'aéro à petit budget.',
+    desc:'Architecte aéro de la Haas depuis la création de l\'team. Maître de l\'aéro à petit budget.',
     level:76, salary:3, cost:8,
     impacts:{ aero:+3 },
     passive:'Optimise le ratio performance/coût des upgrades aéro',
@@ -150,24 +150,24 @@ const PROFILE_STAFF_DB = [
 
   {
     id:'eng_1', name:'Hywel Thomas', icon:'⚡',
-    role:'Directeur Moteur — Mercedes HPP', specialty:'engine',
+    role:'Directeur Engine — Mercedes HPP', specialty:'engine',
     desc:'Successeur d\'Andy Cowell à la tête de Mercedes High Performance Powertrains. Architecte du moteur 2026.',
     level:90, salary:9, cost:20, elite:true,
     impacts:{ engine:+9, reliability:+4 },
-    passive:'Moteur Mercedes : réduit la consommation de 3% → vitesse de pointe +0.8km/h',
+    passive:'Engine Mercedes : réduit la consommation de 3% → vitesse de pointe +0.8km/h',
   },
   {
     id:'eng_2', name:'Enrico Gualtieri', icon:'🔋',
-    role:'Directeur Moteur — Ferrari', specialty:'engine',
+    role:'Directeur Engine — Ferrari', specialty:'engine',
     desc:'Patron de Ferrari Gestione Sportiva (moteur). Spécialiste du V6 turbo-hybride de Maranello.',
     level:88, salary:8, cost:18,
     impacts:{ engine:+7, reliability:+3 },
-    passive:'Moteur Ferrari : boost ERS +3% → meilleur déploiement en sortie de virage',
+    passive:'Engine Ferrari : boost ERS +3% → meilleur déploiement en sortie de virage',
   },
   {
     id:'eng_3', name:'Remi Taffin', icon:'🔩',
-    role:'Directeur Technique Moteur — Alpine/Renault', specialty:'engine',
-    desc:'Ex-responsable moteur Renault F1 (2014-2021). Revenu pour piloter le projet moteur Alpine 2026.',
+    role:'Directeur Technique Engine — Alpine/Renault', specialty:'engine',
+    desc:'Ex-responsable moteur Renault F1 (2014-2021). Revenu pour driverr le projet moteur Alpine 2026.',
     level:83, salary:6, cost:14,
     impacts:{ engine:+5, reliability:+4 },
     passive:'Réduit les DNF moteur de 18% · +0.5 fiabilité/saison automatiquement',
@@ -188,7 +188,7 @@ const PROFILE_STAFF_DB = [
   {
     id:'pit_1', name:'Jonathan Wheatley', icon:'⏱️',
     role:'Team Principal — Kick Sauber (ex-Chef Pit Red Bull)', specialty:'pitstop',
-    desc:'20 ans chez Red Bull dont les arrêts sous 2s. Désormais TP Sauber mais son expertise pit stop est légendaire.',
+    desc:'20 years old chez Red Bull dont les arrêts sous 2s. Désormais TP Sauber mais son expertise pit stop est légendaire.',
     level:95, salary:9, cost:22, elite:true,
     impacts:{ pitstop:+14 },
     passive:'Réduit le pitLoss de 2.2s · Réduit les erreurs de pit de 25%',
@@ -196,7 +196,7 @@ const PROFILE_STAFF_DB = [
   {
     id:'pit_2', name:'Lee Stevenson', icon:'🔧',
     role:'Chef Mécanicien', specialty:'pitstop',
-    desc:'Coordinateur des mécaniciens chez une équipe top. Précision et rapidité au stand.',
+    desc:'Coordinateur des mécaniciens chez une team top. Précision et rapidité au stand.',
     level:83, salary:4, cost:10,
     impacts:{ pitstop:+7 },
     passive:'Réduit le pitLoss de 1.3s sur tous les circuits',
@@ -236,7 +236,7 @@ const PROFILE_STAFF_DB = [
     desc:'L\'ingénieur de course de Max Verstappen depuis 2016. Maître de la gestion des pneus et de la régularité.',
     level:89, salary:7, cost:16, elite:true,
     impacts:{ reliability:+6, pitstop:+3 },
-    passive:'Améliore la gestion pneus pilote n°1 de 5% · Moins de cliff pneu en fin de relais',
+    passive:'Améliore la gestion pneus driver n°1 de 5% · Moins de cliff pneu en fin de relais',
   },
   {
     id:'rel_3', name:'Riccardo Adami', icon:'📡',
@@ -244,7 +244,7 @@ const PROFILE_STAFF_DB = [
     desc:'L\'ingénieur de course de Charles Leclerc. Excellente gestion des pneus et de la consommation carburant.',
     level:85, salary:6, cost:13,
     impacts:{ reliability:+5, pitstop:+2 },
-    passive:'Réduit la dégradation pneus pilote n°1 de 4% · Optimise la consommation carburant',
+    passive:'Réduit la dégradation pneus driver n°1 de 4% · Optimise la consommation carburant',
   },
   {
     id:'rel_4', name:'Peter Bonnington', icon:'📻',
@@ -252,7 +252,7 @@ const PROFILE_STAFF_DB = [
     desc:'L\'ingénieur de Lewis Hamilton pendant toute son ère Mercedes. Maintenant avec George Russell.',
     level:86, salary:6, cost:14,
     impacts:{ reliability:+5, chassis:+2 },
-    passive:'Réduit les erreurs pilote · Meilleure cohérence sur les relais longs',
+    passive:'Réduit les erreurs driver · Meilleure cohérence sur les relais longs',
   },
 
   // ══════════════════════════════════════════════════════════
@@ -281,7 +281,7 @@ const PROFILE_STAFF_DB = [
     desc:'TP Ferrari depuis 2023. Connu pour avoir travaillé avec Hamilton, Leclerc, Räikkönen. Bâtisseur de champions.',
     level:88, salary:9, cost:21, elite:true,
     impacts:{ aero:+3, chassis:+3, performance:+5 },
-    passive:'Facilite le recrutement de pilotes top · Réduit le coût des contrats pilotes de 10%',
+    passive:'Facilite le recrutement de drivers top · Réduit le coût des contrats drivers de 10%',
   },
   {
     id:'dir_binotto', name:'Mattia Binotto', icon:'🎯',
@@ -364,7 +364,7 @@ const PROFILE_STAFF_DB = [
     restoreStaff(save);
     const t = String(type || '').toLowerCase();
     const sid = String(id || '');
-    if (t === 'driver' || t === 'pilote') return F1Data.drivers.find(d => String(d.id) === sid) || null;
+    if (t === 'driver' || t === 'driver') return F1Data.drivers.find(d => String(d.id) === sid) || null;
     if (t === 'team' || t === 'ecurie' || t === 'écurie') return F1Data.teams.find(tm => String(tm.id) === sid) || null;
     if (t === 'staff') return getStaff(save, sid);
     return null;

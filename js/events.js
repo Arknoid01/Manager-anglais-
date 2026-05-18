@@ -63,7 +63,7 @@ const CareerEvents = {
     const perf  = team?.performance || 70;
     const season = save?.season || 2025;
 
-    // Objectifs calibrés selon le niveau de l'équipe
+    // Objectifs calibrés selon le niveau de l'team
     let constructorTarget, driverTarget, minRaces, budgetTarget;
 
     if (perf >= 90) {
@@ -84,7 +84,7 @@ const CareerEvents = {
       budgetSurplus:   budgetTarget,
       description: [
         `Terminer P${constructorTarget} au championnat constructeurs`,
-        `Avoir un pilote dans le top ${driverTarget} pilotes`,
+        `Avoir un driver dans le top ${driverTarget} drivers`,
         `Marquer des points dans ${minRaces} courses`,
         `Dégager un surplus de ${budgetTarget}M€ en fin de saison`,
       ],
@@ -122,12 +122,12 @@ const CareerEvents = {
     details.push({ label:`Constructeurs ${constPos ? `P${constPos}` : '—'}/${obj.constructorPos}`, ok: constOk, finalOnly:true });
     if (constOk) score += 30;
 
-    // Position pilote
+    // Position driver
     const allDrivers = [...F1Data.drivers].filter(d=>!d.retired)
       .sort((a,b)=>(Number(save.driverStandings?.[b.id])||0)-(Number(save.driverStandings?.[a.id])||0));
     const driverPos = seasonStarted ? (allDrivers.findIndex(d=>sameId(d.teamId, save.playerTeamId))+1) : null;
     const driverOk  = driverPos ? driverPos <= obj.driverPos : null;
-    details.push({ label:`Pilote ${driverPos ? `P${driverPos}` : '—'}/${obj.driverPos}`, ok: driverOk, finalOnly:true });
+    details.push({ label:`Driver ${driverPos ? `P${driverPos}` : '—'}/${obj.driverPos}`, ok: driverOk, finalOnly:true });
     if (driverOk) score += 30;
 
     // Courses avec points
@@ -138,7 +138,7 @@ const CareerEvents = {
       return playerPts > 0;
     }).length;
     const racesOk = racesWithPoints >= (Number(obj.minPointsRaces)||0);
-    details.push({ label:`${racesWithPoints}/${obj.minPointsRaces} courses avec points`, ok: racesOk, progress:racesWithPoints, target:obj.minPointsRaces });
+    details.push({ label:`${racesWithPoints}/${obj.minPointsRaces} points-scoring races`, ok: racesOk, progress:racesWithPoints, target:obj.minPointsRaces });
     if (racesOk) score += 20;
 
     // Santé financière : utilise l'objectif sauvegardé si disponible au lieu d'une valeur fixe.
@@ -210,14 +210,14 @@ const CareerEvents = {
         effect: () => this.applyDriverEffect(save, d.id, {pace:-4, consistency:-3, races:1, label:'Blessure légère'})
       }),
       () => ({
-        title: 'Pilote en grande forme',
+        title: 'Driver en grande forme',
         text:  `${d.firstName} ${d.name} a dominé les séances libres à ${circName}. Bonus de confiance pour ce GP.`,
         icon:  '💪', category: 'performance',
         effect: () => this.applyDriverEffect(save, d.id, {pace:+3, consistency:+2, races:1, label:'En grande forme'})
       }),
       () => ({
-        title: 'Gastro dans l\'équipe',
-        text:  `Une gastro-entérite touche plusieurs membres de l'équipe dont ${d.firstName} ${d.name}. Week-end compliqué en perspective.`,
+        title: 'Gastro dans l\'team',
+        text:  `Une gastro-entérite touche plusieurs membres de l'team dont ${d.firstName} ${d.name}. Week-end compliqué en perspective.`,
         icon:  '🤒', category: 'medical',
         effect: () => this.applyDriverEffect(save, d.id, {consistency:-5, races:1, label:'Pas dans son assiette'})
       }),
@@ -231,7 +231,7 @@ const CareerEvents = {
       }),
       () => ({
         title: 'Fuite hydraulique détectée',
-        text:  'Les mécaniciens ont repéré un problème sur la voiture de pole. Fiabilité temporairement en baisse.',
+        text:  'Les mécaniciens ont repéré un problème sur la voiture de pole. Reliability temporairement en baisse.',
         icon:  '🔧', category: 'technical',
         effect: () => { if(save.carDev?.reliability) save.carDev.reliability.level=Math.max(1,save.carDev.reliability.level-2); }
       }),
@@ -243,7 +243,7 @@ const CareerEvents = {
       }),
       () => ({
         title: 'Problème de boîte de vitesses',
-        text:  'Un problème de boîte détecté en FP3. L\'équipe change la boîte, pénalité de 5 places sur la grille.',
+        text:  'Un problème de boîte détecté en FP3. L\'team change la boîte, pénalité de 5 places sur la grille.',
         icon:  '⚙️', category: 'technical',
         effect: () => this.applyDriverEffect(save, d.id, {consistency:-2, races:1, label:'Pénalité grille'})
       }),
@@ -263,7 +263,7 @@ const CareerEvents = {
       }),
       () => ({
         title: 'Nouveau sponsor intéressé',
-        text:  'Une grande marque de tech veut s\'associer à votre équipe. Négociation en cours.',
+        text:  'Une grande marque de tech veut s\'associer à votre team. Négociation en cours.',
         icon:  '🤝', category: 'financial',
         effect: () => { save.budget=Math.round(((save.budget||0)+12)*10)/10; }
       }),
@@ -279,8 +279,8 @@ const CareerEvents = {
         }
       }),
       () => ({
-        title: 'Approche d\'une équipe rivale',
-        text:  `Une équipe rivale tente de débaucher ${d.firstName} ${d.name}. Votre pilote reste loyal… pour l'instant.`,
+        title: 'Approche d\'une team rivale',
+        text:  `Une team rivale tente de débaucher ${d.firstName} ${d.name}. Votre driver reste loyal… pour l'instant.`,
         icon:  '🔄', category: 'mercato',
         effect: () => {
           save.contracts[d.id] = save.contracts[d.id] || {years:2};
@@ -292,7 +292,7 @@ const CareerEvents = {
       // IA / Concurrents
       () => ({
         title: 'Mise à jour moteur concurrente',
-        text:  'Une équipe rivale a apporté une grosse évolution moteur ce week-end. Attention !',
+        text:  'Une team rivale a apporté une grosse évolution moteur ce week-end. Attention !',
         icon:  '⚡', category: 'competitor',
         effect: () => {
           const rivals = F1Data.teams.filter(t=>t.id!==save.playerTeamId);
@@ -303,7 +303,7 @@ const CareerEvents = {
       }),
       () => ({
         title: 'Accident en pitlane IA',
-        text:  'Une équipe rivale a eu un incident en pitlane lors des essais. Safety car probable.',
+        text:  'Une team rivale a eu un incident en pitlane lors des essais. Safety car probable.',
         icon:  '💥', category: 'competitor',
         effect: () => { /* effet cosmétique */ }
       }),
@@ -330,7 +330,7 @@ const CareerEvents = {
 
   // ── NEWS AMBIANCE / IMMERSION (pas d'effet gameplay) ────────
   triggerAmbianceNews(save, d, circuit, circId, circName) {
-    const teamName  = F1Data.teams.find(t=>t.id===save.playerTeamId)?.name || 'votre équipe';
+    const teamName  = F1Data.teams.find(t=>t.id===save.playerTeamId)?.name || 'votre team';
     const dName     = `${d.firstName} ${d.name}`;
     const weather   = save.weekendWeather || 'dry';
     const isWet     = weather !== 'dry';
@@ -341,14 +341,14 @@ const CareerEvents = {
     // Pools par thème
     const paddockNews = [
       { icon:'🎙️', title:'Ambiance paddock', text:`Le paddock de ${circName} bourdonne d'activité. Les mécaniciens ont travaillé toute la nuit, les motorhomes sont pleins. L'atmosphère est électrique avant ce GP.` },
-      { icon:'☕', title:'Jeudi paddock', text:`${dName} a été aperçu détendu au motorhome ce matin, café à la main. "On est prêts" a-t-il glissé aux journalistes. Le reste de l'équipe partage ce calme apparent.` },
-      { icon:'🎧', title:'Briefing équipe', text:`Réunion stratégique de deux heures ce matin avec tous les ingénieurs. La stratégie de course a été affinée, les scénarios météo passés en revue. L'équipe est alignée.` },
+      { icon:'☕', title:'Jeudi paddock', text:`${dName} a été aperçu détendu au motorhome ce matin, café à la main. "On est prêts" a-t-il glissé aux journalistes. Le reste de l'team partage ce calme apparent.` },
+      { icon:'🎧', title:'Briefing team', text:`Réunion stratégique de deux heures ce matin avec tous les ingénieurs. La stratégie de course a été affinée, les scénarios météo passés en revue. L'team est alignée.` },
       { icon:'📺', title:'Médias', text:`${dName} enchaîne les interviews depuis ce matin. La presse veut savoir si ${teamName} peut surprendre ce week-end. La réponse reste mesurée mais confiante.` },
       { icon:'🤝', title:'Relations sponsor', text:`Le sponsor principal est présent ce week-end avec une délégation. Une bonne performance devant les caméras serait appréciée. Pas de pression supplémentaire... officiellement.` },
       { icon:'🔬', title:'Données simulateur', text:`Les données de simulateur de la semaine pointent vers une bonne corrélation avec la piste réelle. Les ingénieurs sont optimistes sur le setup de départ.` },
       { icon:'🔧', title:'Nuit de travail', text:`Les mécaniciens de ${teamName} ont travaillé jusqu'à 3h du matin pour affiner les réglages. Le muret est satisfait du résultat. La voiture est prête.` },
       { icon:'📊', title:'Analyse télémétrie', text:`L'ingénieur de course de ${dName} a passé la soirée sur les données des rivaux. Quelques failles ont été identifiées. Le plan de course est ajusté en conséquence.` },
-      { icon:'🍕', title:"Cohésion d'équipe", text:`Dîner d'équipe hier soir pour souder le groupe avant le week-end. ${teamName} mise sur l'esprit collectif pour performer ce GP.` },
+      { icon:'🍕', title:"Cohésion d'team", text:`Dîner d'team hier soir pour souder le groupe avant le week-end. ${teamName} mise sur l'esprit collectif pour performer ce GP.` },
       { icon:'💬', title:'Conférence de presse', text:`${dName} était en forme en conférence de presse ce jeudi. Détendu, précis, confiant. Les journalistes ont noté une sérénité inhabituelle.` },
       { icon:'🏋️', title:'Préparation physique', text:`${dName} a commencé sa journée par une séance de sport à 7h. La condition physique est un facteur clé sur ce circuit exigeant.` },
       { icon:'🎯', title:'Debriefing EL', text:`Deux heures de debriefing après les essais libres. Les ingénieurs ont identifié le setup optimal. La voiture devrait être plus compétitive en qualif.` },
@@ -372,28 +372,28 @@ const CareerEvents = {
       { icon:'🗺️', title:`Circuit de ${circName}`, text:isStreet
           ? `Les rues de ${circName} ont été homologuées hier soir. Les glissières neuves brillent sous les projecteurs. Chaque centimètre de bitume a été inspecté avant l'ouverture de la piste.`
           : isSpeed
-          ? `${circName}, temple de la vitesse pure. Les équipes ont opté pour les réglages les plus effacés possibles. La bataille moteur sera décisive ce week-end.`
+          ? `${circName}, temple de la vitesse pure. Les teams ont opté pour les réglages les plus effacés possibles. La bataille moteur sera décisive ce week-end.`
           : isTech
           ? `${circName} met à l'épreuve l'équilibre de la voiture dans toutes ses dimensions. Setup polyvalent ou spécialisé ? Les ingénieurs ont tranché, on verra si c'était le bon choix.`
           : `${circName} offre plusieurs configurations stratégiques. L'undercut fonctionne bien ici historiquement — les fenêtres de pit seront cruciales.`
       },
       { icon:'📏', title:'Reconnaissance circuit', text:`${dName} a effectué le tour de reconnaissance à vélo ce matin avec l'ingénieur de piste. Quelques bosses nouvelles ont été notées dans le secteur 2. Les notes ont été actualisées.` },
       { icon:'🌡️', title:'Conditions piste', text:isWet
-          ? `La piste est humide et le séchage sera long. Les équipes débattent déjà du bon moment pour basculer sur pneus slicks. La météo sera le facteur numéro un ce week-end.`
+          ? `La piste est humide et le séchage sera long. Les teams débattent déjà du bon moment pour basculer sur pneus slicks. La météo sera le facteur numéro un ce week-end.`
           : `La piste est propre et la température idéale pour les pneus. Le grip devrait être excellent dès les premières minutes des essais libres.`
       },
     ];
 
     const anecdotes = [
-      { icon:'🏁', title:'Histoire du circuit', text:`${circName} a une histoire chargée. Victoires mémorables, retournements de situation — ce circuit a tout vu. Chaque génération de pilote y a laissé sa marque.` },
+      { icon:'🏁', title:'Histoire du circuit', text:`${circName} a une histoire chargée. Victoires mémorables, retournements de situation — ce circuit a tout vu. Chaque génération de driver y a laissé sa marque.` },
       { icon:'🍽️', title:'Gastronomie locale', text:`Le paddock a ses bonnes adresses. Plusieurs mécaniciens de ${teamName} ont découvert un restaurant local qui fait fureur cette semaine. Le moral est bon.` },
       { icon:'🌅', title:'Jeudi matin', text:`Lever du soleil sur ${circName}. Les premiers camions sont arrivés lundi. Depuis, le village paddock a poussé comme une ville éphémère. Dans 5 jours, il n'en restera rien.` },
       { icon:'🚁', title:'Vue aérienne', text:`Les images aériennes du circuit circulent sur les réseaux. Les gradins se remplissent, les motorhomes brillent au soleil. ${circName} est prêt à accueillir le monde.` },
       { icon:'🌙', title:'Nuit dans le paddock', text:`Le paddock ne dort jamais vraiment. À minuit, des mécaniciens travaillent encore sous les lumières des garages. C'est ça aussi, la Formule 1.` },
-      { icon:'🎬', title:'Caméras partout', text:`Les équipes de tournage sont partout dans le paddock de ${circName}. Chaque sourire, chaque tension — tout est filmé pour la postérité.` },
+      { icon:'🎬', title:'Caméras partout', text:`Les teams de tournage sont partout dans le paddock de ${circName}. Chaque sourire, chaque tension — tout est filmé pour la postérité.` },
       { icon:'🚗', title:'Logistique monstre', text:`23 camions, des milliers de pièces, des centaines de personnes — tout ça pour quelques centaines de kilomètres de course. La F1 c'est une organisation colossale.` },
-      { icon:'🏨', title:"Vie d'hôtel", text:`Les pilotes et le staff enchaînent les hôtels depuis des semaines. ${dName} avoue que son sac est perpétuellement à moitié défait. C'est le prix du rêve.` },
-      { icon:'🌤️', title:'Météo du week-end', text:`La météo de ${circName} est capricieuse. Les ingénieurs ont préparé deux setup différents selon l'évolution des conditions. L'adaptabilité sera clé.` },
+      { icon:'🏨', title:"Vie d'hôtel", text:`Les drivers et le staff enchaînent les hôtels depuis des semaines. ${dName} avoue que son sac est perpétuellement à moitié défait. C'est le prix du rêve.` },
+      { icon:'🌤️', title:'Weekend weather', text:`La météo de ${circName} est capricieuse. Les ingénieurs ont préparé deux setup différents selon l'évolution des conditions. L'adaptabilité sera clé.` },
       { icon:'🔋', title:'Simulateur de nuit', text:`${dName} a passé deux heures au simulateur hier soir pour peaufiner ses repères. Chaque dixième gagné virtuellement peut se retrouver en vrai.` },
     ];
 
@@ -438,7 +438,7 @@ const CareerEvents = {
 
     const events = [
       () => ({
-        title: 'Usine inspirée par le résultat',
+        title: 'Factory inspirée par le résultat',
         text:  'Les ingénieurs ont trouvé une piste de développement suite à la course. +1 token R&D.',
         icon:  '🔬', category: 'technical',
         effect: () => { save.tokens=(save.tokens||0)+1; save.reputation+=1; }
@@ -463,7 +463,7 @@ const CareerEvents = {
       }),
       () => ({
         title: 'Presse positive',
-        text:  'Les médias soulignent votre progression. La réputation de l\'équipe monte.',
+        text:  'Les médias soulignent votre progression. La réputation de l\'team monte.',
         icon:  '📰', category: 'media',
         effect: () => { save.reputation=Math.min(100,(save.reputation||50)+3); save.fanBase=(save.fanBase||50)+2; }
       }),
@@ -486,10 +486,10 @@ const CareerEvents = {
         effect: () => { if(save.carDev?.aero) save.carDev.aero.level=Math.min(100,save.carDev.aero.level+1); }
       }),
       () => ({
-        title: pos <= 3 ? 'Fête au paddock !' : 'Débrief d\'équipe',
+        title: pos <= 3 ? 'Fête au paddock !' : 'Débrief d\'team',
         text:  pos <= 3
-          ? 'Le podium galvanise toute l\'équipe. Moral au plus haut !'
-          : 'L\'équipe analyse les données pour progresser lors du prochain GP.',
+          ? 'Le podium galvanise toute l\'team. Moral au plus haut !'
+          : 'L\'team analyse les données pour progresser lors du prochain GP.',
         icon:  pos <= 3 ? '🎉' : '📊', category: 'internal',
         effect: () => {
           if(pos <= 3) {
@@ -507,9 +507,9 @@ const CareerEvents = {
         effect: () => { /* cosmétique */ }
       }),
       () => ({
-        title: pos === 1 ? 'Victoire historique !' : 'Contact avec une équipe adverse',
+        title: pos === 1 ? 'Victoire historique !' : 'Contact avec une team adverse',
         text:  pos === 1
-          ? `${d.firstName} ${d.name} s'impose ! L'équipe est en liesse, les fans sont en délire.`
+          ? `${d.firstName} ${d.name} s'impose ! L'team est en liesse, les fans sont en délire.`
           : 'Un incident en piste est sous investigation. Résultat à confirmer.',
         icon:  pos === 1 ? '🏆' : '⚠️', category: pos === 1 ? 'race_result' : 'incident',
         effect: () => {
@@ -553,7 +553,7 @@ const CareerEvents = {
   makeContractOffer(save, driverId, offer) {
     this.ensure(save);
     const driver = F1Data.drivers.find(d => d.id === driverId);
-    if (!driver) return { ok:false, accepted:false, msg:'Pilote introuvable.' };
+    if (!driver) return { ok:false, accepted:false, msg:'Driver introuvable.' };
 
     const isMine  = driver.teamId === save.playerTeamId;
     const fee     = isMine ? 0 : Math.round((driver.salary||1) * 1.5);
@@ -563,7 +563,7 @@ const CareerEvents = {
       return { ok:false, accepted:false, msg:`Budget insuffisant (frais : ${fee}M€ + prime ${offer.bonus||0}M€).` };
     }
 
-    // Évaluation de l'offre par le pilote
+    // Évaluation de l'offre par le driver
     const demand   = save.contracts?.[driverId]?.salaryDemand || (driver.salary||1) + 2;
     const salaryOk = (offer.salary||0) >= demand;
     const yearsOk  = (offer.years||0) >= 2;
@@ -575,14 +575,14 @@ const CareerEvents = {
     else          score += Math.max(0, 40 - (demand - (offer.salary||0)) * 5);
     if (yearsOk)  score += 20;
     if (bonusOk)  score += 20;
-    // Réputation et niveau équipe
+    // Réputation et niveau team
     score += Math.round((save.reputation||50) * 0.2);
 
     const accepted = score >= 60 || Math.random() < score / 120;
 
     if (accepted) {
       if (!isMine) {
-        // Libérer l'ancien employeur
+        // Release l'ancien employeur
         driver.teamId = save.playerTeamId;
         save.budget   = Math.round(((save.budget||0) - fee - (offer.bonus||0)) * 10) / 10;
 
@@ -602,7 +602,7 @@ const CareerEvents = {
       save.driverStates[driverId] = save.driverStates[driverId] || {};
       save.driverStates[driverId].teamId = save.playerTeamId;
 
-      // Libérer l'ancien employeur dans driverStates aussi
+      // Release l'ancien employeur dans driverStates aussi
       Object.keys(save.driverStates).forEach(id => {
         if (id !== driverId && save.driverStates[id]?.teamId === save.playerTeamId) {
           const stillMine = F1Data.drivers.find(d=>d.id===id&&d.teamId===save.playerTeamId);
@@ -612,7 +612,7 @@ const CareerEvents = {
 
       this.log(save, { phase:'mercato', icon:'✅', category:'transfer',
         title: isMine ? `Contrat prolongé` : `Transfert signé`,
-        text: `${driver.firstName} ${driver.name} ${isMine?'prolonge':'rejoint l\'équipe'} pour ${offer.salary}M€/an, ${offer.years} an(s).`
+        text: `${driver.firstName} ${driver.name} ${isMine?'prolonge':'rejoint l\'team'} pour ${offer.salary}M€/an, ${offer.years} an(s).`
       });
       Save.save(save);
       return { ok:true, accepted:true, msg:`${driver.firstName} ${driver.name} a accepté l'offre !` };

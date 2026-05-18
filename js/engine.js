@@ -36,7 +36,7 @@ const Engine = {
 
     let lapTime = circuit.baseLapTime;
 
-    // ── 1. Performance équipe ─────────────────────────────
+    // ── 1. Performance team ─────────────────────────────
     // Écart max top/backmarker : 0.75s/tour
     lapTime += (85 - team.performance) * 0.030;
 
@@ -57,10 +57,10 @@ const Engine = {
       }
     } catch(e) {}
 
-    // ── 2. Skill pilote ───────────────────────────────────
+    // ── 2. Skill driver ───────────────────────────────────
     lapTime += (87 - driver.pace) * 0.012;
 
-    // ── 3. Trait pilote — impact pace ─────────────────────
+    // ── 3. Trait driver — impact pace ─────────────────────
     lapTime -= trait.paceBonus * 0.10;
 
     // Qualifier : boost supplémentaire sur les softs
@@ -75,7 +75,7 @@ const Engine = {
     if (driver.trait === 'prodigy' && lap > 1) {
       lapTime -= Math.min(0.15, Math.floor(lap / 5) * 0.004);
     }
-    // Technical : tire mieux parti du setup (bonus aero équipe)
+    // Technical : tire mieux parti du setup (bonus aero team)
     if (driver.trait === 'technical') {
       const aeroBonus = Math.max(0, (team.aero - 75)) * 0.002;
       lapTime -= aeroBonus;
@@ -84,7 +84,7 @@ const Engine = {
     // ── 4. Pneus — grip de base ───────────────────────────
     lapTime += (1 - tyre.grip) * 1.5;
 
-    // ── 5. Dégradation pneus ─────────────────────────────
+    // ── 5. Tyre degradation ─────────────────────────────
     const degradation = (1 - tyreState.condition);
     let degradFactor  = circuit.tyreDegradation;
 
@@ -131,12 +131,12 @@ const Engine = {
       if (tyreState.compound !== 'WET') lapTime += 16.0;
     }
 
-    // ── 9. Ordres pilote ─────────────────────────────────
+    // ── 9. Ordres driver ─────────────────────────────────
     if (orderMode === 'attack') lapTime -= 0.28;
     if (orderMode === 'save')   lapTime += 0.22;
 
 
-    // ── 9b. Setup week-end (équipe joueur uniquement) ────────
+    // ── 9b. Setup week-end (team joueur uniquement) ────────
     try {
       const _svSetup = typeof Save !== 'undefined' ? Save.load() : null;
       if (_svSetup?.weekendSetup && _svSetup?.playerTeamId === team?.id) {
@@ -161,14 +161,14 @@ const Engine = {
 
     let rate = tyre.degradationRate * circuit.tyreDegradation;
 
-    // Trait pilote affecte la dégradation
+    // Trait driver affecte la dégradation
     rate *= trait.tyreMultiplier;
 
     // Agressivité naturelle (overtaking élevé = plus de dégradation)
     const aggressionFactor = 1 + (driver.overtaking - 80) * 0.003;
     rate *= aggressionFactor;
 
-    // Ordres pilote
+    // Ordres driver
     if (orderMode === 'attack') rate *= 1.28;
     if (orderMode === 'save')   rate *= 0.72;
 
@@ -179,7 +179,7 @@ const Engine = {
     // Consistent gère mieux sur le long terme
     if (driver.trait === 'consistent' && tyreState.age > 15) rate *= 0.92;
 
-    // Setup week-end affecte la dégradation (équipe joueur)
+    // Setup week-end affecte la dégradation (team joueur)
     try {
       const _svDeg = typeof Save !== 'undefined' ? Save.load() : null;
       if (_svDeg?.weekendSetup && _svDeg?.playerTeamId === driver?.teamId) {
@@ -416,10 +416,10 @@ const Engine = {
     // Aggressive : essayer l'undercut (pit plus tôt)
     const earlyPit  = strategyBias === 'aggressive' && Math.random() < 0.4;
 
-    // Top équipes peuvent faire moins d'arrêts
+    // Top teams peuvent faire moins d'arrêts
     if (teamPerformance > 87 && stops === 2 && Math.random() > 0.7) stops = 1;
 
-    // Traits pilote
+    // Traits driver
     if (driverTrait === 'consistent' && stops === 2 && Math.random() > 0.5) stops = 1;
     if (driverTrait === 'aggressive' && stops === 1 && Math.random() > 0.6) stops = 2;
 
@@ -482,7 +482,7 @@ const Engine = {
   },
 
   // ── DÉVELOPPEMENT IA ──────────────────────────────────────
-  // Appelé en fin de course pour faire progresser les équipes IA
+  // Appelé en fin de course pour faire progresser les teams IA
   advanceAI(save) {
     if (!save) return;
     save.aiDevelopment = save.aiDevelopment || {};
@@ -490,7 +490,7 @@ const Engine = {
     F1Data.teams.forEach(team => {
       if (team.id === save.playerTeamId) return;
 
-      // Chaque équipe IA investit selon son budget
+      // Chaque team IA investit selon son budget
       const investRate = team.budget / 500; // Red Bull = 1.0, Williams = 0.4
       save.aiDevelopment[team.id] = save.aiDevelopment[team.id] || {};
 
