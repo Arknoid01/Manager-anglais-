@@ -185,7 +185,7 @@ const Weekend = {
 
   // ── BONUS CONNAISSANCE CIRCUIT (depuis les EL) ────────────
   calcKnowledgeBonus(fpResults) {
-    if (!fpResults?.length) return { tyreBonus: 0, setupBonus: 0, paceBonus: 0, sessions: 0, label: typeof S !== 'undefined' ? S('weekend.limited_prep') : 'Préparation limitée' };
+    if (!fpResults?.length) return { tyreBonus: 0, setupBonus: 0, paceBonus: 0 };
 
     const sessions   = fpResults.length;
     const longRuns   = fpResults.filter(r => r.program === 'long_run').length;

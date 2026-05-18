@@ -10,6 +10,60 @@
   var UI = {
     'nav.home':           { fr:'← Accueil',          en:'← Home' },
     'nav.back':           { fr:'← Retour',            en:'← Back' },
+
+    'nav.continue':       { fr:'Continuer quand même', en:'Continue anyway' },
+    'nav.close':          { fr:'Fermer',              en:'Close' },
+    'top.budget':         { fr:'Budget',              en:'Budget' },
+    'top.manager':        { fr:'Manager',             en:'Manager' },
+    'index.rotate':       { fr:'TOURNE TON TÉLÉPHONE', en:'ROTATE YOUR PHONE' },
+    'index.rotate_sub':   { fr:'Expérience optimisée en paysage', en:'Best experienced in landscape mode' },
+    'index.choose_sub':   { fr:"Sélectionne l'équipe que tu vas diriger", en:'Select the team you will manage' },
+    'index.qg_title':     { fr:'🏢 QUARTIER GÉNÉRAL', en:'🏢 HEADQUARTERS' },
+    'index.buildings':    { fr:'Bâtiments',           en:'Buildings' },
+    'index.infrastructure':{ fr:'Infrastructure',      en:'Infrastructure' },
+    'race.loading':       { fr:'Chargement de la course…', en:'Loading race…' },
+    'race.ready':         { fr:'Prêt',                en:'Ready' },
+    'race.waiting':       { fr:'En attente',          en:'Waiting' },
+    'race.podium':        { fr:'Podium',              en:'Podium' },
+    'race.sc':            { fr:'Safety Car',          en:'Safety Car' },
+    'race.season_calc':   { fr:'Calcul de la saison…', en:'Calculating season…' },
+    'race.strategies_all':{ fr:'Stratégies de course', en:'Race strategies' },
+    'quali.quali_icon':   { fr:'🏁 Qualifications',   en:'🏁 Qualifying' },
+    'misc.race_icon':     { fr:'🏁 Course',           en:'🏁 Race' },
+    'misc.car_rd':        { fr:'🔧 Voiture & R&D',    en:'🔧 Car & R&D' },
+    'misc.strategy':      { fr:'Stratégie',           en:'Strategy' },
+    'misc.pit':           { fr:'Stand',               en:'Pit' },
+    'rd.aero_icon':       { fr:'🌊 Aéro',             en:'🌊 Aero' },
+    'rd.chassis_icon':    { fr:'🏗️ Châssis',          en:'🏗️ Chassis' },
+    'rd.engine_icon':     { fr:'⚡ Moteur',            en:'⚡ Engine' },
+    'rd.reliability_icon':{ fr:'🔩 Fiabilité',        en:'🔩 Reliability' },
+    'rd.upgrades_delivery':{ fr:'Livraison des évolutions', en:'Upgrade delivery' },
+    'drivers.driver':     { fr:'Pilote',              en:'Driver' },
+    'drivers.recruit':    { fr:'Recruter',            en:'Recruit' },
+    'drivers.consistency':{ fr:'Régularité',          en:'Consistency' },
+    'drivers.overtaking': { fr:'Dépassement',         en:'Overtaking' },
+    'drivers.defending':  { fr:'Défense',             en:'Defending' },
+    'drivers.wet':        { fr:'Pluie',               en:'Wet weather' },
+    'drivers.potential':  { fr:'Potentiel',           en:'Potential' },
+    'drivers.confidence': { fr:'Confiance',           en:'Confidence' },
+    'drivers.loyalty':    { fr:'Loyauté',             en:'Loyalty' },
+    'staff.title':        { fr:'Staff',               en:'Staff' },
+    'training.title_icon':{ fr:'🏋️ Entraînement',    en:'🏋️ Training' },
+    'training.academy_icon':{ fr:'🌱 Académie',       en:'🌱 Academy' },
+    'board.title':        { fr:'🏢 Direction',        en:'🏢 Board' },
+    'sponsors.title':     { fr:'🤝 Sponsors',         en:'🤝 Sponsors' },
+    'sponsors.reputation':{ fr:'Réputation',          en:'Reputation' },
+    'standings.title':    { fr:'📊 Classements',      en:'📊 Standings' },
+    'standings.history':  { fr:'Historique',          en:'History' },
+    'standings.records':  { fr:'Records',             en:'Records' },
+    'season.results':     { fr:'Résultats de saison', en:'Season results' },
+    'social.title':       { fr:'Social',              en:'Social' },
+    'social.immersion':   { fr:'Immersion',           en:'Immersion' },
+    'social.system':      { fr:'Système',             en:'System' },
+    'news.title':         { fr:'Actualités',          en:'News' },
+    'news.paddock':       { fr:'Paddock',             en:'Paddock' },
+    'journal.history_icon':{ fr:'📓 Historique',      en:'📓 History' },
+    'aide.loop_title':    { fr:'Boucle de gameplay',  en:'Gameplay loop' },
     'race.start':         { fr:'▶ Démarrer',          en:'▶ Start' },
     'race.slow':          { fr:'🐢 Lent',             en:'🐢 Slow' },
     'race.pause':         { fr:'⏸ Pause',             en:'⏸ Pause' },
@@ -79,6 +133,136 @@
     return entry[LANG] || entry['fr'] || key;
   }
 
+
+  var AUTO_TEXT = {
+    'F1 Manager — Comment jouer':'F1 Manager — How to play',
+    'Strategie, pneus, meteo, DNF.':'Strategy, tyres, weather, DNFs.',
+    'Pilotes, staff, moral, loyaute.':'Drivers, staff, morale, loyalty.',
+    'Stats, progression, academie.':'Stats, progression, academy.',
+    'Developpement, staff, budget.':'Development, staff, budget.',
+    'Objectifs, sponsors, finances.':'Objectives, sponsors, finances.',
+    'Briefing EL — Vendredi':'FP briefing — Friday',
+    'Qualifications — Samedi':'Qualifying — Saturday',
+    'Briefing pre-course — Dimanche matin':'Pre-race briefing — Sunday morning',
+    'Grand Prix — Dimanche':'Grand Prix — Sunday',
+    'Entre deux GP':'Between Grands Prix',
+    'Strategie pneus':'Tyre strategy',
+    'Meteo dynamique':'Dynamic weather',
+    'Briefing technique':'Technical briefing',
+    'Moral, Confiance, Loyaute':'Morale, Confidence, Loyalty',
+    'Contrats':'Contracts',
+    'Developpement':'Development',
+    'Gestion':'Management',
+    '🏢 Direction, sponsors & finances':'🏢 Board, sponsors & finances',
+    'Sponsors':'Sponsors',
+    'Budget':'Budget',
+    '🏠 Accueil':'🏠 Home',
+    '📝 Contrats':'📝 Contracts',
+    '🧪 R&D':'🧪 R&D',
+    '👨‍🔧 Staff':'👨‍🔧 Staff',
+    'Mes pilotes — contrats & gestion':'My drivers — contracts & management',
+    'Marché des pilotes':'Driver market',
+    'Rechercher…':'Search…',
+    'Tous':'All',
+    'Agents libres':'Free agents',
+    'Jeunes ≤24':'Young ≤24',
+    'Aucun pilote trouvé.':'No driver found.',
+    'Aucun pilote dans ton équipe.':'No driver in your team.',
+    'Créer une carrière':'Create a career',
+    'Aucune carrière trouvée':'No career found',
+    'Continuer quand même':'Continue anyway',
+    'ACCÉDER →':'ENTER →'
+  };
+
+  var AUTO_PARTIAL = [
+    ['Améliorer','Upgrade'], ['Budget insuffisant','Insufficient budget'], ['Niveau','Level'], ['Coût','Cost'],
+    ['Amélioration','Upgrade'], ['Saison','Season'], ['course(s) disputée(s)','race(s) completed'], ['restante(s)','remaining'],
+    ['Mes pilotes','My drivers'], ['Libérés','Released'], ['Nouveaux talents','New talents'], ['Vainqueur','Winner'],
+    ['Gains','Rewards'], ['Aucune course disputée pour l’instant.','No races completed yet.'], ['Erreur de chargement','Loading error'],
+    ['Retour accueil','Back home'], ['Durée','Length'], ['Rôle','Role'], ['Prime signature','Signing bonus'],
+    ['Siège à remplacer','Seat to replace'], ['Siège cible','Target seat'], ['Ajouter sur un siège libre','Add to a free seat'],
+    ['Prolonger','Extend'], ['Faire une offre','Make an offer'], ['Offre prudente','Safe offer'], ['Offre forte','Strong offer'],
+    ['Libérer','Release'], ['Chance estimée','Estimated chance'], ['Demande probable','Likely demand'], ['an(s)','year(s)'],
+    ['rôle','role'], ['Mercato fermé','Transfer window closed'], ['Transferts uniquement avant la 1ère course','Transfers only before the first race'],
+    ['Impossible de libérer un pilote en cours de saison','Cannot release a driver during the season'],
+    ['Moral','Morale']
+  ];
+
+  var AUTO_PARTIAL_EXTRA = [
+    ['Accueil','Home'], ['Retour','Back'], ['Aucune carrière','No career'], ['carrière','career'], ['Carrière','Career'],
+    ['Direction','Board'], ['Pression de la direction','Board pressure'], ['Pression direction','Board pressure'], ['Licenciement imminent','Dismissal imminent'], ['Forte pression','High pressure'], ['Acceptable','Acceptable'], ['Direction satisfaite','Board satisfied'],
+    ['Objectifs de la saison','Season objectives'], ['Objectif','Objective'], ['Objectifs','Objectives'], ['Résultats','Results'], ['résultats','results'], ['résultat','result'],
+    ['Tableau de bord','Dashboard'], ['Actions disponibles','Available actions'], ['Historique des saisons','Season history'], ['Aucune saison complète enregistrée.','No completed seasons recorded.'],
+    ['Basé sur vos performances et objectifs','Based on your performance and objectives'], ['La pression monte si vous ratez les objectifs et baisse après chaque bon résultat.','Pressure rises when you miss objectives and drops after each good result.'], ['licenciement automatique','automatic dismissal'],
+    ['Classement pilotes','Driver standings'], ['Classement constructeurs','Constructor standings'], ['Classement','Standings'], ['Points','Points'], ['Victoires','Wins'], ['Podiums','Podiums'], ['Meilleur','Best'],
+    ['Pilotes','Drivers'], ['Pilote','Driver'], ['Écurie','Team'], ['Ecurie','Team'], ['équipe','team'], ['Équipe','Team'], ['Agent libre','Free agent'], ['Agents libres','Free agents'], ['Actif','Active'], ['Retraité','Retired'],
+    ['Contrat','Contract'], ['Contrats','Contracts'], ['Salaire','Salary'], ['Statut','Status'], ['Trait','Trait'], ['ans','years old'], ['âge inconnu','unknown age'],
+    ['Régularité','Consistency'], ['Régulier','Consistent'], ['Pluie','Wet weather'], ['Attaque','Attack'], ['Défense','Defence'], ['Potentiel','Potential'], ['Confiance','Confidence'], ['Loyauté','Loyalty'],
+    ['Compétences','Skills'], ['Contrat & passif','Contract & passive'], ['Spécialité','Specialty'], ['Coût recrutement','Recruitment cost'], ['En poste','Hired'], ['Disponible','Available'],
+    ['Membre de staff qualifié.','Qualified staff member.'], ['Bonus de performance','Performance bonus'], ['Performance technique actuelle','Current technical performance'],
+    ['Recrutement','Recruitment'], ['Marché','Market'], ['Aéro','Aero'], ['Châssis','Chassis'], ['Moteur','Engine'], ['Fiabilité','Reliability'], ['Élite','Elite'], ['Nouveau','New'], ['Sous contrat','Under contract'],
+    ['Aucun staff recruté. Va sur l\'onglet Recrutement pour engager des experts.','No staff hired. Go to the Recruitment tab to hire experts.'],
+    ['Aérodynamique','Aerodynamics'], ['Confirmé','Confirmed'], ['Passif','Passive'], ['Améliore les performances de l\'équipe.','Improves team performance.'], ['Recruter','Recruit'], ['Licencier','Fire'], ['Budget','Budget'], ['Budget insuffisant','Insufficient budget'], ['Tu as déjà un Directeur Technique exclusif !','You already have an exclusive Technical Director!'], ['rejoint l\'équipe','joins the team'], ['recruté','hired'], ['licencié','fired'], ['Indemnité','Compensation'],
+    ['Masse salariale','Salary bill'], ['Staff technique','Technical staff'], ['Marge opérationnelle','Operating margin'],
+    ['Immersion carrière','Career immersion'], ['Vie de l\'équipe','Team life'], ['Le moral sera alimenté après les prochains GP.','Morale will update after the next Grands Prix.'], ['Les sponsors attendent les prochains résultats.','Sponsors are waiting for the next results.'], ['Projet stable','Stable project'], ['GP archivés','Archived GPs'],
+    ['Samedi','Saturday'], ['Dimanche','Sunday'], ['Vendredi','Friday'], ['Briefing Qualifications','Qualifying Briefing'], ['Qualifications','Qualifying'], ['Piste humide','Wet track'], ['Piste seche','Dry track'], ['Analyse ingenieur','Engineer analysis'], ['Pneu','Tyre'], ['Pneus','Tyres'], ['Soft neuf','Fresh Soft'], ['Medium','Medium'], ['Intermediaires','Intermediates'], ['Full Wet','Full Wet'], ['Secteur cle','Key sector'], ['La pole est decisive ici','Pole is decisive here'], ['Bonne grille utile','A good grid slot is useful'], ['avant les qualifications','before qualifying'], ['Aucune carriere','No career'],
+    ['Course','Race'], ['Stratégie','Strategy'], ['Météo','Weather'], ['Dégâts','Damage'], ['Tour','Lap'], ['Développement','Development'], ['Recherche','Research'], ['Personnel','Staff'], ['Entraînement','Training'], ['Négociation','Negotiation'], ['Terminé','Finished'], ['Commencer','Start'], ['Quitter','Quit'], ['Oui','Yes'], ['Non','No'], ['Créer','Create'], ['Continuer','Continue'], ['Chargement','Loading'], ['Prêt','Ready'],
+    ['Réputation','Reputation'], ['Santé financière','Financial health'], ['Maintenir','Maintain'], ['supérieur à','above'], ['Budget actuel','Current budget'], ['Actuellement','Currently'], ['Pas encore de données cette saison','No data yet this season'], ['courses avec points','points-scoring races'], ['courses avec au moins 1 point','races with at least 1 point'], ['Raté','Failed'], ['En cours','In progress'],
+    ['Médias','Media'], ['Actualités','News'], ['Historique','History'], ['Sauvegarde','Save'], ['Charger','Load'], ['Nouvelle','New'], ['Fermer','Close'], ['Annuler','Cancel'], ['Confirmer','Confirm']
+  ];
+  AUTO_PARTIAL_EXTRA.forEach(function(pair){ AUTO_PARTIAL.push(pair); });
+
+  function partialTranslate(raw){
+    var out = raw;
+    AUTO_PARTIAL.forEach(function(pair){ out = out.split(pair[0]).join(pair[1]); });
+    return out;
+  }
+
+  function patchDialogs(){
+    if(LANG !== 'en' || window.__fm_i18n_dialogs) return;
+    window.__fm_i18n_dialogs = true;
+    var nativeAlert = window.alert, nativeConfirm = window.confirm, nativePrompt = window.prompt;
+    window.alert = function(msg){ return nativeAlert.call(window, partialTranslate(String(msg))); };
+    window.confirm = function(msg){ return nativeConfirm.call(window, partialTranslate(String(msg))); };
+    window.prompt = function(msg, def){ return nativePrompt.call(window, partialTranslate(String(msg)), def); };
+  }
+
+  function translateLooseText(){
+    if(LANG !== 'en') return;
+
+    if(document.title) document.title = partialTranslate(AUTO_TEXT[document.title] || document.title);
+
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(node){
+        var parent = node.parentNode;
+        if(!parent) return NodeFilter.FILTER_REJECT;
+        var tag = parent.nodeName.toLowerCase();
+        if(tag === 'script' || tag === 'style' || tag === 'noscript') return NodeFilter.FILTER_REJECT;
+        if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var nodes = [], n;
+    while((n = walker.nextNode())) nodes.push(n);
+    nodes.forEach(function(node){
+      var raw = node.nodeValue;
+      var txt = raw.trim();
+      var tr = AUTO_TEXT[txt] ? raw.replace(txt, AUTO_TEXT[txt]) : partialTranslate(raw);
+      if(tr !== raw) node.nodeValue = tr;
+    });
+
+    document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(function(el){
+      var ph = el.getAttribute('placeholder');
+      var tr = AUTO_TEXT[ph] || partialTranslate(ph);
+      if(tr !== ph) el.setAttribute('placeholder', tr);
+    });
+    document.querySelectorAll('option').forEach(function(el){
+      var txt = el.textContent.trim();
+      var tr = AUTO_TEXT[txt] || partialTranslate(txt);
+      if(tr !== txt) el.textContent = tr;
+    });
+  }
+
   function apply(){
     document.querySelectorAll('[data-i18n]').forEach(function(el){
       var key = el.getAttribute('data-i18n');
@@ -128,49 +312,37 @@
     document.body.appendChild(badge);
   }
 
+  function observeDynamicText(){
+    if(LANG !== 'en' || !window.MutationObserver) return;
+    var busy = false;
+    var obs = new MutationObserver(function(muts){
+      if(busy) return;
+      busy = true;
+      setTimeout(function(){
+        muts.forEach(function(m){
+          m.addedNodes && m.addedNodes.forEach(function(n){
+            if(n.nodeType === 1){
+              n.querySelectorAll && n.querySelectorAll('[data-i18n]').forEach(function(el){
+                var key = el.getAttribute('data-i18n');
+                var val = t(key);
+                if(val !== key) el.textContent = val;
+              });
+            }
+          });
+        });
+        translateLooseText();
+        busy = false;
+      }, 0);
+    });
+    obs.observe(document.body, { childList:true, subtree:true });
+  }
+
   document.addEventListener('DOMContentLoaded', function(){
+    patchDialogs();
     apply();
+    translateLooseText();
+    observeDynamicText();
     injectBadge();
   });
 
-})();
-
-/* ── Auto-traduction du DOM (textes dynamiques) ── */
-(function(){
-  if(typeof STRINGS === 'undefined') return;
-  var LANG = localStorage.getItem('fm_lang') || 'fr';
-  if(LANG === 'fr') return; // En FR pas besoin de traduire
-
-  /* Construit un index FR→EN depuis STRINGS */
-  var frToEn = {};
-  Object.values(STRINGS).forEach(function(entry){
-    if(entry.fr && entry.en) frToEn[entry.fr.trim()] = entry.en;
-  });
-
-  function translateNode(node){
-    if(node.nodeType === 3){ // Nœud texte
-      var txt = node.textContent.trim();
-      if(txt && frToEn[txt]){
-        node.textContent = node.textContent.replace(txt, frToEn[txt]);
-      }
-    } else if(node.nodeType === 1 && node.childNodes){
-      node.childNodes.forEach(translateNode);
-    }
-  }
-
-  /* Observe les mutations DOM pour attraper les strings dynamiques */
-  var observer = new MutationObserver(function(mutations){
-    mutations.forEach(function(m){
-      m.addedNodes.forEach(function(n){
-        try{ translateNode(n); } catch(e){}
-      });
-    });
-  });
-
-  document.addEventListener('DOMContentLoaded', function(){
-    /* Traduit le DOM existant */
-    try{ translateNode(document.body); } catch(e){}
-    /* Observe les futurs changements */
-    observer.observe(document.body, {childList:true, subtree:true});
-  });
 })();
