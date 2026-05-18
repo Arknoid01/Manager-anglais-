@@ -214,11 +214,11 @@ function getCareerEventsSafe(){
     generateObjectives(s){ return this.ensure(s).boardObjectives; },
     evaluateObjectives(s){ return {score:0, details:[], constPos:null, driverPos:null}; },
     getPressureLevel(p){
-      if (p >= 80) return { label:'🔴 Licenciement imminent', color:'#ff2244', fire:true };
-      if (p >= 60) return { label:'🟠 Forte pression', color:'#ff8844', fire:false };
-      if (p >= 40) return { label:'🟡 Sous surveillance', color:'#ffdd44', fire:false };
+      if (p >= 80) return { label:S("auto.licenciement_imminent"), color:'#ff2244', fire:true };
+      if (p >= 60) return { label:S("auto.forte_pression"), color:'#ff8844', fire:false };
+      if (p >= 40) return { label:S("auto.sous_surveillance"), color:'#ffdd44', fire:false };
       if (p >= 20) return { label:'🟢 Acceptable', color:'#44cc44', fire:false };
-      return { label:'✅ Direction satisfaite', color:'#00e676', fire:false };
+      return { label:S("auto.direction_satisfaite"), color:'#00e676', fire:false };
     },
     log(s,item){ s.news = Array.isArray(s.news) ? s.news : []; s.news.unshift({date:new Date().toISOString(), season:s.season, race:s.race, ...item}); }
   };
@@ -229,7 +229,7 @@ let activeFilter = 'all';
 
 const CATEGORIES = {
   all:          { label:'Tout',         icon:'📋' },
-  race_result:  { label:'Résultats',    icon:'🏁' },
+  race_result:  { label:S("auto.resultats"),    icon:'🏁' },
   pre:          { label:'Avant GP',     icon:'🔮' },
   post:         { label:'Après GP',     icon:'📊' },
   technical:    { label:'Technique',    icon:'🔧' },
@@ -238,7 +238,7 @@ const CATEGORIES = {
   transfer:     { label:'Transferts',   icon:'✅' },
   medical:      { label:'Médical',      icon:'🏥' },
   board:        { label:'Direction',    icon:'🏢' },
-  media:        { label:'Médias',       icon:'🎤' },
+  media:        { label:S("auto.medias"),       icon:'🎤' },
   competitor:   { label:'Concurrents',  icon:'⚡' },
 };
 
@@ -246,7 +246,7 @@ function getNewsStyle(item) {
   const cat = item.category || item.phase || 'general';
   if (cat === 'race_result') return item.icon?.includes('🏆') ? 'positive breaking' : 'neutral';
   if (['financial','media','post'].includes(cat)) return 'positive';
-  if (['medical','board'].includes(cat) && item.text?.includes('problème')) return 'negative';
+  if (['medical','board'].includes(cat) && item.text?.includes(S("auto.probleme"))) return 'negative';
   if (cat === 'technical' && item.text?.includes('fuite')) return 'negative';
   return 'neutral';
 }

@@ -249,7 +249,7 @@ function calcQualiTime(driver, variance = true, mode = 'normal') {
   let t = Engine.calcLapTime(driver, team, circuit, tyreState, 0, weather, 1, 'attack');
 
   // Bonus trait
-  if (driver.trait === 'qualifier')  t -= 0.30;
+  if (driver.trait === S("auto.qualifier"))  t -= 0.30;
   if (driver.trait === 'aggressive') t -= 0.10;
   if (driver.trait === 'consistent') t += 0.05;
 
@@ -520,17 +520,17 @@ function startPhase(phase, drivers) {
 // ── RENDER PHASE ─────────────────────────────────────────
 function renderPhase(phase, drivers, board) {
   const cutAt = phase === 'Q1' ? 15 : phase === 'Q2' ? 10 : null;
-  const cutLabel = phase === 'Q1' ? 'ÉLIMINÉS Q1' : 'ÉLIMINÉS Q2';
+  const cutLabel = phase === 'Q1' ? S("auto.elimines_q1") : S("auto.elimines_q2");
   const phaseColors = { Q1:'q1', Q2:'q2', Q3:'q3' };
 
   document.getElementById('content').innerHTML = `
-    <div class="session-header">
+    <div class=S("auto.sessionheader")>
       <div>
         <div class="sh-phase" style="color:${phase==='Q3'?'var(--gold)':phase==='Q2'?'#ff8800':'#64a0ff'}">${phase}</div>
         <div style="font-family:var(--fh);font-size:10px;color:var(--muted)">${drivers.length} drivers</div>
       </div>
       <div class="sh-info">
-        <div class="sh-circuit">${circuit.name||'Circuit'}</div>
+        <div class=S("auto.shcircuit")>${circuit.name||'Circuit'}</div>
         <div class="sh-sub" id="sessionSub"></div>
       </div>
       <div>
@@ -605,7 +605,7 @@ function updatePlayerStatus() {
     const runs = state.playerRuns[d.id]||0;
     const ds   = state.drivers[d.id];
     if (state.eliminated.includes(d.id)) {
-      el.textContent = '❌ Éliminé';
+      el.textContent = S("auto.elimine");
       el.style.color = 'var(--accent)';
     } else if (ds?.bestTime) {
       el.textContent = `${fmtTime(ds.bestTime)} · ${runs} run${runs>1?'s':''}`;
@@ -649,7 +649,7 @@ function doPlayerRun() {
   setTimeout(() => {
     const board = buildLeaderboard(currentDrivers);
     const cutAt = state.phase === 'Q1' ? 15 : state.phase === 'Q2' ? 10 : null;
-    const cutLabel = state.phase === 'Q1' ? 'ÉLIMINÉS Q1' : 'ÉLIMINÉS Q2';
+    const cutLabel = state.phase === 'Q1' ? S("auto.elimines_q1") : S("auto.elimines_q2");
     renderLeaderboard(board, cutAt, cutLabel);
     updatePlayerStatus();
 
@@ -710,7 +710,7 @@ function endPhase() {
       if (e.isPlayer) addRadio('❌', `${e.driver.firstName} ${e.driver.name} ÉLIMINÉ en Q1 — P${board.indexOf(e)+1}`, 0);
     });
 
-    addRadio('🏁', 'Q1 terminée — 5 drivers éliminés.', 0);
+    addRadio('🏁', S("auto.q1_terminee_5_drivers_elimines"), 0);
     showPhaseResult('Q1', board, 15, () => startPhase('Q2', state.q2Drivers));
 
   } else if (state.phase === 'Q2') {
@@ -730,7 +730,7 @@ function endPhase() {
       if (e.isPlayer) addRadio('❌', `${e.driver.firstName} ${e.driver.name} ÉLIMINÉ en Q2 — P${boardFinal.indexOf(e)+1}`, 0);
     });
 
-    addRadio('🏁', 'Q2 terminée — 5 drivers éliminés.', 0);
+    addRadio('🏁', S("auto.q2_terminee_5_drivers_elimines"), 0);
     showPhaseResult('Q2', board, 10, () => startPhase('Q3', state.q3Drivers));
 
   } else {
@@ -886,11 +886,11 @@ function renderStart() {
     <span style="font-family:var(--fh);font-size:11px;padding:3px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:4px">S${save.season||2025} · GP${(save.race||0)+1}</span>`;
 
   document.getElementById('content').innerHTML = `
-    <div class="session-header" style="flex-direction:column;text-align:center;gap:8px">
+    <div class=S("auto.sessionheader") style="flex-direction:column;text-align:center;gap:8px">
       <div style="font-size:36px">⚡</div>
       <div>
         <div style="font-family:var(--fh);font-weight:900;font-size:22px" data-i18n="weekend.quali">Qualifications</div>
-        <div style="font-family:var(--fh);font-size:12px;color:var(--muted);margin-top:4px">${circuit.name||'Circuit'} · ${weather==='dry'?'Piste sèche':weather==='light_rain'?'Humide':'Wet'}</div>
+        <div style="font-family:var(--fh);font-size:12px;color:var(--muted);margin-top:4px">${circuit.name||'Circuit'} · ${weather==='dry'?S("auto.piste_seche"):weather==='light_rain'?'Humide':'Wet'}</div>
       </div>
     </div>
 

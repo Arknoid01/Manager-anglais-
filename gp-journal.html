@@ -43,7 +43,7 @@ const CIRCUIT_VIBES = {
   barcelona:   { atmo:"Barcelone, le circuit de test par excellence. Tout le monde connaît chaque virage par cœur.", challenge:"La dégradation pneus est sévère — la gestion thermique fait toute la différence." },
   baku:        { atmo:"Les rues de Bakou : murs partout, lignes droites interminables, chaos garanti.", challenge:"La longue ligne droite favorise les overtakes — mais un mur peut effacer toute une course." },
   singapore:   { atmo:"Course de nuit sous les lumières de Marina Bay. La chaleur épuise drivers et mécaniciens.", challenge:"61 tours entre des murs. La concentration doit être maximale jusqu'au drapeau à damier." },
-  abu_dhabi:   { atmo:"Yas Marina pour clore la saison. Le titre peut se jouer ici, dans la dernière lueur du soleil.", challenge:"Le circuit révisé favorise les dépassements — mais la gestion thermique reste délicate." },
+  abu_dhabi:   { atmo:S("auto.yas_marina_pour_clore_la_saison_le"), challenge:S("auto.le_circuit_revise_favorise_les_depa") },
 };
 
 function circuitVibe(circuitId, circuitName) {
@@ -98,7 +98,7 @@ function render(){
   const lines    = [];
 
   lines.push(e('Arrival at the circuit', circuitVibe(cid, gp.circuitName)));
-  lines.push(e('Départ', pick([
+  lines.push(e(S("auto.depart"), pick([
     `${winner?.driverName||'Le leader'} bondit en tête. Le peloton s'étire sur ${gp.totalLaps||'plusieurs'} tours.`,
     `Départ explosif. ${winner?.driverName||'Le leader'} prend les commandes, le reste du peloton se repositionne.`,
     `${winner?.driverName||'Le leader'} gère parfaitement l'envol. Les premières secondes dessinent déjà la hiérarchie.`,
@@ -106,7 +106,7 @@ function render(){
     `${winner?.driverName||'Le leader'} parfait au départ. La course commence exactement comme prévu pour le leader.`,
     `Bagarre immédiate derrière ${winner?.driverName||'le leader'}. Les premières positions se jouent dans les premiers virages.`,
   ])));
-  lines.push(e('Key moment', keyMoment(gp, results)));
+  lines.push(e(S("auto.key_moment"), keyMoment(gp, results)));
   if(gp.safetyCarLaps > 0) lines.push(e('Neutralisation', pick([
     `La Safety Car intervient pendant ${gp.safetyCarLaps} tour(s). Le muret doit réagir vite.`,
     `Neutralisation sur ${gp.safetyCarLaps} tour(s) — une opportunité stratégique que peu ont su saisir.`,
@@ -115,7 +115,7 @@ function render(){
     `Le peloton se regroupe derrière la Safety Car. ${gp.safetyCarLaps} tour(s) qui changent tout.`,
     `Neutralisation inattendue. ${gp.safetyCarLaps} tour(s) qui offrent une fenêtre stratégique en or.`,
   ])));
-  if(pitCount > 0) lines.push(e('Stratégie', pick([
+  if(pitCount > 0) lines.push(e(S("auto.strategie"), pick([
     `${pitCount} arrêt(s) dans le peloton. Les fenêtres de pit ont pesé sur le résultat final.`,
     `${pitCount} pit stops enregistrés. Certains ont joué l'undercut, d'autres ont tenu jusqu'au bout.`,
     `La stratégie a parlé fort aujourd'hui — ${pitCount} arrêts recensés, chacun avec ses conséquences.`,
@@ -151,7 +151,7 @@ function render(){
   if(bestLap) lines.push(e('Rythme pur', `${bestLap.driverName} signe le meilleur tour de course. La référence de la journée.`));
   lines.push(e('Podium', `${podium||'Podium non disponible'}. Victoire de ${winner?.driverName||'—'} pour ${winner?.teamName||'—'}.`));
   lines.push(e('Team Principal', tpQuote(gp, best, gp.teamPoints)));
-  lines.push(e('Bilan management', `Gains : +${gp.reward||0}M€ · Frais GP : -${gp.operatingCost||0}M€ · Développement : +${gp.tokens||0} token(s).`));
+  lines.push(e(S("auto.bilan_management"), `Gains : +${gp.reward||0}M€ · Frais GP : -${gp.operatingCost||0}M€ · Développement : +${gp.tokens||0} token(s).`));
 
   const rawEvents = (gp.events||[]).filter(x=>x.message).slice(-8).map(x=>e(`Tour ${x.lap||'—'}`, x.message)).join('');
   document.getElementById('content').innerHTML = `

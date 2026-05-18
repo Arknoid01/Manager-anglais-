@@ -74,24 +74,24 @@ const QUALI_ANECDOTES = {
   abu_dhabi:  'A Yas Marina, le secteur 3 remodele offre de vraies opportunites. Une bonne position reste importante mais moins que Monaco.',
 };
 const QUOTES = [
-  "Les pneus sont prets, la voiture repond bien. On va chercher la pole.",
-  "Quelques reglages a peaufiner mais le potentiel est la. Je me sens bien.",
+  S("auto.les_pneus_sont_prets_la_voiture_rep"),
+  S("auto.quelques_reglages_a_peaufiner_mais"),
   "La piste va encore evoluer en Q3. Il faut etre le dernier a sortir.",
-  "On a trouve du temps ce matin. Si on reproduit ca en qualif, on sera dans le coup.",
+  S("auto.on_a_trouve_du_temps_ce_matin_si_on"),
   "C'est un circuit que j'adore. Je connais chaque virage — je vais me faire plaisir.",
   "Le secteur 2 est notre force ici. C'est la qu'on peut faire la difference.",
   "J'ai un bon feeling avec la voiture. Les pneus neufs vont tout changer en Q3.",
   "On a travaille dur cette semaine. Maintenant c'est a moi de delivrer.",
-  "Je suis concentre. Le tour parfait est dans la tete, maintenant je le pose sur la piste.",
+  S("auto.je_suis_concentre_le_tour_parfait_e"),
   "Q3, c'est la que ca se joue. Un tour, une chance. Je serai pret.",
-  "La voiture est en forme. Le muret a fait un excellent travail ce week-end.",
-  "Je connais ce circuit par coeur. Je sais ou je peux attaquer et ou il faut gerer.",
-  "Les conditions sont bonnes. Un bon tour de chauffe et on devrait etre dans le coup.",
+  S("auto.la_voiture_est_en_forme_le_muret_a"),
+  S("auto.je_connais_ce_circuit_par_coeur_je"),
+  S("auto.les_conditions_sont_bonnes_un_bon_t"),
   "On a ajuste le setup cette nuit. Je me sens mieux dans la voiture qu'hier.",
   "Objectif simple : donner tout ce que j'ai sur ce tour. Le chrono dira le reste.",
   "J'ai visualise mon tour depuis ce matin. Chaque point de freinage, chaque apex.",
   "L'equipe a fait un travail remarquable. Je veux leur rendre ca avec un beau chrono.",
-  "La pole serait fantastique ici. La course se gagne souvent en qualif sur ce circuit.",
+  S("auto.la_pole_serait_fantastique_ici_la_c"),
   "On a la voiture pour faire quelque chose de bien aujourd'hui. Je le sens.",
 ];
 function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
@@ -183,7 +183,7 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
     const sessionsDone = dRes.length || fpDone;
 
     return `<div class="el-card">
-      <div class="ec-session">Bilan EL · ${sessionsDone} session${sessionsDone!==1?'s':''}</div>
+      <div class=S("auto.ecsession")>Bilan EL · ${sessionsDone} session${sessionsDone!==1?'s':''}</div>
       <div class="ec-name">${esc(d.firstName)} ${esc(d.name)}</div>
       <div class="ec-time" style="font-size:20px;font-weight:900;color:var(--gold);font-family:var(--fh)">&#9201; ${bestFormatted}</div>
       <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap">
@@ -210,16 +210,16 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
       <div class="hero-sub">Qualifications · Saison ${season} · ${isWet?'Piste humide':'Piste seche'}</div>
     </div>
 
-    <div class="section">
-      <div class="section-title">&#128203; Bilan des essais libres</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>&#128203; Bilan des essais libres</div>
       <div class="el-summary">${elCards}</div>
       <div class="anecdote"><strong>Analyse ingenieur — </strong>${fpDone>=3
-        ? pick(['La voiture a bien repondu sur les trois sessions. On est en bonne forme pour la qualif.','Les donnees EL confirment notre setup. Quelques micro-ajustements cette nuit. On est prets.','Les adversaires ont montre leur rythme. On a les donnees pour repondre.'])
-        : 'Sessions EL incompletes. Moins de donnees mais les fondamentaux sont bons.'}</div>
+        ? pick([S("auto.la_voiture_a_bien_repondu_sur_les_t"),S("auto.les_donnees_el_confirment_notre_set"),S("auto.les_adversaires_ont_montre_leur_ryt")])
+        : S("auto.sessions_el_incompletes_moins_de_do")}</div>
     </div>
 
-    <div class="section">
-      <div class="section-title">&#128506; Etat de la piste</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>&#128506; Etat de la piste</div>
       <div class="track-analysis">
         <div class="ta-row"><span>Niveau de grip</span><div class="bar-wrap"><div class="bar-fill" style="width:${gripLevel}%;background:var(--green)"></div></div></div>
         <div class="ta-row"><span>Temperature piste</span><b style="color:${tempColor}">${tempLabel}</b></div>
@@ -228,18 +228,18 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-title">&#129504; Strategie qualifications</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>&#129504; Strategie qualifications</div>
       <div class="strat-card">
-        <div class="strat-row"><div class="strat-icon">&#128308;</div><div><div class="si-title">Pneu Q1/Q2</div><div class="si-text">${isWet?'Intermediaires selon evolution de la piste.':'Pneu Medium — economiser les Softs neufs pour le Q3.'}</div></div></div>
-        <div class="strat-row"><div class="strat-icon">&#9889;</div><div><div class="si-title">Pneu Q3</div><div class="si-text">${isWet?'Full Wet si piste trempee. Surveille le sechage.':'Pneu Soft neuf — deux runs max, le second generalement plus rapide.'}</div></div></div>
+        <div class="strat-row"><div class="strat-icon">&#128308;</div><div><div class="si-title">Pneu Q1/Q2</div><div class="si-text">${isWet?S("auto.intermediaires_selon_evolution_de_l"):S("auto.pneu_medium_economiser_les_softs_ne")}</div></div></div>
+        <div class="strat-row"><div class="strat-icon">&#9889;</div><div><div class="si-title">Pneu Q3</div><div class="si-text">${isWet?'Full Wet si piste trempee. Surveille le sechage.':S("auto.pneu_soft_neuf_deux_runs_max_le_sec")}</div></div></div>
         <div class="strat-row"><div class="strat-icon">&#8987;</div><div><div class="si-title">Timing de sortie</div><div class="si-text">Sortir dans les 3 dernieres minutes en Q3. La piste est a son meilleur et l\'aspiration peut faire gagner des dixiemes.</div></div></div>
-        <div class="strat-row"><div class="strat-icon">&#127919;</div><div><div class="si-title">Secteur cle</div><div class="si-text">${circuit.overtakingDifficulty>0.7?'La pole est decisive ici — tout donner en Q3.':'Bonne grille utile mais les depassements restent possibles en course.'}</div></div></div>
+        <div class="strat-row"><div class="strat-icon">&#127919;</div><div><div class="si-title">Secteur cle</div><div class="si-text">${circuit.overtakingDifficulty>0.7?S("auto.la_pole_est_decisive_ici_tout_donne"):S("auto.bonne_grille_utile_mais_les_depasse")}</div></div></div>
       </div>
     </div>
 
-    ${driver1?`<div class="section">
-      <div class="section-title">&#127897;&#65039; ${esc(driver1.firstName)} ${esc(driver1.name)}</div>
+    ${driver1?`<div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>&#127897;&#65039; ${esc(driver1.firstName)} ${esc(driver1.name)}</div>
       <div class="quote-card">
         <div class="quote-text">"${pick(QUOTES)}"</div>
         <div class="quote-author">— ${esc(driver1.firstName)} ${esc(driver1.name)}, avant les qualifications</div>
@@ -248,8 +248,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
 
     <!-- EFFETS PILOTES ACTIFS -->
     ${myDrivers.some(d=>save.driverEffects?.[d.id]) ? `
-    <div class="section">
-      <div class="section-title">&#9889; Effets actifs ce week-end</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>&#9889; Effets actifs ce week-end</div>
       ${myDrivers.filter(d=>save.driverEffects?.[d.id]).map(d=>{
         const e = save.driverEffects[d.id];
         const pos = (e.pace||0)+(e.consistency||0) > 0;
@@ -259,8 +259,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
     </div>` : ''}
 
     <!-- MORAL PILOTES -->
-    <div class="section">
-      <div class="section-title">&#128149; Moral de l'equipe</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>&#128149; Moral de l'equipe</div>
       <div class="track-analysis">
         ${myDrivers.map(d => {
           const moral = save.immersion?.driverMorale?.[d.id]?.value ?? 70;
@@ -271,8 +271,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-title">&#128161; ${esc(circuit.name)} en qualifications</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>&#128161; ${esc(circuit.name)} en qualifications</div>
       <div class="anecdote">${anecdote}</div>
     </div>
 

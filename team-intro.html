@@ -167,7 +167,7 @@ const TEAM_DATA = {
     history: `Anciennement Racing Point puis Force India, l'team a été rachetée par Lawrence Stroll en 2021 et rebaptisée Aston Martin. Avec des investissements massifs dans une nouvelle usine et l'arrivée d'Alonso en 2023, les ambitions sont claires. En 2026, Alonso + Stroll représentent l'expérience et la continuité. <strong>En montée en puissance, objectif top 3 constructeurs.</strong>`,
     strengths: ["Alonso — le plus expérimenté du plateau", "Nouvelle infrastructure de pointe", "Investissements massifs"],
     challenge: "Transformer les ressources en performance sur la piste",
-    difficulty: 'Intermédiaire',
+    difficulty: S("auto.intermediaire_2"),
     diffColor: '#ff8800',
   },
   alpine: {
@@ -180,7 +180,7 @@ const TEAM_DATA = {
     history: `Renault/Alpine a une longue histoire en F1 avec deux titres mondiaux (2005-2006). L'team anglaise-française est unique par sa double culture. En 2026, Gasly et Colapinto forment un duo équilibré. Le budget est modeste mais l'ambition est bien là. <strong>Idéale pour un TP qui aime les défis et la progression.</strong>`,
     strengths: ["Engine Renault fiable", "Gasly — expérience et régularité", "Esprit team soudé"],
     challenge: "Manque de budget face aux grandes teams",
-    difficulty: 'Intermédiaire',
+    difficulty: S("auto.intermediaire_2"),
     diffColor: '#ff8800',
   },
   williams: {
@@ -193,7 +193,7 @@ const TEAM_DATA = {
     history: `Williams est une légende de la F1. 9 titres constructeurs, 114 victoires. Mansell, Prost, Hill, Reutemann... les légendes se sont succédé sous la bannière bleue. Après des années difficiles, l'team est en reconstruction avec Sainz et Albon. Le passé glorieux crée une pression particulière. <strong>Faire revivre un géant endormi est un défi exaltant.</strong>`,
     strengths: ["Sainz — l'un des meilleurs du plateau", "Histoire et prestige immenses", "En progression"],
     challenge: "Manque de ressources par rapport au passé glorieux",
-    difficulty: 'Intermédiaire',
+    difficulty: S("auto.intermediaire_2"),
     diffColor: '#ff8800',
   },
   haas: {
@@ -254,7 +254,7 @@ const tData = TEAM_DATA[teamId] || {};
 
 function getDifficultyStars(diff) {
   if (diff === 'Hard') return '⭐⭐⭐';
-  if (diff === 'Intermédiaire') return '⭐⭐';
+  if (diff === S("auto.intermediaire_2")) return '⭐⭐';
   return '⭐';
 }
 
@@ -262,18 +262,18 @@ function getObjectives(t, team) {
   const perf = team.performance;
   if (perf >= 90) return [
     { icon:'🏆', text:'Remporter le championnat constructeurs', diff:'Attendu' },
-    { icon:'🥇', text:'Minimum 5 victoires dans la saison', diff:'Attendu' },
+    { icon:'🥇', text:S("auto.minimum_5_victoires_dans_la_saison"), diff:'Attendu' },
     { icon:'💰', text:'Maintenir le budget au-dessus de 50M€', diff:'Facile' },
   ];
   if (perf >= 75) return [
-    { icon:'🏆', text:'Terminer dans le top 5 constructeurs', diff:'Ambitieux' },
-    { icon:'🎯', text:'Marquer des points dans 60% des courses', diff:'Réaliste' },
-    { icon:'💰', text:'Équilibrer le budget sur la saison', diff:'Important' },
+    { icon:'🏆', text:S("auto.terminer_dans_le_top_5_constructeur"), diff:'Ambitieux' },
+    { icon:'🎯', text:S("auto.marquer_des_points_dans_60_des_cour"), diff:S("auto.realiste") },
+    { icon:'💰', text:S("auto.equilibrer_le_budget_sur_la_saison"), diff:'Important' },
   ];
   return [
     { icon:'📈', text:'Progresser d\'au moins 2 places au classement', diff:'Ambitieux' },
-    { icon:'🎯', text:'Marquer des points dans 5 courses minimum', diff:'Réaliste' },
-    { icon:'💰', text:'Ne pas terminer la saison en déficit', diff:'Critique' },
+    { icon:'🎯', text:S("auto.marquer_des_points_dans_5_courses_m"), diff:S("auto.realiste") },
+    { icon:'💰', text:S("auto.ne_pas_terminer_la_saison_en_defici"), diff:'Critique' },
   ];
 }
 
@@ -305,7 +305,7 @@ function render() {
       <div>
         <span class="th-badge" style="color:${color};border-color:${color}40">📍 ${tData.base || 'Base inconnue'}</span>
         <span class="th-badge" style="color:var(--gold);border-color:rgba(245,200,66,.3)">🏆 ${tData.championships_constructors || 0} titres</span>
-        <span class="th-badge" style="color:${tData.diffColor||'#888'};border-color:${tData.diffColor||'#888'}40">${getDifficultyStars(tData.difficulty)} ${tData.difficulty || 'Intermédiaire'}</span>
+        <span class="th-badge" style="color:${tData.diffColor||'#888'};border-color:${tData.diffColor||'#888'}40">${getDifficultyStars(tData.difficulty)} ${tData.difficulty || S("auto.intermediaire_2")}</span>
       </div>
     </div>
 
@@ -319,30 +319,30 @@ function render() {
 
     <!-- TAB ÉCURIE -->
     <div id="tab-team">
-      <div class="section">
-        <div class="section-title">📖 Histoire</div>
-        <div class="history-card">${tData.history || 'Une team avec une longue histoire en Formule 1.'}</div>
+      <div class=S("auto.section")>
+        <div class=S("auto.sectiontitle")>📖 Histoire</div>
+        <div class="history-card">${tData.history || S("auto.une_team_avec_une_longue_histoire_e")}</div>
       </div>
 
-      <div class="section">
-        <div class="section-title">💪 Points forts</div>
+      <div class=S("auto.section")>
+        <div class=S("auto.sectiontitle")>💪 Points forts</div>
         <div style="display:flex;flex-direction:column;gap:6px">
           ${(tData.strengths||[]).map(s=>`<div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid ${color};border-radius:8px;padding:8px 12px;font-size:13px">✓ ${s}</div>`).join('')}
         </div>
       </div>
 
-      <div class="section">
-        <div class="section-title">⚡ Défi principal</div>
+      <div class=S("auto.section")>
+        <div class=S("auto.sectiontitle")>⚡ Défi principal</div>
         <div style="background:rgba(245,200,66,.05);border:1px solid rgba(245,200,66,.2);border-radius:8px;padding:12px;font-size:13px;color:#ddd">
           ⚠️ ${tData.challenge || 'Progresser dans le championnat.'}
         </div>
       </div>
 
-      <div class="section">
-        <div class="section-title">🔧 Voiture 2026</div>
+      <div class=S("auto.section")>
+        <div class=S("auto.sectiontitle")>🔧 Voiture 2026</div>
         <div class="car-grid">
           ${[
-            {label:'Aéro',     val:parseFloat(team.aero?.toFixed(1)||team.aero),        color:'#0090ff'},
+            {label:S("auto.aero"),     val:parseFloat(team.aero?.toFixed(1)||team.aero),        color:'#0090ff'},
             {label:'Chassis',  val:parseFloat(team.chassis?.toFixed(1)||team.chassis),      color:'#ff8800'},
             {label:'Engine',   val:parseFloat(team.engine?.toFixed(1)||team.engine),       color:'#e8003d'},
             {label:'Reliability',val:parseFloat(team.reliability?.toFixed(1)||team.reliability),  color:'#00c875'},
@@ -354,8 +354,8 @@ function render() {
         </div>
       </div>
 
-      <div class="section">
-        <div class="section-title">🎯 Objectifs de départ</div>
+      <div class=S("auto.section")>
+        <div class=S("auto.sectiontitle")>🎯 Objectifs de départ</div>
         <div class="objectives">
           ${objectives.map(o=>`<div class="obj-row">
             <span class="obj-icon">${o.icon}</span>
@@ -368,14 +368,14 @@ function render() {
 
     <!-- TAB RÉUNION -->
     <div id="tab-meeting" style="display:none">
-      <div class="section">
-        <div class="section-title">🤝 Première réunion drivers & staff</div>
+      <div class=S("auto.section")>
+        <div class=S("auto.sectiontitle")>🤝 Première réunion drivers & staff</div>
         <div class="history-card">
           Tu prends officiellement la direction du mur des stands. Cette réunion d’introduction n’apparaît qu’au lancement d’une nouvelle carrière.
         </div>
       </div>
 
-      <div class="section">
+      <div class=S("auto.section")>
         <div class="meeting-grid">
           ${teamDrvs.map((d,i)=>`<div class="meeting-card">
             <div class="meeting-role">Driver ${i+1}</div>
@@ -398,8 +398,8 @@ function render() {
 
     <!-- TAB PILOTES -->
     <div id="tab-drivers" style="display:none">
-      <div class="section">
-        <div class="section-title">🏎️ Your drivers 2026</div>
+      <div class=S("auto.section")>
+        <div class=S("auto.sectiontitle")>🏎️ Your drivers 2026</div>
         ${teamDrvs.map(d=>{
           const ovr = Math.round((d.pace + d.consistency + d.wetSkill + d.overtaking + d.defending) / 5);
           return `<div class="driver-row">
@@ -412,7 +412,7 @@ function render() {
                   {l:'Pace', d:d.pace},
                   {l:'Consistency', d:d.consistency},
                   {l:'Wet', d:d.wetSkill},
-                  {l:'Dépas.', d:d.overtaking},
+                  {l:S("auto.depas"), d:d.overtaking},
                   {l:'Defending', d:d.defending},
                 ].map(s=>`<span style="font-family:var(--fh);font-size:10px;color:var(--muted)">${s.l} <strong style="color:var(--text)">${s.d}</strong></span>`).join('')}
               </div>
@@ -422,8 +422,8 @@ function render() {
         }).join('')}
       </div>
 
-      <div class="section">
-        <div class="section-title">💰 Budget & Salarys</div>
+      <div class=S("auto.section")>
+        <div class=S("auto.sectiontitle")>💰 Budget & Salarys</div>
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px">
           <div style="display:flex;justify-content:space-between;font-family:var(--fh);font-size:13px;padding:6px 0;border-bottom:1px solid var(--border)">
             <span style="color:var(--muted)">Budget de départ</span>
@@ -443,8 +443,8 @@ function render() {
 
     <!-- TAB GUIDE -->
     <div id="tab-guide" style="display:none">
-      <div class="section">
-        <div class="section-title">📖 Comment jouer</div>
+      <div class=S("auto.section")>
+        <div class=S("auto.sectiontitle")>📖 Comment jouer</div>
         <div class="guide-steps">
           <div class="guide-step">
             <div class="gs-num">1</div>
@@ -491,8 +491,8 @@ function render() {
         </div>
       </div>
 
-      <div class="section">
-        <div class="section-title">💡 Conseils pour commencer</div>
+      <div class=S("auto.section")>
+        <div class=S("auto.sectiontitle")>💡 Conseils pour commencer</div>
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:13px;line-height:1.8;color:#ccc">
           • <strong style="color:var(--gold)">Lis les briefings</strong> — ils contiennent des infos stratégiques essentielles<br>
           • <strong style="color:var(--gold)">Surveille les pneus</strong> — pitter trop tard = perdre des positions<br>

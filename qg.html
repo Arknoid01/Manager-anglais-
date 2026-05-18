@@ -161,7 +161,7 @@
     <a href="index.html" class="nav-back" data-i18n="nav.home">← Home</a>
   </div>
   <div style="display:flex;align-items:center;gap:6px">
-    <div class="pill pill-budget" id="topBudget">—</div>
+    <div class=S("auto.pill_pillbudget") id="topBudget">—</div>
     <div class="pill" style="background:rgba(232,0,61,.10);border:1px solid rgba(232,0,61,.25);color:var(--accent);" id="topGP">GP —</div>
   </div>
 </div>
@@ -211,10 +211,10 @@ var BUILDINGS = [
     color:'#e8003d',
     desc: 'Accélère le développement de la voiture',
     levels:[
-      {cost:15,  races:8,  bonus:{devBoost:0.05},  label:'+5% pts développement'},
-      {cost:30,  races:12, bonus:{devBoost:0.12},  label:'+12% pts développement'},
-      {cost:55,  races:16, bonus:{devBoost:0.22},  label:'+22% pts développement'},
-      {cost:90,  races:20, bonus:{devBoost:0.35},  label:'+35% pts développement'},
+      {cost:15,  races:8,  bonus:{devBoost:0.05},  label:S("auto.5_pts_developpement")},
+      {cost:30,  races:12, bonus:{devBoost:0.12},  label:S("auto.12_pts_developpement")},
+      {cost:55,  races:16, bonus:{devBoost:0.22},  label:S("auto.22_pts_developpement")},
+      {cost:90,  races:20, bonus:{devBoost:0.35},  label:S("auto.35_pts_developpement")},
     ]
   },
   {
@@ -225,9 +225,9 @@ var BUILDINGS = [
     desc: 'Améliore la précision stratégique',
     levels:[
       {cost:20,  races:10, bonus:{stratBoost:1},   label:'Improved strategy N1'},
-      {cost:40,  races:14, bonus:{stratBoost:2},   label:'+Réduction erreurs IA'},
-      {cost:65,  races:18, bonus:{stratBoost:3},   label:'+Timing arrêts optimisé'},
-      {cost:100, races:22, bonus:{stratBoost:4},   label:'Stratégie parfaite N4'},
+      {cost:40,  races:14, bonus:{stratBoost:2},   label:S("auto.reduction_erreurs_ia")},
+      {cost:65,  races:18, bonus:{stratBoost:3},   label:S("auto.timing_arrets_optimise")},
+      {cost:100, races:22, bonus:{stratBoost:4},   label:S("auto.strategie_parfaite_n4")},
     ]
   },
   {
@@ -240,7 +240,7 @@ var BUILDINGS = [
       {cost:12,  races:8,  bonus:{moraleBoost:3},  label:'+3 moral drivers/GP'},
       {cost:25,  races:11, bonus:{moraleBoost:6},  label:'+6 moral drivers/GP'},
       {cost:45,  races:15, bonus:{moraleBoost:10}, label:'+10 moral drivers/GP'},
-      {cost:75,  races:18, bonus:{moraleBoost:15}, label:'+15 moral + récup rapide'},
+      {cost:75,  races:18, bonus:{moraleBoost:15}, label:S("auto.15_moral_recup_rapide")},
     ]
   },
   {
@@ -251,9 +251,9 @@ var BUILDINGS = [
     desc: 'Améliore la météo et la télémétrie',
     levels:[
       {cost:18,  races:9,  bonus:{dataBoost:1},    label:'More accurate weather'},
-      {cost:35,  races:13, bonus:{dataBoost:2},    label:'+Télémétrie avancée'},
+      {cost:35,  races:13, bonus:{dataBoost:2},    label:S("auto.telemetrie_avancee")},
       {cost:60,  races:17, bonus:{dataBoost:3},    label:'+Analyse concurrents'},
-      {cost:95,  races:21, bonus:{dataBoost:4},    label:'Data N4 — vision complète'},
+      {cost:95,  races:21, bonus:{dataBoost:4},    label:S("auto.data_n4_vision_complete")},
     ]
   },
   {
@@ -263,10 +263,10 @@ var BUILDINGS = [
     color:'#ff8c42',
     desc: 'Réduit la durée des blessures drivers',
     levels:[
-      {cost:10,  races:7,  bonus:{healBoost:0.10}, label:'-10% durée blessures'},
-      {cost:22,  races:10, bonus:{healBoost:0.25}, label:'-25% durée blessures'},
-      {cost:40,  races:14, bonus:{healBoost:0.45}, label:'-45% durée blessures'},
-      {cost:70,  races:18, bonus:{healBoost:0.65}, label:'-65% + récup rapide'},
+      {cost:10,  races:7,  bonus:{healBoost:0.10}, label:S("auto.10_duree_blessures")},
+      {cost:22,  races:10, bonus:{healBoost:0.25}, label:S("auto.25_duree_blessures")},
+      {cost:40,  races:14, bonus:{healBoost:0.45}, label:S("auto.45_duree_blessures")},
+      {cost:70,  races:18, bonus:{healBoost:0.65}, label:S("auto.65_recup_rapide")},
     ]
   },
   {
@@ -276,10 +276,10 @@ var BUILDINGS = [
     color:'#f5c842',
     desc: 'Accélère la progression des jeunes drivers',
     levels:[
-      {cost:14,  races:9,  bonus:{youngBoost:0.10},label:'+10% progression jeunes'},
-      {cost:28,  races:12, bonus:{youngBoost:0.22},label:'+22% progression jeunes'},
-      {cost:50,  races:16, bonus:{youngBoost:0.38},label:'+38% progression jeunes'},
-      {cost:85,  races:20, bonus:{youngBoost:0.55},label:'+55% + accès talents rares'},
+      {cost:14,  races:9,  bonus:{youngBoost:0.10},label:S("auto.10_progression_jeunes")},
+      {cost:28,  races:12, bonus:{youngBoost:0.22},label:S("auto.22_progression_jeunes")},
+      {cost:50,  races:16, bonus:{youngBoost:0.38},label:S("auto.38_progression_jeunes")},
+      {cost:85,  races:20, bonus:{youngBoost:0.55},label:S("auto.55_acces_talents_rares")},
     ]
   },
 ];
@@ -366,7 +366,7 @@ function renderBuildings(){
     var nextHtml = '';
     if(!maxed && !st.upgrading){
       var nx = b.levels[lvl];
-      nextHtml = 'Niveau '+(lvl+1)+' : <strong>'+nx.label+'</strong><br>Coût : <strong>'+nx.cost+'M€</strong> · <strong>'+nx.races+' GP</strong>';
+      nextHtml = 'Niveau '+(lvl+1)+' : <strong>'+nx.label+S("auto.strongbrcout_strong")+nx.cost+'M€</strong> · <strong>'+nx.races+' GP</strong>';
     } else if(st.upgrading){
       var remaining = st.targetRace - currentRace;
       var done = currentRace - st.startRace;
@@ -430,7 +430,7 @@ window.startUpgrade = function(buildingId){
   if(lvl >= b.levels.length || st.upgrading) return;
 
   var nx = b.levels[lvl];
-  if(save.budget < nx.cost){ toast('💸 Budget insuffisant !'); return; }
+  if(save.budget < nx.cost){ toast(S("auto.budget_insuffisant")); return; }
 
   save.budget   -= nx.cost;
   st.upgrading   = true;

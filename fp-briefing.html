@@ -128,7 +128,7 @@ const CIRCUIT_DATA = {
   suzuka:     { flag:'🇯🇵', spectateurs:'180 000', anecdote:'Suzuka est le seul circuit en forme de 8 du calendrier. La séquence S-Curves en début de tour est considérée par beaucoup de drivers comme la plus belle du monde.', setup:'Appui élevé — les enchaînements de virages à haute vitesse nécessitent une voiture très stable.' },
   baku:       { flag:'🇦🇿', spectateurs:'85 000', anecdote:'Le mur du château au virage 8 est le plus étroit du calendrier : 7,6 mètres. Plus d\'une carrière s\'y est jouée. La longue ligne droite génère des batailles DRS spectaculaires.', setup:'Compromis extrême — maximum de vitesse de pointe mais il faut survivre au secteur city.' },
   singapore:  { flag:'🇸🇬', spectateurs:'90 000', anecdote:'Singapore est la course la plus longue de la saison en temps réel — souvent plus de 2 heures. La chaleur et l\'humidité font perdre jusqu\'à 3 kg aux drivers en course.', setup:'Appui maximum — circuit de rue, vitesse de pointe secondaire. Refroidissement moteur critique.' },
-  abu_dhabi:  { flag:'🇦🇪', spectateurs:'55 000', anecdote:'Abu Dhabi a accueilli le titre de champion au dernier tour lors du duel Verstappen-Hamilton en 2021. Yas Marina est régulièrement remanié pour améliorer le spectacle.', setup:'Balanced à tendance vitesse — le secteur 3 remodelé favorise les overtakes mais demande du grip.' },
+  abu_dhabi:  { flag:'🇦🇪', spectateurs:'55 000', anecdote:'Abu Dhabi a accueilli le titre de champion au dernier tour lors du duel Verstappen-Hamilton en 2021. Yas Marina est régulièrement remanié pour améliorer le spectacle.', setup:S("auto.balanced_a_tendance_vitesse_le_sect") },
 };
 
 const WEATHER_ICONS = { dry:'☀️', light_rain:'🌦️', heavy_rain:'🌧️', overcast:'☁️' };
@@ -151,8 +151,8 @@ function moralLabel(m){
 function threatLevel(ovr, playerOvr){
   const diff = ovr - playerOvr;
   if(diff > 5) return { cls:'threat-high', label:'⚠️ Danger' };
-  if(diff > -5) return { cls:'threat-mid', label:'👀 À surveiller' };
-  return { cls:'threat-low', label:'✅ Maîtrisable' };
+  if(diff > -5) return { cls:'threat-mid', label:S("auto.a_surveiller") };
+  return { cls:'threat-low', label:S("auto.maitrisable") };
 }
 
 function getPlayerOvr(save){
@@ -215,7 +215,7 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
   const raceNum = (save.race||0) % F1Data.circuits.length;
   const circuit = F1Data.circuits[raceNum];
   const cid     = circuit.id;
-  const cd      = CIRCUIT_DATA[cid] || { flag:'🏁', spectateurs:'—', anecdote:`${circuit.fullName||circuit.name} est l'un des circuits emblématiques du calendrier.`, setup:'Setup équilibré recommandé.' };
+  const cd      = CIRCUIT_DATA[cid] || { flag:'🏁', spectateurs:'—', anecdote:`${circuit.fullName||circuit.name} est l'un des circuits emblématiques du calendrier.`, setup:S("auto.setup_equilibre_recommande") };
   const myTeam  = F1Data.teams.find(t=>t.id===save.playerTeamId);
   // Restaurer les drivers generés avant filtrage
   if (save.generatedDrivers?.length) {
@@ -288,8 +288,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
     </div>
 
     <!-- MÉTÉO -->
-    <div class="section">
-      <div class="section-title">🌤️ Weekend weather</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>🌤️ Weekend weather</div>
       <div class="weather-strip">
         <div class="weather-day today">
           <div class="wd-label" data-i18n="weekend.friday">Vendredi</div>
@@ -315,8 +315,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
     </div>
 
     <!-- PILOTES -->
-    <div class="section">
-      <div class="section-title">🏎️ Your drivers</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>🏎️ Your drivers</div>
       <div class="drivers-grid">
         ${myDrivers.map(d=>{
           const moral = save.immersion?.driverMorale?.[d.id]?.value ?? 70;
@@ -336,8 +336,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
     </div>
 
     <!-- VOITURE -->
-    <div class="section">
-      <div class="section-title">🔧 État de la voiture</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>🔧 État de la voiture</div>
       <div class="history-card">
         ${['aero','chassis','engine','reliability'].map(stat => {
           const base  = myTeam?.[stat] || 70;
@@ -353,15 +353,15 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
         }).join('')}
         <div class="hc-stat"><span>Setup semaine</span>
           <b style="color:${save.weekendSetup==='qualify'?'var(--gold)':save.weekendSetup==='race'?'var(--green)':'var(--muted)'}">${
-            {qualify:'⚡ Qualifications',race:'🏁 Course',balanced:'⚖️ Balanced'}[save.weekendSetup]||'⚖️ Balanced'
+            {qualify:'⚡ Qualifications',race:S("auto.course"),balanced:'⚖️ Balanced'}[save.weekendSetup]||'⚖️ Balanced'
           }</b>
         </div>
       </div>
     </div>
 
     <!-- HISTORIQUE CIRCUIT -->
-    <div class="section">
-      <div class="section-title">📈 Historique sur ce circuit</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>📈 Historique sur ce circuit</div>
       <div class="history-card">
         ${history ? `
           <div class="hc-stat"><span>Races held here</span><b>${history.races}</b></div>
@@ -376,8 +376,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
     </div>
 
     <!-- OBJECTIF BOARD -->
-    <div class="section">
-      <div class="section-title">🎯 Objectif de la direction</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>🎯 Objectif de la direction</div>
       <div class="objective-card">
         <div class="oc-title">📋 Message du board</div>
         <div class="oc-text">${objective} Currently P${myPos} au championnat constructeurs avec ${save.teamStandings?.[save.playerTeamId]||0} points.</div>
@@ -385,8 +385,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
     </div>
 
     <!-- RIVAUX -->
-    <div class="section">
-      <div class="section-title">👀 Rivals to watch</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>👀 Rivals to watch</div>
       ${rivals.map(({d,team,thr,threat})=>`
         <div class="rival-card">
           <div class="rival-flag">${d.flag||'🏁'}</div>
@@ -401,8 +401,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
     </div>
 
     <!-- CLASSEMENTS -->
-    <div class="section">
-      <div class="section-title">🏆 Constructor championship</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>🏆 Constructor championship</div>
       <div class="history-card" style="padding:8px 14px">
         <table class="standings-table">
           ${constructors.map((t,i)=>`
@@ -416,8 +416,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-title">🏎️ Driver championship (Top 8)</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>🏎️ Driver championship (Top 8)</div>
       <div class="history-card" style="padding:8px 14px">
         <table class="standings-table">
           ${getDriverStandings(save).map((d,i)=>`
@@ -433,17 +433,17 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
 
     <!-- ÉVÉNEMENT PADDOCK -->
     ${save.weekendPaddockEvent ? `
-    <div class="section">
-      <div class="section-title">📰 Nouvelle du paddock</div>
-      <div class="anecdote" style="border-left:3px solid ${['performance','financial'].includes(save.weekendPaddockEvent.category)?'var(--green)':['medical','regulatory'].includes(save.weekendPaddockEvent.category)?'var(--accent)':'var(--gold)'}">
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>📰 Nouvelle du paddock</div>
+      <div class="anecdote" style="border-left:3px solid ${[S("auto.performance"),'financial'].includes(save.weekendPaddockEvent.category)?'var(--green)':['medical','regulatory'].includes(save.weekendPaddockEvent.category)?'var(--accent)':'var(--gold)'}">
         <strong>${save.weekendPaddockEvent.icon||'📰'} ${esc(save.weekendPaddockEvent.title)} — </strong>${esc(save.weekendPaddockEvent.text)}
       </div>
     </div>` : ''}
 
     <!-- EFFETS PILOTES ACTIFS -->
     ${myDrivers.some(d=>save.driverEffects?.[d.id]) ? `
-    <div class="section">
-      <div class="section-title">⚡ Active effects on drivers</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>⚡ Active effects on drivers</div>
       ${myDrivers.filter(d=>save.driverEffects?.[d.id]).map(d=>{
         const e = save.driverEffects[d.id];
         const pos = (e.pace||0)+(e.consistency||0) > 0;
@@ -457,8 +457,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
     </div>` : ''}
 
     <!-- ANECDOTE -->
-    <div class="section">
-      <div class="section-title">💡 Le saviez-vous ?</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>💡 Le saviez-vous ?</div>
       <div class="anecdote"><strong>${esc(circuit.name)} — </strong>${cd.anecdote}</div>
     </div>
 

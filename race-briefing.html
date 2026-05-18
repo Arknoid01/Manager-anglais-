@@ -104,20 +104,20 @@ const TP_QUOTES_RACE = [
   "Aujourd'hui on execute le plan. Pas d'improvisation, pas de panique. On fait confiance au travail de la semaine.",
   "La voiture est prete. Les drivers sont prets. Il ne reste plus qu'a liberer les chevaux.",
   "On a fait nos devoirs. Maintenant c'est au circuit de parler. Concentrez-vous, chaque detail compte.",
-  "Ce week-end a ete propre. Si on reproduit ca en course, les points sont la.",
+  S("auto.ce_weekend_a_ete_propre_si_on_repro"),
   "Les adversaires savent qu'on est la. Aujourd'hui on leur rappelle pourquoi ils nous surveillent.",
-  "Chaque decision peut changer le resultat. Gardez la tete froide et executez le plan.",
-  "On ne vient pas ici pour faire de la figuration. Objectif : maximum de points.",
+  S("auto.chaque_decision_peut_changer_le_res"),
+  S("auto.on_ne_vient_pas_ici_pour_faire_de_l"),
   "Cette equipe a travaille dur toute la semaine. Maintenant c'est l'heure de recolter.",
   "Je veux voir de la concentration, de la precision et de l'audace. On est capables de tout.",
   "La course appartient a ceux qui restent calmes quand tout s'accelere. Soyez ces gens-la.",
-  "On a prepare tous les scenarios. Quelle que soit la meteo, quelle que soit la safety car — on est prets.",
+  S("auto.on_a_prepare_tous_les_scenarios_que"),
   "Chaque tour compte. Chaque freinage, chaque relance. Rien n'est anodin en Grand Prix.",
   "On a vu les donnees. La voiture est la. Maintenant c'est a vous de jouer.",
   "Pas de pression. Juste du travail bien fait. C'est tout ce qu'on vous demande.",
   "Les grands GP se gagnent avec la tete autant qu'avec les pieds. Soyez intelligents.",
   "Aujourd'hui chaque point compte pour le championnat. On ne laisse rien sur la table.",
-  "Le muret sera avec vous a chaque tour. On prend les decisions ensemble.",
+  S("auto.le_muret_sera_avec_vous_a_chaque_to"),
   "On a battu des equipes plus fortes que nous sur le papier. Aujourd'hui on le refait.",
   "Execution parfaite, voila l'objectif. On connait le plan, on sait ce qu'on a a faire.",
   "Les meilleurs GP sont ceux ou l'equipe pense plus vite que les adversaires. Soyons cette equipe.",
@@ -128,16 +128,16 @@ const BATTLES = [
   { title:"La bataille de milieu de peloton", text:"Les positions 6 a 10 distribuent des points precieux. Un driver agressif dans cette zone peut faire la difference en championnat.", badge:"bc-championship", label:"Championnat" },
   { title:"Le choix de pneus en cas de pluie", text:"Si la pluie arrive, le timing du passage aux intermediaires peut valoir 5 ou 6 positions. Ne pas attendre trop longtemps.", badge:"bc-strategic", label:"Strategique" },
   { title:"L'aggressivite au depart", text:"Les 3 premiers virages redistribuent souvent 4 ou 5 positions. Notre driver doit se battre pour defendre ou attaquer selon la grille.", badge:"bc-ontrack", label:"En piste" },
-  { title:"La gestion des pneus en fin de course", text:"Les 10 derniers tours, la degradation devient critique. Un driver qui a menage ses gommes peut attaquer quand les autres subissent.", badge:"bc-strategic", label:"Strategique" },
+  { title:S("auto.la_gestion_des_pneus_en_fin_de_cour"), text:"Les 10 derniers tours, la degradation devient critique. Un driver qui a menage ses gommes peut attaquer quand les autres subissent.", badge:"bc-strategic", label:"Strategique" },
   { title:"L'overcut surprise", text:"Rester plus longtemps en piste que les adversaires peut payer si le rythme reste bon. L'overcut peut capter une position si le timing est parfait.", badge:"bc-strategic", label:"Strategique" },
   { title:"La defense en fin de relance", text:"Les derniers tours d'un long relais, les pneus sont morts. Defendre une position devient un art — proteger la trajectoire interieure est vital.", badge:"bc-ontrack", label:"En piste" },
   { title:"L'opportunisme sur Safety Car", text:"Tous les SC ne sont pas previsibles. L'equipe qui reagit le plus vite au radio gagne parfois 3 ou 4 places sans effort.", badge:"bc-strategic", label:"Strategique" },
   { title:"La bataille avec le coequipier", text:"Si les deux voitures sont proches, le muret doit gerer les ordres d'equipe avec finesse. Pas question de se ganer pour les adversaires.", badge:"bc-championship", label:"Championnat" },
-  { title:"Le premier virage", text:"Les accrochages au virage 1 detruisent des courses entieremen. Etre propre et positionne au bon endroit vaut mieux que l'heroisme dangereux.", badge:"bc-ontrack", label:"En piste" },
-  { title:"Les points bonus meilleur tour", text:"Si on est en position de marquer, le tour le plus rapide en fin de course vaut un point supplementaire. Un stop pour des pneus frais peut en valoir la peine.", badge:"bc-championship", label:"Championnat" },
+  { title:S("auto.le_premier_virage"), text:"Les accrochages au virage 1 detruisent des courses entieremen. Etre propre et positionne au bon endroit vaut mieux que l'heroisme dangereux.", badge:"bc-ontrack", label:"En piste" },
+  { title:S("auto.les_points_bonus_meilleur_tour"), text:"Si on est en position de marquer, le tour le plus rapide en fin de course vaut un point supplementaire. Un stop pour des pneus frais peut en valoir la peine.", badge:"bc-championship", label:"Championnat" },
 ];
 const WEATHER_ICONS = { dry:'☀️', light_rain:'🌦️', heavy_rain:'🌧️', overcast:'☁️' };
-const WEATHER_LABELS = { dry:'Conditions seches — piste ideale', light_rain:'Bruine — strateges de pneus tendus', heavy_rain:'Wet forte — course chaotique probable', overcast:'Couvert — pluie possible en fin de course' };
+const WEATHER_LABELS = { dry:'Conditions seches — piste ideale', light_rain:'Bruine — strateges de pneus tendus', heavy_rain:S("auto.wet_forte_course_chaotique_probable"), overcast:'Couvert — pluie possible en fin de course' };
 const SC_PROBA = { dry:20, light_rain:45, heavy_rain:65, overcast:30 };
 
 function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
@@ -253,8 +253,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-title">&#9928;&#65039; Conditions course</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>&#9928;&#65039; Conditions course</div>
       <div class="weather-card">
         <div class="wc-icon">${WEATHER_ICONS[weather]||'☀️'}</div>
         <div class="wc-info">
@@ -265,8 +265,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-title">&#127937; Grille de depart (Top 10)</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>&#127937; Grille de depart (Top 10)</div>
       <div class="stakes-card" style="padding:8px 14px">
         <table class="grid-table">
           ${gridDrivers.map(g=>`
@@ -280,8 +280,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-title">&#127942; Enjeux championnat</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>&#127942; Enjeux championnat</div>
       <div class="stakes-card">
         <div class="stake-row"><div class="stake-icon">📊</div><div class="stake-text">Vous etes <strong>P${myRank}</strong> au championnat constructeurs avec <strong>${myPts} points</strong>.</div></div>
         ${gapAbove!==null?`<div class="stake-row"><div class="stake-icon">⬆️</div><div class="stake-text"><strong>${esc(teamAbove.name)}</strong> devant vous. Il faudrait <strong>${gapAbove} points</strong> de plus pour les depasser. Un podium + abandon adverse pourrait suffire.</div></div>`:'<div class="stake-row"><div class="stake-icon">🏆</div><div class="stake-text">Vous etes en tete du championnat. <strong>Defendre cette position.</strong></div></div>'}
@@ -289,18 +289,18 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-title">&#129504; Strategie recommandee</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>&#129504; Strategie recommandee</div>
       <div class="strat-card">
         <div class="strat-row"><div class="strat-icon">&#9989;</div><div><div class="si-title">Arrets planifies</div><div class="si-text">${pitWindows}</div></div></div>
-        <div class="strat-row"><div class="strat-icon">&#128308;</div><div><div class="si-title">Pneu de depart</div><div class="si-text">${isWet?'Intermediaires si piste mouille. Full Wet si pluie forte.':circuit.tyreDegradation>1.2?'Pneu Medium recommande — Soft pour qualifier, conserver le Medium pour la course.':'Pneu Medium ou Soft selon grille. Surveiller la degradation.'}</div></div></div>
+        <div class="strat-row"><div class="strat-icon">&#128308;</div><div><div class="si-title">Pneu de depart</div><div class="si-text">${isWet?'Intermediaires si piste mouille. Full Wet si pluie forte.':circuit.tyreDegradation>1.2?S("auto.pneu_medium_recommande_soft_pour_qu"):S("auto.pneu_medium_ou_soft_selon_grille_su")}</div></div></div>
         <div class="strat-row"><div class="strat-icon">&#9889;</div><div><div class="si-title">Opportunisme</div><div class="si-text">Si Safety Car avant le tour ${Math.round(circuit.laps*0.7)}, box immediatement. L\'arret gratuit peut tout changer.</div></div></div>
-        <div class="strat-row"><div class="strat-icon">&#128293;</div><div><div class="si-title">Degradation</div><div class="si-text">${circuit.tyreDegradation>1.2?'Elevee — gerer les pneus des le debut. Ne pas attaquer a fond les 10 premiers tours.':'Moderee — rythme normal en debut de course. Ajuster selon la position.'}</div></div></div>
+        <div class="strat-row"><div class="strat-icon">&#128293;</div><div><div class="si-title">Degradation</div><div class="si-text">${circuit.tyreDegradation>1.2?S("auto.elevee_gerer_les_pneus_des_le_debut"):S("auto.moderee_rythme_normal_en_debut_de_c")}</div></div></div>
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-title">&#9876;&#65039; Batailles a surveiller</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>&#9876;&#65039; Batailles a surveiller</div>
       ${battles.map(b=>`
         <div class="battle-card">
           <div class="bc-title">${b.title}</div>
@@ -311,8 +311,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
     </div>
 
     <!-- ÉTAT VOITURE + MORAL -->
-    <div class="section">
-      <div class="section-title">&#128295; Voiture &amp; Drivers — Dimanche</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>&#128295; Voiture &amp; Drivers — Dimanche</div>
       <div class="stakes-card">
         ${myDrivers.map(d => {
           const moral   = save.immersion?.driverMorale?.[d.id]?.value ?? 70;
@@ -326,7 +326,7 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
           const level = save.carDev?.[stat]?.level||base;
           const delta = level-base;
           const col   = delta>0?'var(--green)':delta<0?'var(--accent)':'var(--muted)';
-          const lbl   = {aero:'Aéro',chassis:'Chassis',engine:'Engine',reliability:'Reliability'}[stat];
+          const lbl   = {aero:S("auto.aero"),chassis:'Chassis',engine:'Engine',reliability:'Reliability'}[stat];
           return '<div class="stake-row"><div class="stake-icon">&#9881;&#65039;</div><div class="stake-text"><strong>'+lbl+'</strong> &middot; '+level+' <span style="color:'+col+'">'+(delta>=0?'+':'')+delta+'</span></div></div>';
         }).join('')}
         <div class="stake-row"><div class="stake-icon">&#9881;&#65039;</div><div class="stake-text"><strong>Setup</strong> &middot; ${{qualify:'&#9889; Qualifications',race:'&#127937; Course',balanced:'&#9878;&#65039; Equilibre'}[save.weekendSetup||'balanced']}</div></div>
@@ -334,8 +334,8 @@ if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStat
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-title">&#127917; Team Principal</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>&#127917; Team Principal</div>
       <div class="tp-quote">
         <div class="tp-text">"${pick(TP_QUOTES_RACE)}"</div>
         <div class="tp-author">— Team Principal · Dimanche matin</div>

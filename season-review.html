@@ -12,7 +12,7 @@
 
 /* Hero saison */
 .hero{background:linear-gradient(135deg,#0d0000 0%,#07070d 40%,#000d00 100%);border:1px solid rgba(245,200,66,.2);border-radius:12px;padding:20px 16px;margin:14px 0;position:relative;overflow:hidden;text-align:center}
-.hero::before{content:'FIN DE SAISON';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--fh);font-size:70px;font-weight:900;color:rgba(245,200,66,.04);letter-spacing:6px;white-space:nowrap;pointer-events:none}
+.hero::before{content:S("auto.fin_de_saison");position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--fh);font-size:70px;font-weight:900;color:rgba(245,200,66,.04);letter-spacing:6px;white-space:nowrap;pointer-events:none}
 .hero-season{font-family:var(--fh);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
 .hero-title{font-family:var(--fh);font-weight:900;font-size:32px;line-height:1;margin-bottom:6px}
 .hero-sub{font-family:var(--fb);font-size:13px;color:var(--muted)}
@@ -179,7 +179,7 @@ const NARRATIVES = {
   ],
   top5: [
     "Dans le top 5 constructeurs. La trajectoire est bonne — l'team grandit GP après GP.",
-    "Saison solide dans le milieu de peloton. Les fondations sont posées pour viser plus haut la saison prochaine.",
+    S("auto.saison_solide_dans_le_milieu_de_pel"),
   ],
   bad: [
     "Une saison difficile. Les résultats n'ont pas suivi les ambitions, mais les leçons tirées valent de l'or pour la suite.",
@@ -295,8 +295,8 @@ function render() {
     <div class="narrative">${getNarrative(myPos)}</div>
 
     <!-- STATS SAISON -->
-    <div class="section">
-      <div class="section-title">📊 Statistiques de la saison</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>📊 Statistiques de la saison</div>
       <div class="stats-grid">
         <div class="stat-card gold"><div class="sc-val">${stats.wins}</div><div class="sc-lbl">Victoire${stats.wins!==1?'s':''}</div></div>
         <div class="stat-card"><div class="sc-val">${stats.podiums}</div><div class="sc-lbl">Podium${stats.podiums!==1?'s':''}</div></div>
@@ -308,8 +308,8 @@ function render() {
     </div>
 
     <!-- CHAMPION PILOTE -->
-    <div class="section">
-      <div class="section-title">🏆 Champion du monde drivers</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>🏆 Champion du monde drivers</div>
       <div class="standings-row champion" style="border-radius:10px;background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.2)">
         <div class="sr-pos p1">1</div>
         <div class="sr-name">${esc(champion?.firstName||'')} ${esc(champion?.name||'—')}</div>
@@ -318,8 +318,8 @@ function render() {
     </div>
 
     <!-- CLASSEMENT CONSTRUCTEURS -->
-    <div class="section">
-      <div class="section-title">🏗️ Constructor championship final</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>🏗️ Constructor championship final</div>
       <div class="standings-card">
         ${constructors.slice(0,10).map((t,i)=>`
           <div class="standings-row ${t.id===save.playerTeamId?'me':i===0?'champion':''}">
@@ -332,8 +332,8 @@ function render() {
     </div>
 
     <!-- CLASSEMENT PILOTES -->
-    <div class="section">
-      <div class="section-title">🏎️ Driver championship final (Top 8)</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>🏎️ Driver championship final (Top 8)</div>
       <div class="standings-card">
         ${driverStandings.map((d,i)=>`
           <div class="standings-row ${d.teamId===save.playerTeamId?'me':i===0?'champion':''}">
@@ -346,8 +346,8 @@ function render() {
     </div>
 
     <!-- VOS PILOTES -->
-    <div class="section">
-      <div class="section-title">🏎️ Your drivers — bilan</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>🏎️ Your drivers — bilan</div>
       ${pilotCards.map(({d,years,pts,rank})=>`
         <div class="driver-row">
           <div class="dr-flag">${d.flag||'🏁'}</div>
@@ -355,14 +355,14 @@ function render() {
             <div class="dr-name">${esc(d.firstName)} ${esc(d.name)}</div>
             <div class="dr-sub">P${rank} drivers · ${pts} pts · Contrat : ${years} an${years!==1?'s':''} restant${years!==1?'s':''}</div>
           </div>
-          <div class="dr-badge ${years<=0?'badge-bad':years===1?'badge-warn':'badge-ok'}">${years<=0?'⚠️ Libre':'✅ Sous contrat'}</div>
+          <div class="dr-badge ${years<=0?'badge-bad':years===1?'badge-warn':'badge-ok'}">${years<=0?'⚠️ Libre':S("auto.sous_contrat")}</div>
         </div>
       `).join('')}
     </div>
 
     <!-- PROGRESSION VOITURE -->
-    <div class="section">
-      <div class="section-title">🔧 Progression voiture cette saison</div>
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>🔧 Progression voiture cette saison</div>
       <div class="car-grid">
         ${carStats.map(c=>{
           const delta = c.level - c.base;
@@ -377,14 +377,14 @@ function render() {
     </div>
 
     <!-- BILAN FINANCIER -->
-    <div class="section">
-      <div class="section-title">💰 Bilan financier intersaison</div>
-      <div class="budget-card">
+    <div class=S("auto.section")>
+      <div class=S("auto.sectiontitle")>💰 Bilan financier intersaison</div>
+      <div class=S("auto.budgetcard")>
         <div class="bc-row"><span>Budget actuel</span><b>${Math.round((save.budget||0)*10)/10}M€</b></div>
         <div class="bc-row"><span>Prime classement P${myPos}</span><b class="bc-pos">+${prize}M€</b></div>
         <div class="bc-row"><span>Revenus annuels team</span><b class="bc-pos">+${incomeBonus}M€</b></div>
         <div class="bc-row"><span>Tokens R&D bonus</span><b class="bc-pos">+3 tokens</b></div>
-        <div class="bc-row"><span>Budget saison ${season+1}</span><b class="bc-total">${Math.round(((save.budget||0)+prize+incomeBonus)*10)/10}M€</b></div>
+        <div class="bc-row"><span>Budget saison ${season+1}</span><b class=S("auto.bctotal")>${Math.round(((save.budget||0)+prize+incomeBonus)*10)/10}M€</b></div>
       </div>
     </div>
 
@@ -416,8 +416,8 @@ function launchNextSeason() {
     save = Save.load() || save;
 
     // Restaurer les états drivers/teams
-    if(typeof restoreDriverStates === 'function') restoreDriverStates(save);
-    if(typeof Career.restoreTeamStates === 'function') Career.restoreTeamStates(save);
+    if(typeof restoreDriverStates === S("auto.function")) restoreDriverStates(save);
+    if(typeof Career.restoreTeamStates === S("auto.function")) Career.restoreTeamStates(save);
 
     // Banner nouvelle saison
     const academyTxt = report.academy?.released
@@ -431,7 +431,7 @@ function launchNextSeason() {
   } catch(err) {
     console.error('end season error:', err);
     btn.disabled = false;
-    btn.textContent = '🏁 Démarrer la saison →';
+    btn.textContent = S("auto.demarrer_la_saison");
     alert('Error : ' + err.message);
   }
 }

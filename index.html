@@ -202,7 +202,7 @@ html,body{
 
 <!-- Bannière portrait -->
 <div id="rot-banner" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(7,7,13,.97);flex-direction:column;align-items:center;justify-content:center;gap:14px;font-family:'Barlow Condensed',sans-serif;text-align:center;padding:24px;">
-  <div style="font-size:52px;animation:rot-phone 2s ease-in-out infinite;">📱</div>
+  <div style=S("auto.fontsize52pxanimationrotphone_2s_ea")>📱</div>
   <div style="font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;letter-spacing:2px;color:#fff;" data-i18n="index.rotate">TOURNE TON TÉLÉPHONE</div>
   <div style="font-size:13px;color:rgba(255,255,255,.4);letter-spacing:1px;" data-i18n="index.rotate_sub">Le QG s'affiche en mode paysage</div>
   <div onclick="document.getElementById('rot-banner').style.display='none'" style="margin-top:8px;font-size:11px;color:rgba(255,255,255,.25);text-decoration:underline;cursor:pointer;" data-i18n="nav.continue">Continuer quand même</div>
@@ -255,18 +255,18 @@ html,body{
 
 /* Pins positionnés sur les bâtiments de la photo */
 var PINS = [
-  {x:12,y:32,cat:'race', icon:'🏎', name:'Circuit',      sub:'Weekend · FP · Course',   href:'weekend.html'},
-  {x:18,y:52,cat:'mgmt', icon:'🔧', name:'Staff',         sub:'Ingénieurs & mécaniciens',href:'staff.html'},
-  {x:30,y:65,cat:'tech', icon:'🏭', name:'R&D',           sub:'Développement voiture',   href:'rd.html'},
-  {x:45,y:32,cat:'mgmt', icon:'💪', name:'Entraînement',  sub:'Performance drivers',     href:'training.html'},
+  {x:12,y:32,cat:'race', icon:'🏎', name:'Circuit',      sub:S("auto.weekend_fp_course"),   href:'weekend.html'},
+  {x:18,y:52,cat:'mgmt', icon:'🔧', name:'Staff',         sub:S("auto.ingenieurs_mecaniciens"),href:'staff.html'},
+  {x:30,y:65,cat:'tech', icon:'🏭', name:'R&D',           sub:S("auto.developpement_voiture"),   href:'rd.html'},
+  {x:45,y:32,cat:'mgmt', icon:'💪', name:S("auto.entrainement"),  sub:S("auto.performance_drivers"),     href:'training.html'},
   {x:52,y:52,cat:'race', icon:'❓', name:'Aide',          sub:'Guide & tutoriel',        href:'aide.html'},
   {x:62,y:72,cat:'mgmt', icon:'👨‍✈️',name:'Drivers',      sub:'Effectif & contrats',    href:'drivers.html'},
-  {x:68,y:25,cat:'biz',  icon:'💼', name:'Sponsors',      sub:'Partenariats & budget',   href:'sponsors.html'},
+  {x:68,y:25,cat:'biz',  icon:'💼', name:'Sponsors',      sub:S("auto.partenariats_budget"),   href:'sponsors.html'},
   {x:75,y:45,cat:'biz',  icon:'📊', name:'Direction',     sub:'Conseil & finances',      href:'board.html'},
-  {x:82,y:28,cat:'media',icon:'📰', name:'Actualités',    sub:'News F1 & team',        href:'news.html'},
-  {x:90,y:45,cat:'media',icon:'📲', name:'Social',        sub:'Image & réputation',      href:'social.html'},
-  {x:85,y:65,cat:'media',icon:'📓', name:'Journal',       sub:'Historique saison',       href:'gp-journal.html'},
-  {x:50,y:18,cat:'qg',   icon:'🏢', name:'QG',            sub:'Quartier Général',        href:'qg.html'},
+  {x:82,y:28,cat:'media',icon:'📰', name:S("auto.actualites"),    sub:'News F1 & team',        href:'news.html'},
+  {x:90,y:45,cat:'media',icon:'📲', name:'Social',        sub:S("auto.image_reputation"),      href:'social.html'},
+  {x:85,y:65,cat:'media',icon:'📓', name:'Journal',       sub:S("auto.historique_saison"),       href:'gp-journal.html'},
+  {x:50,y:18,cat:'qg',   icon:'🏢', name:'QG',            sub:S("auto.quartier_general"),        href:'qg.html'},
 ];
 
 var CAT={
@@ -274,7 +274,7 @@ var CAT={
   mgmt: {c:'#3d7eff',l:'Gestion'},
   tech: {c:'#a855f7',l:'Technique'},
   biz:  {c:'#f5c842',l:'Business'},
-  media:{c:'#00d97e',l:'Médias'},
+  media:{c:'#00d97e',l:S("auto.medias")},
   qg:   {c:'#ff8c42',l:'QG'},
 };
 
@@ -371,7 +371,7 @@ function buildPins(){
     px = Math.max(50, Math.min(sw - 50, px));
     py = Math.max(TOP_OFFSET + 20, Math.min(sh - 60, py));
 
-    a.style.cssText = 'left:'+px+'px;top:'+py+'px;--c:'+col+';position:absolute;';
+    a.style.cssText = 'left:'+px+'px;top:'+py+'px;--c:'+col+S("auto.positionabsolute");
 
     var tid='t'+i;
     a.innerHTML=

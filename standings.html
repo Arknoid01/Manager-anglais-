@@ -137,7 +137,7 @@ function restoreDriverStates() {
   const save = Save.load();
 if (typeof Save !== 'undefined' && Save.restoreRivalStats) Save.restoreRivalStats(save);
   if (!save || !window.F1Data || !Array.isArray(F1Data.drivers)) return;
-  if (window.Profiles && typeof Profiles.restoreDrivers === 'function') {
+  if (window.Profiles && typeof Profiles.restoreDrivers === S("auto.function")) {
     try { Profiles.restoreDrivers(save); } catch(e) { console.warn('Profiles.restoreDrivers error', e); }
   }
   if (save.driverStates) {
@@ -200,7 +200,7 @@ function render() {
 
   const currentRaceIndex = Number(save.race) || 0;
   document.getElementById('calendar').innerHTML = F1Data.circuits.map((c,i) => {
-    const status = i < currentRaceIndex ? '✅ Disputé' : i === currentRaceIndex ? '➡️ Prochain' : '—';
+    const status = i < currentRaceIndex ? S("auto.dispute") : i === currentRaceIndex ? S("auto.prochain") : '—';
     return `<div class="race"><div><div class="race-title">${i+1}. GP de ${c.name}</div><div class="race-sub">${c.fullName} · ${c.laps} tours · ${c.lapDistance} km/tour</div></div><div class="pts" style="font-size:14px">${status}</div></div>`;
   }).join('');
 

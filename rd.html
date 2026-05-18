@@ -150,7 +150,7 @@ input[type=range].alloc-slider::-webkit-slider-thumb{-webkit-appearance:none;wid
 <div class="page">
 
   <!-- BUDGET R&D -->
-  <div class="budget-hero" id="budgetHero"></div>
+  <div class=S("auto.budgethero") id="budgetHero"></div>
 
   <!-- AVERTISSEMENT FIN DE SAISON -->
   <div class="freeze-banner" id="freezeBanner">
@@ -569,7 +569,7 @@ function buildLowCostSection(domainKey, dev) {
           <div class="uc-name">${upg.name}</div>
           <div class="uc-desc">${upg.desc}</div>
           <div class="uc-costs">
-            <span class="uc-cost budget">💰 ${upg.cost}M€</span>
+            <span class=S("auto.uccost_budget")>💰 ${upg.cost}M€</span>
             <span class="uc-cost" style="background:#002a00;color:var(--green);border:1px solid #005a00">🎁 0 token</span>
             <span class="uc-cost delivery">🚚 +${upg.deliveryGps} GP</span>
             <span class="uc-cost gain">+${upg.gain} pt</span>
@@ -593,9 +593,9 @@ function buyLowCost(domainKey) {
   save = Save.load();
   const upg = typeof Career !== 'undefined' ? Career.getLowCostUpgrades().find(u=>u.domain===domainKey) : null;
   if (!upg) return;
-  if ((save.budget||0) < upg.cost) { toast('❌ Budget insuffisant !', true); return; }
+  if ((save.budget||0) < upg.cost) { toast(S("auto.budget_insuffisant_2"), true); return; }
   const dev = save.carDev[domainKey];
-  if ((dev.done||[]).includes(upg.id)) { toast('Déjà fait cette saison !', true); return; }
+  if ((dev.done||[]).includes(upg.id)) { toast(S("auto.deja_fait_cette_saison"), true); return; }
   save.budget = Math.round(((save.budget||0) - upg.cost) * 10) / 10;
   dev.pending = dev.pending || [];
   dev.pending.push({ upgradeId: upg.id, name: upg.name, gain: upg.gain, deliverAtRace: (save.race||0) + upg.deliveryGps });
@@ -655,7 +655,7 @@ function buildUpgradeCard(upg, dev, _frozen, isNextYear) {
         <div class="uc-name">${upg.name}${isNextYear?` <span style="font-size:10px;color:var(--purple)">(${(save.season||2025)+1})</span>`:''}</div>
         <div class="uc-desc">${upg.desc}</div>
         <div class="uc-costs">
-          <span class="uc-cost budget">💰 ${effectiveCost}M€${aboveCap&&!isNextYear?' <span style=\"color:var(--orange);font-size:9px\">×2 (≥85)</span>':''}</span>
+          <span class=S("auto.uccost_budget")>💰 ${effectiveCost}M€${aboveCap&&!isNextYear?' <span style=\"color:var(--orange);font-size:9px\">×2 (≥85)</span>':''}</span>
           <span class="uc-cost tokens">🔬 ${effectiveTokens} token${effectiveTokens>1?'s':''}${aboveCap&&!isNextYear?' <span style=\"color:var(--orange);font-size:9px\">×2</span>':''}</span>
           ${!isNextYear?`<span class="uc-cost delivery">🚚 +${upg.deliveryGps} GP</span>`:''}
           <span class="uc-cost gain">+${realGain}${isNextYear?' (saison suivante)':''}</span>
@@ -686,7 +686,7 @@ function buildRiskyConceptCard(key, domain, dev) {
         <div class="uc-name">Concept radical ${domain.label}</div>
         <div class="uc-desc">Pari sur une direction de développement non conventionnelle. Résultat incertain mais potentiellement transformateur.</div>
         <div class="uc-costs">
-          <span class="uc-cost budget">💰 ${cfg.budget}M€</span>
+          <span class=S("auto.uccost_budget")>💰 ${cfg.budget}M€</span>
           <span class="uc-cost tokens">🔬 ${cfg.tokens} tokens</span>
           <span class="uc-cost" style="background:#1a0800;color:var(--orange);border:1px solid #3a1800">
             ${Math.round(outcomes.success.probability*100)}% +${outcomes.success.gain} / ${Math.round(outcomes.partial.probability*100)}% +${outcomes.partial.gain} / ${Math.round(outcomes.failure.probability*100)}% ${outcomes.failure.gain}
@@ -715,7 +715,7 @@ function launchRiskyConcept(domainKey) {
 
   if (!confirm(`⚡ Tenter un concept radical en ${domain.label} ?\n\n45% de chance : +10 pts\n35% de chance : +4 pts\n20% de chance : -3 pts\n\nCoût : ${cfg.budget}M€ + ${cfg.tokens} tokens`)) return;
 
-  if ((save.budget||0) < cfg.budget) { toast('❌ Budget insuffisant !', true); return; }
+  if ((save.budget||0) < cfg.budget) { toast(S("auto.budget_insuffisant_2"), true); return; }
   if ((save.tokens||0) < cfg.tokens)   { toast('❌ Tokens insuffisants !', true); return; }
 
   save.budget = Math.round(((save.budget||0) - cfg.budget) * 10) / 10;
@@ -726,14 +726,14 @@ function launchRiskyConcept(domainKey) {
   let gain, result;
   if (roll < outcomes.success.probability) {
     gain = outcomes.success.gain;
-    result = '🎉 Succès !';
+    result = S("auto.succes");
     save.tokens = (save.tokens||0) + 1; // remboursement partiel si succès
   } else if (roll < outcomes.success.probability + outcomes.partial.probability) {
     gain = outcomes.partial.gain;
-    result = '✅ Succès partiel';
+    result = S("auto.succes_partiel");
   } else {
     gain = outcomes.failure.gain;
-    result = '❌ Échec';
+    result = S("auto.echec");
   }
 
   dev.level = Math.max(45, Math.min(100, (dev.level||70) + gain));
@@ -791,10 +791,10 @@ function buyUpgrade(domainKey, upgradeId, isNextYear) {
   const buyAboveCap = buyLevel >= 85 && !isNextYear;
   const buyCost   = buyAboveCap ? upg.cost   * 2 : upg.cost;
   const buyTokens = buyAboveCap ? upg.tokens * 2 : upg.tokens;
-  if (Math.round((save.budget||0) * 10) / 10 < buyCost) { toast('❌ Budget R&D insuffisant !' + (buyAboveCap?' (coût ×2 car ≥85 pts)':''), true); return; }
+  if (Math.round((save.budget||0) * 10) / 10 < buyCost) { toast(S("auto.budget_rd_insuffisant") + (buyAboveCap?' (coût ×2 car ≥85 pts)':''), true); return; }
   if ((save.tokens||0) < buyTokens) { toast('❌ Pas assez de tokens !'  + (buyAboveCap?' (coût ×2 car ≥85 pts)':''), true); return; }
-  if (!isNextYear && (dev.done||[]).includes(upgradeId)) { toast('Déjà acheté !', true); return; }
-  if (!isNextYear && (dev.pending||[]).some(p => p.upgradeId === upgradeId)) { toast('Déjà commandé !', true); return; }
+  if (!isNextYear && (dev.done||[]).includes(upgradeId)) { toast(S("auto.deja_achete"), true); return; }
+  if (!isNextYear && (dev.pending||[]).some(p => p.upgradeId === upgradeId)) { toast(S("auto.deja_commande"), true); return; }
 
   // Déduire coûts
   save.budget = Math.round(((save.budget||0) - buyCost) * 10) / 10;
@@ -907,7 +907,7 @@ function renderProjection() {
   });
 
   panel.innerHTML = `
-    <div class="projection-box">
+    <div class=S("auto.projectionbox")>
       <div class="proj-title">🟣 Projection voiture ${nextSeason} — allocation ${100-allocValue}% ressources</div>
       ${projections.map(p => `
         <div class="proj-row">

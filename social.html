@@ -148,7 +148,7 @@ function applyChoice(event, choice) {
 
   // Historique
   if (!save.socialHistory) save.socialHistory = [];
-  const dName = isEng ? 'Equipe technique' : (d ? `${d.firstName} ${d.name}` : 'Driver');
+  const dName = isEng ? S("auto.equipe_technique") : (d ? `${d.firstName} ${d.name}` : 'Driver');
   save.socialHistory.unshift({date:new Date().toISOString(),driverName:dName,trigger:event.trigger,choice:choice.text,choiceType:choice.choiceType||'neutral',race:save.race||0,season:save.season||2025});
   save.socialHistory = save.socialHistory.slice(0,40);
 
@@ -159,9 +159,9 @@ function applyChoice(event, choice) {
 function renderConv(ev) {
   const isEng = ev.type === 'engineer' || ev.type === 'engineer2';
   const d = isEng ? null : F1Data.drivers.find(x => x.id === ev.driverId);
-  const name = isEng ? 'Ingenieur de piste' : (d ? `${d.firstName} ${d.name}` : 'Votre driver');
+  const name = isEng ? S("auto.ingenieur_de_piste") : (d ? `${d.firstName} ${d.name}` : 'Votre driver');
   const flag = isEng ? '🔧' : (d?.flag || '🏁');
-  const role = isEng ? 'Equipe technique' : (d ? `#${d.number} · ${d.age} ans` : '');
+  const role = isEng ? S("auto.equipe_technique") : (d ? `#${d.number} · ${d.age} ans` : '');
   const accent = (d && F1Data.teams.find(t=>t.id===d.teamId)?.color) || (isEng ? '#4488ff' : 'var(--accent)');
   const shuffled = shuffle(ev.choices || []);
 
@@ -241,7 +241,7 @@ function render() {
     const pRes = lastGP.playerResults || [];
     if (pRes.length) {
       html += `<div class="gp-recap">
-        <div class="gp-recap-title">📍 ${lastGP.circuitName || 'Dernier GP'}</div>
+        <div class="gp-recap-title">📍 ${lastGP.circuitName || S("auto.dernier_gp")}</div>
         ${pRes.map(r=>`<div class="gp-recap-row">
           <span style="color:var(--muted)">${r.driverName||'Driver'}</span>
           <strong style="color:${r.status==='dnf'?'var(--accent)':r.position<=3?'var(--gold)':r.position<=10?'var(--green)':'var(--muted)'}">
@@ -325,7 +325,7 @@ render();
   const originalAddEventListener = document.addEventListener;
   function getSave(){
     try{
-      if(window.Save && typeof Save.load === 'function') return Save.load();
+      if(window.Save && typeof Save.load === S("auto.function")) return Save.load();
     }catch(e){}
     const keys = ['f1-manager-save','f1_manager_save','f1Save','f1_save','save','careerSave'];
     for(const k of keys){
@@ -353,14 +353,14 @@ render();
     const candidates = document.querySelectorAll('.discussion-card,.social-card,.card,.event-card');
     candidates.forEach(el => {
       const txt = el.textContent || '';
-      if(txt.includes('souhaite échanger') || txt.includes('avant le prochain week-end')){
+      if(txt.includes(S("auto.souhaite_echanger")) || txt.includes(S("auto.avant_le_prochain_weekend"))){
         el.remove();
       }
     });
 
     if(document.getElementById('socialIntroEmpty')) return true;
 
-    const box = document.createElement('section');
+    const box = document.createElement(S("auto.section"));
     box.id = 'socialIntroEmpty';
     box.className = 'card social-intro-empty';
     box.innerHTML = `

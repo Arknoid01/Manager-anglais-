@@ -57,7 +57,7 @@ function clamp(v){return Math.max(0,Math.min(100,Math.round(v||0)));}
 function esc(s){return Immersion.esc(s);}
 function bar(v,cls=''){return `<div class="sbar"><div class="sbar-fill ${cls}" style="width:${clamp(v)}%"></div></div>`;}
 function showPane(id,btn){document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));document.getElementById(id)?.classList.add('active');document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));btn?.classList.add('active'); if(id) history.replaceState(null,'','#'+id);}
-function panel(title,body,extra=''){return `<div class="panel"><div class="sec-lbl">${title}${extra}</div><div class="section-body">${body}</div></div>`;}
+function panel(title,body,extra=''){return `<div class="panel"><div class="sec-lbl">${title}${extra}</div><div class=S("auto.sectionbody")>${body}</div></div>`;}
 function renderNews(items){ if(!items?.length) return '<div class="empty">No paddock news yet. Finish a GP to generate articles.</div>'; return items.slice(-8).reverse().map(n=>`<div class="news-row"><div class="news-ico">${n.icon||'📰'}</div><div><div class="news-title">${esc(n.title)}</div><div class="news-text">${esc(n.text)}</div></div></div>`).join('');}
 function renderInterviews(items){ if(!items?.length) return '<div class="empty">No interview available.</div>'; return items.slice(-3).reverse().map(i=>`<div class="quote"><b>${esc(i.circuitName)} — ${esc(i.headline)}</b>${(i.quotes||[]).map(q=>`<div style="margin-top:8px">${esc(q)}</div>`).join('')}</div>`).join('');}
 function moraleList(m){
@@ -82,10 +82,10 @@ function init(){
   document.getElementById('content').innerHTML=`
   <section class="tab-pane active" id="overview">
     <div class="tiles-grid">
-      ${panel('Réputation team',`<div class="tile-val">${clamp(rep.value)}</div>${bar(rep.value,'blue')}<div>${(rep.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`)}
-      ${panel('Humeur sponsors',`<div class="tile-val">${clamp(im.sponsorMood.value)}<span style="font-size:13px;color:var(--muted)">/100</span></div>${bar(im.sponsorMood.value,'orange')}<div class="tile-sub" style="margin-top:8px">${esc(im.sponsorMood.note)}</div>`)}
+      ${panel(S("auto.reputation_team"),`<div class="tile-val">${clamp(rep.value)}</div>${bar(rep.value,'blue')}<div>${(rep.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`)}
+      ${panel(S("auto.humeur_sponsors"),`<div class="tile-val">${clamp(im.sponsorMood.value)}<span style="font-size:13px;color:var(--muted)">/100</span></div>${bar(im.sponsorMood.value,'orange')}<div class="tile-sub" style="margin-top:8px">${esc(im.sponsorMood.note)}</div>`)}
       ${panel('Driver morale',moraleList(im.driverMorale))}
-      ${panel('Garage & staff',`<div class="tile-val">${clamp(im.staffMorale.value)}</div>${bar(im.staffMorale.value,'green')}<div class="tile-sub" style="margin-top:8px">${esc(im.staffMorale.note)}</div>`)}
+      ${panel(S("auto.garage_staff"),`<div class="tile-val">${clamp(im.staffMorale.value)}</div>${bar(im.staffMorale.value,'green')}<div class="tile-sub" style="margin-top:8px">${esc(im.staffMorale.note)}</div>`)}
     </div>
     ${panel('📰 Paddock news',renderNews(im.paddockNews))}
     ${panel('🎤 Interviews post-course',renderInterviews(im.interviews))}
@@ -93,14 +93,14 @@ function init(){
   </section>
   <section class="tab-pane" id="history">
     ${panel('Recent summary',last?`<div class="quote"><b>${esc(last.circuitName)}</b><div>${esc(last.winner)} wins for ${esc(last.winnerTeam)}.</div><div class="row-sub">Podium : ${(last.podium||[]).map(esc).join(' · ')||'—'} · Your best result : ${last.playerBest?'P'+last.playerBest:'—'} · ${last.teamPoints||0} pts</div></div>`:'<div class="empty">No archived GP.</div>')}
-    ${panel('Historique des GP',histRows(im.gpHistory))}
+    ${panel(S("auto.historique_des_gp"),histRows(im.gpHistory))}
   </section>
   <section class="tab-pane" id="records">
     <div class="tiles-grid">
       ${panel('Victoires',topRows(Immersion.top(im.records.wins,6)))}
       ${panel('Podiums',topRows(Immersion.top(im.records.podiums,6)))}
-      ${panel('Points carrière',topRows(Immersion.top(im.records.points,6),' pts'))}
-      ${panel('Meilleurs résultats',topRows(Immersion.top(im.records.bestResults,6,true).map(r=>({...r,value:'P'+r.value}))))}
+      ${panel(S("auto.points_carriere"),topRows(Immersion.top(im.records.points,6),' pts'))}
+      ${panel(S("auto.meilleurs_resultats"),topRows(Immersion.top(im.records.bestResults,6,true).map(r=>({...r,value:'P'+r.value}))))}
     </div>
   </section>
   <section class="tab-pane" id="academy">
@@ -117,7 +117,7 @@ function renderJuniorCard(j){
   const isPromoted   = j.promoted;
   const isPromotable = j.promotable && !isPromoted;
   const badgeCls = isPromoted ? 'f1' : isPromotable ? 'promotable' : (j.stage==='reserve'?'reserve':'');
-  const badgeTxt = isPromoted ? '✅ F1' : isPromotable ? '⭐ Promouvable' : (j.stage==='reserve'?'🔵 Réserve':'⏳ Formation');
+  const badgeTxt = isPromoted ? '✅ F1' : isPromotable ? '⭐ Promouvable' : (j.stage==='reserve'?S("auto.reserve"):S("auto.formation"));
   const cardCls  = isPromoted ? 'promoted' : isPromotable ? 'promotable' : '';
 
   // Corps dépliable — masqué par défaut, toggle au clic sur le header
@@ -186,10 +186,10 @@ function doPromote(juniorId){
     const choice = prompt(`Choisis le driver à remplacer :\n${list}\n\nEntre le numéro du driver.`);
     if(choice === null) return;
     const idx = Number(choice) - 1;
-    if(!current[idx]){ alert('Choix invalide. Promotion annulée.'); return; }
+    if(!current[idx]){ alert(S("auto.choix_invalide_promotion_annulee")); return; }
     replaceDriverId = current[idx].id;
     if(!confirm(`${current[idx].firstName} ${current[idx].name} deviendra agent libre. Confirmer la promotion ?`)) return;
-  } else if(!confirm('Promouvoir ce driver comme titulaire ? Il rejoindra immédiatement votre team avec un contrat rookie.')) return;
+  } else if(!confirm(S("auto.promouvoir_ce_driver_comme_titulair"))) return;
   const result = Immersion.promoteJunior(save, juniorId, replaceDriverId);
   if(!result.ok){ alert(result.msg); return; }
   save = Save.load();
@@ -215,7 +215,7 @@ function doRelease(juniorId, juniorName){
   const im = save.immersion;
   im.juniorAcademy = im.juniorAcademy.filter(j => j.id !== juniorId);
   // Ajouter une news paddock
-  Immersion.addNews(save, '🚪', 'Academy — Départ', `${juniorName} quitte votre centre de formation. Il est désormais agent libre sur le marché des transferts.`, 'junior');
+  Immersion.addNews(save, '🚪', S("auto.academy_depart"), `${juniorName} quitte votre centre de formation. Il est désormais agent libre sur le marché des transferts.`, 'junior');
   Save.save(save);
   save = Save.load();
   Immersion.ensure(save);

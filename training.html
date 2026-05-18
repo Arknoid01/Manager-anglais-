@@ -175,7 +175,7 @@ function doTrain(driverId, type) {
   const used    = save[sessKey] || 0;
   const max     = getMaxSessions(type);
 
-  if (used >= max) { showToast('Sessions épuisées pour ce GP', true); return; }
+  if (used >= max) { showToast(S("auto.sessions_epuisees_pour_ce_gp"), true); return; }
 
   // Vérifier le coût
   if (type === 'simulator') {
@@ -195,7 +195,7 @@ function doTrain(driverId, type) {
 
     // News
     if (!save.news) save.news = [];
-    save.news.push({ icon:'🎮', category:'entrainement',
+    save.news.push({ icon:'🎮', category:S("auto.entrainement_2"),
       title:`Simulateur — ${driver.firstName} ${driver.name}`,
       text:`Session simulateur sur ${STAT_LABELS[stat].label}. +${gain} point${gain >= 2 ? 's' : ''} gagné${gain >= 2 ? 's' : ''}.` });
 
@@ -229,7 +229,7 @@ function doTrain(driverId, type) {
     save[sessKey] = used + 1;
 
     if (!save.news) save.news = [];
-    save.news.push({ icon:'🏋️', category:'entrainement',
+    save.news.push({ icon:'🏋️', category:S("auto.entrainement_2"),
       title:`Physique — ${driver.firstName} ${driver.name}`,
       text:`Session d'entraînement physique. Consistency +${gainCons}${gainDef > 0 ? `, Defending +${gainDef}` : ''}.` });
 
@@ -318,7 +318,7 @@ function render() {
       </div>
 
       <!-- SIMULATEUR -->
-      <div class="training-section">
+      <div class=S("auto.trainingsection")>
         <div class="ts-title">🎮 Simulateur</div>
         <div class="stat-selector">
           ${Object.entries(STAT_LABELS).map(([stat, info]) => {
@@ -334,7 +334,7 @@ function render() {
           <span class="tb-icon">🎮</span>
           <div class="tb-info">
             <div class="tb-name">Session simulateur — ${STAT_LABELS[selectedStat].label}</div>
-            <div class="tb-desc">${simUsed >= simMax ? 'Sessions épuisées pour ce GP' : `Gain estimé : +0.15 à +0.30 pts · Session ${simUsed+1}/${simMax}`}</div>
+            <div class="tb-desc">${simUsed >= simMax ? S("auto.sessions_epuisees_pour_ce_gp") : `Gain estimé : +0.15 à +0.30 pts · Session ${simUsed+1}/${simMax}`}</div>
           </div>
           <div class="tb-cost">
             <span class="cost-val" style="color:${(save.tokens||0)>=1?'var(--gold)':'var(--accent)'}">1 🔬</span>
@@ -344,14 +344,14 @@ function render() {
       </div>
 
       <!-- PHYSIQUE -->
-      <div class="training-section">
+      <div class=S("auto.trainingsection")>
         <div class="ts-title">🏋️ Entraînement physique</div>
         <button class="train-btn phys ${phyUsed >= phyMax ? 'disabled' : ''}"
           onclick="${phyUsed >= phyMax ? '' : `doTrain('${d.id}','physical')`}">
           <span class="tb-icon">🏋️</span>
           <div class="tb-info">
             <div class="tb-name">Session physique — Consistency + Defending</div>
-            <div class="tb-desc">${phyUsed >= phyMax ? 'Session épuisée pour ce GP' : `Gain estimé : +0.08 à +0.20 pts · Coût 0.5M€`}</div>
+            <div class="tb-desc">${phyUsed >= phyMax ? S("auto.session_epuisee_pour_ce_gp") : `Gain estimé : +0.08 à +0.20 pts · Coût 0.5M€`}</div>
           </div>
           <div class="tb-cost">
             <span class="cost-val" style="color:${(save.budget||0)>=0.5?'var(--green)':'var(--accent)'}">0.5M€</span>

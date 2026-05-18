@@ -172,7 +172,7 @@
 
 <!-- MODAL NÉGOCIATION -->
 <div class="modal-overlay" id="modalOverlay" style="display:none" onclick="closeModal()">
-  <div class="modal" onclick="event.stopPropagation()" id="modalContent"></div>
+  <div class="modal" onclick=S("auto.eventstoppropagation") id="modalContent"></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -319,10 +319,10 @@ function renderAll() {
 function renderReputation() {
   const rep = save.reputation || { sport:40, media:40, tech:40, finance:40 };
   const dims = [
-    { key:'sport',   icon:'🏆', label:'Sportive',    desc:'Résultats en piste' },
-    { key:'media',   icon:'📺', label:'Médiatique',  desc:'Visibilité & popularité' },
-    { key:'tech',    icon:'⚙️', label:'Technique',   desc:'Innovation & R&D' },
-    { key:'finance', icon:'💰', label:'Financière',  desc:'Stabilité budgétaire' },
+    { key:'sport',   icon:'🏆', label:'Sportive',    desc:S("auto.resultats_en_piste") },
+    { key:'media',   icon:'📺', label:S("auto.mediatique"),  desc:S("auto.visibilite_popularite") },
+    { key:'tech',    icon:'⚙️', label:'Technique',   desc:S("auto.innovation_rd") },
+    { key:'finance', icon:'💰', label:S("auto.financiere"),  desc:S("auto.stabilite_budgetaire") },
   ];
 
   document.getElementById('repGrid').innerHTML = dims.map(d => {
@@ -389,7 +389,7 @@ function buildContractCard(sp) {
   const typeCls   = sp.type === 'title' ? 'title-sp' : sp.type === 'principal' ? 'principal-sp' : 'partner-sp';
   const typeBadge = sp.type === 'title' ? 'type-title' : sp.type === 'principal' ? 'type-principal' : 'type-partner';
   const pCls      = sp.personality === 'loyal' ? 'p-loyal' : sp.personality === 'opportunist' ? 'p-opportunist' : 'p-developer';
-  const pLabel    = sp.personality === 'loyal' ? '💚 Loyal' : sp.personality === 'opportunist' ? '⚡ Opportuniste' : '📈 Développeur';
+  const pLabel    = sp.personality === 'loyal' ? '💚 Loyal' : sp.personality === 'opportunist' ? '⚡ Opportuniste' : S("auto.developpeur");
   const remaining = sp.remainingSeasons || sp.duration || 1;
 
   // Bonus technique
@@ -431,7 +431,7 @@ function buildClauseRow(cl) {
     : Math.min(100, Math.round((cl.progress / cl.target) * 100));
 
   const icons  = { podiums:'🏆', top5:'🥈', top10:'📊', points:'⭐', races:'🏁', points_finishes:'📊', dnf_max:'⚠️', quali_top5:'⚡', position:'📍', position_up:'📈' };
-  const labels = { podiums:'Podiums', top5:'Top 5', top10:'Top 10', points:'Points marqués', races:'Courses disputées', points_finishes:'Courses dans les points', dnf_max:'Max abandons', quali_top5:'Qualif top 5', position:'Position constructeurs', position_up:'Places gagnées' };
+  const labels = { podiums:'Podiums', top5:'Top 5', top10:'Top 10', points:S("auto.points_marques"), races:S("auto.courses_disputees"), points_finishes:S("auto.courses_dans_les_points"), dnf_max:'Max abandons', quali_top5:'Qualif top 5', position:S("auto.position_constructeurs"), position_up:S("auto.places_gagnees") };
 
   const barColor   = isMet ? 'var(--green)' : pct > 60 ? 'var(--gold)' : 'var(--accent)';
   const bonusHtml  = cl.bonus > 0 ? `<span class="clause-bonus" style="color:${cl.bonusPaid?'var(--muted)':'var(--green)'}">${cl.bonusPaid?'✅':'+'}${cl.bonus}M€</span>` : '';
@@ -442,7 +442,7 @@ function buildClauseRow(cl) {
     <div style="margin-top:4px;padding:4px 6px;background:#0d0a1a;border:1px solid #2a1a4a;border-radius:4px;font-family:var(--fh);font-size:10px;display:flex;align-items:center;gap:8px">
       <span style="color:var(--purple)">🎯 Objectif bonus</span>
       <span style="color:var(--muted)">${cl.progress}/${cl.bonusObjective.target}</span>
-      <span style="color:var(--purple)">${cl.bonusObjective.paid?'✅ Payé':'+'+cl.bonusObjective.bonus+'M€'}</span>
+      <span style="color:var(--purple)">${cl.bonusObjective.paid?S("auto.paye"):'+'+cl.bonusObjective.bonus+'M€'}</span>
     </div>` : '';
 
   return `
@@ -572,7 +572,7 @@ function renderHistory() {
         <div style="font-size:11px;color:var(--muted)">${sp.value}M€/an · Fin saison ${sp.endSeason||'?'}</div>
       </div>
       <div style="font-size:10px;color:${sp.endReason==='break_clause'?'var(--accent)':sp.endReason==='objectives_missed'?'var(--orange)':'var(--muted)'}">
-        ${sp.endReason==='break_clause'?'⛔ Break clause':sp.endReason==='objectives_missed'?'❌ Objectifs ratés':'✅ Contrat terminé'}
+        ${sp.endReason==='break_clause'?'⛔ Break clause':sp.endReason==='objectives_missed'?S("auto.objectifs_rates"):S("auto.contrat_termine")}
       </div>
     </div>
   `).join('');
@@ -623,7 +623,7 @@ function renderNegotiationModal(sp) {
         <div class="prob-bar" id="probBar" style="width:${prob}%;background:${probClr}"></div>
       </div>
       <div style="font-family:var(--fh);font-size:10px;color:var(--muted);margin-top:5px" id="probHint">
-        ${prob >= 70 ? '✅ Bonne chance d\'acceptation' : prob >= 50 ? '⚠️ Résultat incertain' : '❌ Peu probable — augmente ta réputation ou l\'offre'}
+        ${prob >= 70 ? '✅ Bonne chance d\'acceptation' : prob >= 50 ? S("auto.resultat_incertain") : '❌ Peu probable — augmente ta réputation ou l\'offre'}
       </div>
     </div>
 
@@ -632,7 +632,7 @@ function renderNegotiationModal(sp) {
     <div style="margin-bottom:14px">
       ${(sp.clauses||[]).map(cl => {
         const icons = { podiums:'🏆',top5:'🥈',top10:'📊',points:'⭐',races:'🏁',media:'📺',dnf_max:'⚠️',quali_top5:'⚡',position:'📍',position_up:'📈' };
-        const labels = { podiums:'Podiums',top5:'Top 5',top10:'Top 10',points:'Points',races:'Courses',media:'Visibilité',dnf_max:'Max abandons',quali_top5:'Qualif top 5',position:'Position const.',position_up:'Places gagnées' };
+        const labels = { podiums:'Podiums',top5:'Top 5',top10:'Top 10',points:'Points',races:'Courses',media:S("auto.visibilite"),dnf_max:'Max abandons',quali_top5:'Qualif top 5',position:S("auto.position_const"),position_up:S("auto.places_gagnees") };
         const bonusClr = cl.bonus > 0 ? 'var(--green)' : 'var(--muted)';
         const penClr   = cl.penalty < 0 ? 'var(--accent)' : 'var(--muted)';
         return `
@@ -714,7 +714,7 @@ function refreshOffers() {
   Save.save(save);
   save = Save.load();
   renderAll();
-  toast('🔄 Nouvelles offres générées !');
+  toast(S("auto.nouvelles_offres_generees"));
 }
 
 function closeModal() {

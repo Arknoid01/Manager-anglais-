@@ -186,7 +186,7 @@
   <!-- PRESSION DIRECTION -->
   <div class="panel">
     <div class="ph"><div class="dot"></div>🏢 Pression de la direction</div>
-    <div class="pressure-section">
+    <div class=S("auto.pressuresection")>
       <div id="fireWarning" class="fire-warning" style="display:none">
         🔥 WARNING: The board is seriously considering replacing you. Improve results immediately!
       </div>
@@ -225,7 +225,7 @@
   <!-- ACTIONS DIRECTION -->
   <div class="panel">
     <div class="ph"><div class="dot"></div>⚙️ Available actions</div>
-    <div class="actions-section" id="boardActions"></div>
+    <div class=S("auto.actionssection") id="boardActions"></div>
   </div>
 
   <!-- HISTORIQUE SAISONS -->
@@ -267,9 +267,9 @@ function getCareerEventsSafe(){
     generateObjectives(s){ return this.ensure(s).boardObjectives; },
     evaluateObjectives(s){ return {score:0, details:[], constPos:null, driverPos:null}; },
     getPressureLevel(p){
-      if (p >= 80) return { label:'🔴 Licenciement imminent', color:'#ff2244', fire:true };
-      if (p >= 60) return { label:'🟠 Forte pression', color:'#ff8844', fire:false };
-      if (p >= 40) return { label:'🟡 Sous surveillance', color:'#ffdd44', fire:false };
+      if (p >= 80) return { label:S("auto.licenciement_imminent"), color:'#ff2244', fire:true };
+      if (p >= 60) return { label:S("auto.forte_pression"), color:'#ff8844', fire:false };
+      if (p >= 40) return { label:S("auto.sous_surveillance"), color:'#ffdd44', fire:false };
       if (p >= 20) return { label:'🟢 Acceptable', color:'#44cc44', fire:false };
       return { label:'✅ Board satisfaite', color:'#00e676', fire:false };
     },
@@ -415,10 +415,10 @@ function renderBoardStats() {
     { val: save.reputation||50,      lbl:'Reputation',   color:'#2979ff', max:100 },
     { val: save.fanBase||50,          lbl:'Fanbase',      color:'#ff9944', max:100 },
     { val: save.boardPressure||0,     lbl:'Pression',     color:'#ff2244', max:100 },
-    { val: totalPoints,               lbl:'Points saison',color:'#ffd700', max:500 },
+    { val: totalPoints,               lbl:S("auto.points_saison"),color:'#ffd700', max:500 },
     { val: races,                     lbl:'Courses',      color:'#00e676', max:23  },
-    { val: team?.performance||70,     lbl:'Perf. voiture',color:'#e8003d', max:100 },
-    { val: avgDriverScore,            lbl:'Score pilotes', color:'#ff8800', max:100 },
+    { val: team?.performance||70,     lbl:S("auto.perf_voiture"),color:'#e8003d', max:100 },
+    { val: avgDriverScore,            lbl:S("auto.score_pilotes"), color:'#ff8800', max:100 },
     { val: save.tokens||0,            lbl:'Tokens R&D',   color:'#aa44ff', max:20  },
   ];
 
@@ -458,9 +458,9 @@ function renderActions() {
         save.reputation = Math.min(100, rep+4);
         save.boardPressure = Math.max(0, pressure-6);
         save.fanBase = Math.min(100,(save.fanBase||50)+3);
-        getCareerEventsSafe().log(save,{phase:'board',icon:'🎤',title:'Press conference',text:'Your statement reassures the board and boosts reputation.'});
+        getCareerEventsSafe().log(save,{phase:'board',icon:'🎤',title:'Press conference',text:S("auto.your_statement_reassures_the_board")});
         Save.save(save); init();
-        toast('✅ Press conference successful! Reputation +4, Pressure -6');
+        toast(S("auto.press_conference_successful_reputat"));
       }
     },
     {
@@ -489,7 +489,7 @@ function renderActions() {
         save.boardPressure = Math.max(0,pressure-15);
         getCareerEventsSafe().log(save,{phase:'board',icon:'🤝',title:'Board meeting',text:'Your plan convinces the board. Pressure drops.'});
         Save.save(save); init();
-        toast('✅ Pression -15 !');
+        toast(S("auto.pression_15"));
       }
     },
     {
@@ -502,7 +502,7 @@ function renderActions() {
         save.budget = Math.round((budget-15)*10)/10;
         save.tokens = (save.tokens||0)+2;
         save.reputation = Math.min(100,rep+2);
-        getCareerEventsSafe().log(save,{phase:'board',icon:'💼',title:'Analyst hired',text:'Your new data analyst strengthens the technical department.'});
+        getCareerEventsSafe().log(save,{phase:'board',icon:'💼',title:'Analyst hired',text:S("auto.your_new_data_analyst_strengthens_t")});
         Save.save(save); init();
         toast('✅ +2 tokens R&D !');
       }
@@ -544,20 +544,20 @@ function renderActions() {
         } else {
           save.reputation = Math.max(0,rep-8);
           save.boardPressure = Math.min(100,pressure+5);
-          getCareerEventsSafe().log(save,{phase:'board',icon:'❌',title:'Refus de la direction',text:'La direction refuse de revoir les objectifs. Situation tendue.'});
+          getCareerEventsSafe().log(save,{phase:'board',icon:'❌',title:S("auto.refus_de_la_direction"),text:S("auto.la_direction_refuse_de_revoir_les_o")});
           Save.save(save); init();
-          toast('❌ La direction refuse !', true);
+          toast(S("auto.la_direction_refuse"), true);
         }
       }
     },
   ];
 
   document.getElementById('boardActions').innerHTML = actions.map((a,i) => `
-    <div class="action-item">
+    <div class=S("auto.actionitem")>
       <div style="font-size:24px;width:36px;text-align:center">${a.icon}</div>
-      <div class="action-info">
-        <div class="action-title">${a.title}</div>
-        <div class="action-desc">${a.desc} · <span style="color:var(--gold)">${a.cost}</span></div>
+      <div class=S("auto.actioninfo")>
+        <div class=S("auto.actiontitle")>${a.title}</div>
+        <div class=S("auto.actiondesc")>${a.desc} · <span style="color:var(--gold)">${a.cost}</span></div>
       </div>
       <button class="btn btn-sec" onclick="doAction(${i})" ${a.disabled?'disabled':''}>Execute</button>
     </div>
